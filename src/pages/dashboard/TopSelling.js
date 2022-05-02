@@ -23,7 +23,7 @@ export default function TopSelling() {
             Top Sellings Items
           </button>
 
-          <button
+          {/* <button
             className="btn"
             style={{
               fontWeight: "700",
@@ -34,7 +34,7 @@ export default function TopSelling() {
             }}
           >
             Top Combo
-          </button>
+          </button> */}
         </div>
 
         <div className="mt-2">

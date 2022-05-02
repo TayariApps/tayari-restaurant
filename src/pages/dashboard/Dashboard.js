@@ -10,6 +10,7 @@ import axios from "axios";
 
 export default function Dashboard() {
   const [orders, setOrders] = useState([]);
+  const [menuItemsCount, setMenuItemsCount] = useState(0)
 
   useEffect(() => {
     axios.defaults.headers.common[
@@ -24,6 +25,7 @@ export default function Dashboard() {
       .then((res) => {
         console.log(res.data);
         setOrders(res.data.orders)
+        setMenuItemsCount(res.data.menuItemsCount)
       });
   }, []);
 
@@ -54,7 +56,7 @@ export default function Dashboard() {
             </div>
 
             <div className="col-md-6">
-              <DashboardCards orders={orders} />
+              <DashboardCards orders={orders} menuCount={menuItemsCount} />
               <TopSelling />
             </div>
 

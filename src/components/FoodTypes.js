@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Tab, Tabs } from "react-bootstrap";
 import FoodCard from "./FoodCard";
-import "../App.css"
+import "../App.css";
 
 export default function FoodTypes() {
   const [types, setTypes] = useState([]);
@@ -37,7 +37,7 @@ export default function FoodTypes() {
           variant="pills"
         >
           {types?.map((t) => (
-            <Tab eventKey={t.type.id} title={t.type.name}>
+            <Tab eventKey={t.type.id} key={t.type.id} title={t.type.name}>
               <div className="row">
                 {food
                   .filter((f) => f.type_id == t.type.id)

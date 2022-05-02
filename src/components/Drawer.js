@@ -2,13 +2,10 @@ import React, { useState } from "react";
 import { Nav, Offcanvas } from "react-bootstrap";
 import { MdFoodBank } from "react-icons/md";
 import { FaUserFriends, FaSignOutAlt } from "react-icons/fa";
-import { GiKnifeFork } from "react-icons/gi";
+import { GiKnifeFork, GiTable } from "react-icons/gi";
 import { BsChatRightText } from "react-icons/bs";
 import { FiSettings } from "react-icons/fi";
-import {
-  IoMailOutline,
-  IoDocumentTextOutline,
-} from "react-icons/io5";
+import { IoMailOutline, IoDocumentTextOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -52,6 +49,16 @@ export default function Drawer() {
     handleClose();
   };
 
+  const table = () => {
+    navigate("/tables");
+    handleClose();
+  };
+
+  const settings = () => {
+    navigate("/settings");
+    handleClose();
+  };
+
   const logout = () => {
     axios.defaults.headers.common[
       "Authorization"
@@ -78,7 +85,7 @@ export default function Drawer() {
           {/* <Offcanvas.Title>Offcanvas</Offcanvas.Title> */}
         </Offcanvas.Header>
         <Offcanvas.Body>
-          <Nav variant="pills" className="flex-column">
+          <Nav className="flex-column">
             <Nav.Item>
               <Nav.Link
                 onClick={customers}
@@ -94,12 +101,21 @@ export default function Drawer() {
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
+              <Nav.Link onClick={table} eventKey="items" style={linkStyle}>
+                <GiTable /> &nbsp;&nbsp; Tables
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
               <Nav.Link onClick={review} eventKey="reviews" style={linkStyle}>
                 <BsChatRightText /> &nbsp;&nbsp; Reviews
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="settings" style={linkStyle}>
+              <Nav.Link
+                eventKey="settings"
+                onClick={settings}
+                style={linkStyle}
+              >
                 <FiSettings /> &nbsp;&nbsp; Settings
               </Nav.Link>
             </Nav.Item>

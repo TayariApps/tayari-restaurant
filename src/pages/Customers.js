@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NavigationBar from "../components/NavigationBar";
 import {
   DatatableWrapper,
@@ -10,7 +10,7 @@ import {
 } from "react-bs-datatable";
 import { Col, Row, Table } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
-import TABLE_BODY from "../data.json";
+import axios from 'axios'
 
 export default function Customers() {
   const STORY_HEADERS = [
@@ -21,26 +21,36 @@ export default function Customers() {
       isSortable: true,
     },
     {
-      prop: "username",
-      title: "Username",
+      prop: "phone",
+      title: "Phone number",
       isSortable: true,
     },
     {
-      prop: "location",
-      title: "Location",
+      prop: "email",
+      title: "Email Address",
       isSortable: true,
     },
     {
-      prop: "date",
-      title: "Last Update",
-      isSortable: true,
-    },
-    {
-      prop: "score",
-      title: "Score",
+      prop: "created_at",
+      title: "Created",
       isSortable: true,
     },
   ];
+
+  const [customers, setCustomers] = useState([])
+
+  useEffect(() => {
+    axios.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer ${localStorage.getItem("token")}`;
+
+    axios.get(`${process.env.REACT_APP_API_URL}/customers/place/${localStorage.getItem('place')}`)
+      .then(res => {
+        console.log(res.data);
+        setCustomers(res.data)
+      })
+      .catch(err => console.log(err))
+  },[])
 
   const addbuttonStyle = {
     background: "red",
@@ -70,14 +80,14 @@ export default function Customers() {
           </div>
           <h4 style={{ fontWeight: "700" }}>Customers</h4>
 
-          <button className="btn" style={addbuttonStyle}>
+          {/* <button className="btn" style={addbuttonStyle}>
             Add new
-          </button>
+          </button> */}
         </div>
         <div className="container">
           <div className="mt-3">
             <DatatableWrapper
-              body={TABLE_BODY}
+              body={customers}
               headers={STORY_HEADERS}
               paginationOptionsProps={{
                 initialState: {

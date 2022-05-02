@@ -2,8 +2,9 @@ import React from "react";
 import { GiKnifeFork } from "react-icons/gi";
 import { FaPercent } from "react-icons/fa";
 import { IoCart } from "react-icons/io5";
+import { BsListCheck } from "react-icons/bs";
 
-export default function DashboardCards({orders}) {
+export default function DashboardCards({orders, menuCount}) {
 
   return (
     <div className="card m-3" style={{ width: "100%", background: "white" }}>
@@ -47,17 +48,17 @@ export default function DashboardCards({orders}) {
             </div>
           </div>
 
-          {/* <div className="col-md-6">
+          <div className="col-md-6">
             <div className="bg-danger p-4 d-flex flex-row justify-content-around">
               <div className="text-dark">
                 <BsListCheck size="40" />
               </div>
               <div className="text-white">
-                <small>Total Orders</small>
-                <h2 style={{ fontWeight: "800" }}>313</h2>
+                <small>Menu Items</small>
+                <h2 style={{ fontWeight: "800" }}>{menuCount}</h2>
               </div>
             </div>
-          </div> */}
+          </div>
         </div>
       </div>
     </div>

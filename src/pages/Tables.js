@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import NavigationBar from "../components/NavigationBar";
-import axios from "axios";
 import {
   DatatableWrapper,
   Filter,
@@ -11,56 +10,51 @@ import {
 } from "react-bs-datatable";
 import { Col, Row, Table } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
-import BookingDrawer from "../components/BookingDrawer";
-import moment from "moment";
+import axios from 'axios'
+import moment from 'moment'
 
-export default function Reservation() {
+export default function Tables() {
   const STORY_HEADERS = [
     {
-      prop: "date",
-      title: "Date",
+      prop: "table_name",
+      title: "Name",
       isFilterable: true,
       isSortable: true,
-      cell: (row) => moment(row.time).format("MMMM Do YYYY"),
     },
     {
-      prop: "time",
-      title: "Time",
+      prop: "created_at",
+      title: "Created On",
+      isFilterable: true,
       isSortable: true,
-      cell: (row) => moment(row.time).format("h:mm a"),
-    },
-    {
-      prop: "name",
-      title: "Customer",
-      isSortable: true,
-      cell: (row) => (row.user_id == null ? row.customer_name : row.user.name),
-    },
-    {
-      prop: "note",
-      title: "Note",
-      isSortable: true,
+      cell: (row) => moment(row.created_at).format("MMMM Do YYYY")
     },
   ];
 
-  const [reservation, setReservation] = useState([]);
+  const [tables, setTables] = useState([])
 
   useEffect(() => {
+
+    document.body.style.backgroundColor = '#f7f7f7'
+
     axios.defaults.headers.common[
       "Authorization"
     ] = `Bearer ${localStorage.getItem("token")}`;
 
-    axios
-      .get(
-        `${
-          process.env.REACT_APP_API_URL
-        }/reservation/place/${localStorage.getItem("place")}`
-      )
-      .then((res) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/table/places/${localStorage.getItem('place')}`)
+      .then(res => {
         console.log(res.data);
-        setReservation(res.data);
+        setTables(res.data)
       })
-      .catch((err) => console.log(err));
-  }, []);
+      .catch(err => console.log(err))
+  },[])
+
+  const addbuttonStyle = {
+    background: "red",
+    padding: "0.3rem 1.8rem",
+    color: "white",
+    marginLeft: "2rem",
+    fontWeight: "700",
+  };
 
   return (
     <>
@@ -68,7 +62,6 @@ export default function Reservation() {
       <div
         className="container-fluid"
         style={{
-          background: "#f7f7f7",
           height: "100vh",
           padding: "2rem 0 0 0",
         }}
@@ -80,13 +73,16 @@ export default function Reservation() {
           >
             {" "}
           </div>
-          <h4 style={{ fontWeight: "700" }}>Reservation</h4>
-          <BookingDrawer />
+          <h4 style={{ fontWeight: "700" }}>Tables</h4>
+
+          {/* <button className="btn" style={addbuttonStyle}>
+            Add new
+          </button> */}
         </div>
         <div className="container">
           <div className="mt-3">
             <DatatableWrapper
-              body={reservation}
+              body={tables}
               headers={STORY_HEADERS}
               paginationOptionsProps={{
                 initialState: {
@@ -101,7 +97,7 @@ export default function Reservation() {
                   lg={4}
                   className="d-flex flex-col justify-content-end align-items-end"
                 >
-                  <Filter classes={{ clearButton: "btn-danger" }} />
+                  <Filter classes={{clearButton: 'btn-danger'}} />
                 </Col>
                 <Col
                   xs={12}
@@ -117,7 +113,7 @@ export default function Reservation() {
                   lg={4}
                   className="d-flex flex-col justify-content-end align-items-end"
                 >
-                  <Pagination classes={{ button: "btn-danger" }} />
+                  <Pagination classes={{ button: 'btn-danger' }} />
                 </Col>
               </Row>
               <Table>

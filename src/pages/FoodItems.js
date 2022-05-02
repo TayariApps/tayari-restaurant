@@ -8,10 +8,10 @@ import {
   TableBody,
   TableHeader,
 } from "react-bs-datatable";
-import { Col, Row, Table } from "react-bootstrap";
+import { Button, Col, Modal, Row, Table } from "react-bootstrap";
 import axios from "axios";
 import { Link } from "react-router-dom";
-
+import { FaTrashAlt, FaPen } from "react-icons/fa";
 
 export default function FoodItems() {
   const STORY_HEADERS = [
@@ -33,20 +33,42 @@ export default function FoodItems() {
       isSortable: true,
       isFilterable: true,
     },
+    {
+      prop: "id",
+      title: "Actions",
+      cell: (row) => (
+        <>
+          <FaPen
+            color="black"
+            onClick={() => openDeleteModal(row)}
+            className="me-4"
+          />
+          <FaTrashAlt color="red" onClick={() => openDeleteModal(row)} />
+        </>
+      ),
+    },
   ];
 
-  const [food, setFood] = useState([])
+  const [food, setFood] = useState([]);
+  const [item, setItem] = useState({});
 
   useEffect(() => {
+
+    document.body.style.background = '#f7f7f7'
 
     axios.defaults.headers.common[
       "Authorization"
     ] = `Bearer ${localStorage.getItem("token")}`;
 
-    axios.get(`${process.env.REACT_APP_API_URL}/menu/place/${localStorage.getItem('place')}`)
+    axios
+      .get(
+        `${process.env.REACT_APP_API_URL}/menu/place/${localStorage.getItem(
+          "place"
+        )}`
+      )
       .then((res) => setFood(res.data))
-      .catch((err) => console.log(err))
-  },[])
+      .catch((err) => console.log(err));
+  }, []);
 
   const addbuttonStyle = {
     background: "red",
@@ -56,13 +78,36 @@ export default function FoodItems() {
     fontWeight: "700",
   };
 
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const handleCloseDeleteModal = () => setShowDeleteModal(false);
+  const handleShowDeleteModal = () => setShowDeleteModal(true);
+
+  const openDeleteModal = (x) => {
+    setItem(x);
+    handleShowDeleteModal();
+  };
+
+  const handleDelete = () => {
+    axios.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer ${localStorage.getItem("token")}`;
+
+    axios({
+      method: "delete",
+      url: `${process.env.REACT_APP_API_URL}/menu/delete/${item.id}`,
+    }).then(() => {
+      handleCloseDeleteModal()
+      window.location.reload()
+    });
+  };
+
   return (
     <>
       <NavigationBar />
       <div
         className="container-fluid"
         style={{
-          background: "#f7f7f7",
           height: "100vh",
           padding: "2rem 0 0 0",
         }}
@@ -98,7 +143,7 @@ export default function FoodItems() {
                   lg={4}
                   className="d-flex flex-col justify-content-end align-items-end"
                 >
-                  <Filter classes={{clearButton: 'btn-danger'}} />
+                  <Filter classes={{ clearButton: "btn-danger" }} />
                 </Col>
                 <Col
                   xs={12}
@@ -114,7 +159,7 @@ export default function FoodItems() {
                   lg={4}
                   className="d-flex flex-col justify-content-end align-items-end"
                 >
-                  <Pagination classes={{ button: 'btn-danger' }} />
+                  <Pagination classes={{ button: "btn-danger" }} />
                 </Col>
               </Row>
               <Table>
@@ -125,6 +170,21 @@ export default function FoodItems() {
           </div>
         </div>
       </div>
+
+      {/* Delete food item modal */}
+      <Modal show={showDeleteModal} onHide={handleCloseDeleteModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Delete {item.menu_name}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to delete {item.menu_name}?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="danger" onClick={handleDelete}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 }

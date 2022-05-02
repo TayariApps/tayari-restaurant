@@ -17,6 +17,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Places from './pages/Places';
 import Support from './pages/Support';
+import Settings from './pages/Settings';
+import Tables from './pages/Tables';
 
 function App() {
   return (
@@ -37,6 +39,8 @@ function App() {
         <Route path='/onboarding' element={<RestaurantOnboarding/>} />
         <Route path="/places" element={<Places/>} />
         <Route path='/support' element={<Support/>} />
+        <Route path='/settings' element={<Settings/>} />
+        <Route path='/tables' element={<Tables/>} />
       </Routes>
       <ToastContainer />
     </div>

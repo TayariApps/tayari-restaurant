@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Order() {
+export default function Order({order}) {
   return (
     <div className="col-md-3">
       <div className="card mb-3" style={{ width: "100%" }}>
@@ -10,8 +10,8 @@ export default function Order() {
         >
           <h4 style={{ fontWeight: "600" }}>New Order</h4>
           <div className="d-flex flex-row justify-content-around">
-            <p>Table 12</p>
-            <p>Order #145</p>
+            <p>{order.table_name}</p>
+            <p>Order #{order.id}</p>
           </div>
         </div>
         <div
@@ -19,8 +19,8 @@ export default function Order() {
           style={{ color: "#bcbdbe", fontWeight: "600" }}
         >
           <p>
-            Adrian Nzamba <br />
-            2 Chicken Makange <br />1 Coca cola
+            {order.customer.name} <br />
+            {/* 2 Chicken Makange <br />1 Coca cola */}
           </p>
         </div>
       </div>

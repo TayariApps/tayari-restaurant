@@ -12,9 +12,20 @@ import {
 import { Col, Row, Table } from "react-bootstrap";
 import meanBy from "lodash/meanBy";
 import axios from "axios";
+import moment from "moment";
 
 export default function Reviews() {
   const STORY_HEADERS = [
+    {
+      prop: "rating",
+      title: "Ratings",
+      isSortable: true,
+      cell: (row) => (
+        <>
+          {row.rating} <BsStarFill color="red" />
+        </>
+      ),
+    },
     {
       prop: "name",
       title: "Name",
@@ -23,14 +34,16 @@ export default function Reviews() {
     },
     {
       prop: "content",
-      title: "Content",
+      title: "Reviews",
       isSortable: true,
       isFilterable: true,
     },
     {
-      prop: "rating",
-      title: "Rating",
+      prop: "date",
+      title: "Reviewed On",
       isSortable: true,
+      isFilterable: true,
+      cell: (row) => moment(row.date).format("MMMM Do YYYY, h:mm:ss a"),
     },
   ];
 
@@ -48,7 +61,7 @@ export default function Reviews() {
       )
       .then((res) => {
         console.log(res.data);
-        setReviews(res.data)
+        setReviews(res.data);
       })
       .catch((err) => console.log(err));
   }, []);

@@ -220,7 +220,6 @@ export default function Settings() {
       <div
         className="container-fluid"
         style={{
-          background: "#f7f7f7",
           padding: "2rem 0 0 0",
         }}
       >

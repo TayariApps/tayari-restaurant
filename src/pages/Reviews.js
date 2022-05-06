@@ -50,6 +50,9 @@ export default function Reviews() {
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
+
+    document.body.style.backgroundColor = '#f7f7f7'
+
     axios.defaults.headers.common[
       "Authorization"
     ] = `Bearer ${localStorage.getItem("token")}`;
@@ -72,8 +75,6 @@ export default function Reviews() {
       <div
         className="container-fluid"
         style={{
-          background: "#f7f7f7",
-          height: "100vh",
           padding: "2rem 0 0 0",
         }}
       >
@@ -86,7 +87,7 @@ export default function Reviews() {
           </div>
           <h4 style={{ fontWeight: "700" }}>
             Reviews &nbsp;{" "}
-            {reviews.length > 0 ? meanBy(reviews, "rating") : "4.0"}
+            {reviews.length > 9 ? meanBy(reviews, "rating") : "4.0"}
           </h4>
 
           <BsStarFill color="red" className="ms-2" size="28px" />

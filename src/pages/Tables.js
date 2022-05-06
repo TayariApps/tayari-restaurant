@@ -12,6 +12,9 @@ import { Col, Row, Table } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import axios from 'axios'
 import moment from 'moment'
+import AddTableDrawer from "../components/AddTableDrawer";
+import { FaDownload, FaPen } from "react-icons/fa";
+import DownloadQRCode from "../components/DownloadQRCode";
 
 export default function Tables() {
   const STORY_HEADERS = [
@@ -24,10 +27,18 @@ export default function Tables() {
     {
       prop: "created_at",
       title: "Created On",
-      isFilterable: true,
       isSortable: true,
       cell: (row) => moment(row.created_at).format("MMMM Do YYYY")
     },
+    {
+      prop: "qr_code",
+      title: "Actions",
+      isSortable: true,
+      cell: (row) => <>
+        <DownloadQRCode image={row.qr_code} />
+        <FaPen />
+      </>
+    }
   ];
 
   const [tables, setTables] = useState([])
@@ -62,7 +73,6 @@ export default function Tables() {
       <div
         className="container-fluid"
         style={{
-          height: "100vh",
           padding: "2rem 0 0 0",
         }}
       >
@@ -75,9 +85,7 @@ export default function Tables() {
           </div>
           <h4 style={{ fontWeight: "700" }}>Tables</h4>
 
-          {/* <button className="btn" style={addbuttonStyle}>
-            Add new
-          </button> */}
+         <AddTableDrawer/>
         </div>
         <div className="container">
           <div className="mt-3">

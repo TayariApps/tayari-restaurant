@@ -108,7 +108,6 @@ export default function FoodItems() {
       <div
         className="container-fluid"
         style={{
-          height: "100vh",
           padding: "2rem 0 0 0",
         }}
       >

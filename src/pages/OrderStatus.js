@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import NavigationBar from "../components/NavigationBar";
-import Order from "../components/Order";
 import axios from "axios";
+import orderBy from "lodash/orderBy";
+import OrderModal from "../components/OrderModal";
 
 export default function OrderStatus() {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     document.body.style.background = "#f7f7f7";
+
+    window.scrollTo(0, 0);
 
     axios.defaults.headers.common[
       "Authorization"
@@ -21,7 +24,7 @@ export default function OrderStatus() {
       )
       .then((res) => {
         console.log(res.data);
-        setOrders(res.data);
+        setOrders(orderBy(res.data, ["created_at"], ["desc"]));
       })
       .catch((err) => console.log(err));
   }, []);
@@ -32,14 +35,13 @@ export default function OrderStatus() {
       <div
         className="container-fluid"
         style={{
-          height: "100vh",
           padding: "2rem 0 0 0",
         }}
       >
         <div className="container">
           <div className="row">
             {orders?.length > 0 ? (
-              orders.map((o) => <Order key={o.id} order={o} />)
+              orders.map((o) => <OrderModal key={o.id} order={o} />)
             ) : (
               <div className="col-md-12 text-center">
                 <h3>No Orders right now</h3>

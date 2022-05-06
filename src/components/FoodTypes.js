@@ -31,16 +31,16 @@ export default function FoodTypes() {
     <>
       {types?.length > 0 ? (
         <Tabs
-          defaultActiveKey={types[0].type.id}
+          defaultActiveKey={types[0].id}
           id="uncontrolled-tab-example"
           className="mb-3"
           variant="pills"
         >
           {types?.map((t) => (
-            <Tab eventKey={t.type.id} key={t.type.id} title={t.type.name}>
+            <Tab eventKey={t.id} key={t.id} title={t.name}>
               <div className="row">
                 {food
-                  .filter((f) => f.type_id == t.type.id)
+                  .filter((f) => f.type_id == t.id)
                   .map((f) => (
                     <FoodCard key={f.id} food={f} />
                   ))}
@@ -49,7 +49,9 @@ export default function FoodTypes() {
           ))}
         </Tabs>
       ) : (
-        <div>No data</div>
+        <div className="mt-3 text-center">
+          <h3>No food items added yet.</h3>
+        </div>
       )}
     </>
   );

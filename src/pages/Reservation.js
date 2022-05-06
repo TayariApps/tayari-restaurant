@@ -19,7 +19,6 @@ export default function Reservation() {
     {
       prop: "date",
       title: "Date",
-      isFilterable: true,
       isSortable: true,
       cell: (row) => moment(row.time).format("MMMM Do YYYY"),
     },
@@ -39,12 +38,16 @@ export default function Reservation() {
       prop: "note",
       title: "Note",
       isSortable: true,
+      isFilterable: true,
     },
   ];
 
   const [reservation, setReservation] = useState([]);
 
   useEffect(() => {
+
+    document.body.style.backgroundColor = '#f7f7f7'
+
     axios.defaults.headers.common[
       "Authorization"
     ] = `Bearer ${localStorage.getItem("token")}`;
@@ -68,8 +71,6 @@ export default function Reservation() {
       <div
         className="container-fluid"
         style={{
-          background: "#f7f7f7",
-          height: "100vh",
           padding: "2rem 0 0 0",
         }}
       >

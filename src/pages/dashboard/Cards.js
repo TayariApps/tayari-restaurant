@@ -3,9 +3,9 @@ import { GiKnifeFork } from "react-icons/gi";
 import { FaPercent } from "react-icons/fa";
 import { IoCart } from "react-icons/io5";
 import { BsListCheck } from "react-icons/bs";
+import sumBy from "lodash/sumBy";
 
-export default function DashboardCards({orders, menuCount}) {
-
+export default function DashboardCards({ orders, menuCount, sales }) {
   return (
     <div className="card m-3" style={{ width: "100%", background: "white" }}>
       <div className="card-body">
@@ -17,9 +17,7 @@ export default function DashboardCards({orders, menuCount}) {
               </div>
               <div className="text-white">
                 <small>Total Orders</small>
-                <h2 style={{ fontWeight: "800" }}>
-                  {orders?.length}
-                </h2>
+                <h2 style={{ fontWeight: "800" }}>{orders?.length}</h2>
               </div>
             </div>
           </div>
@@ -31,7 +29,9 @@ export default function DashboardCards({orders, menuCount}) {
               </div>
               <div className="text-white">
                 <small>Revenue</small>
-                <h2 style={{ fontWeight: "800" }}>112M</h2>
+                <h4 style={{ fontWeight: "800" }}>
+                  {sumBy(sales, "cost").toLocaleString("en-US")} TZS
+                </h4>
               </div>
             </div>
           </div>
@@ -43,7 +43,7 @@ export default function DashboardCards({orders, menuCount}) {
               </div>
               <div className="text-white">
                 <small>Items Sold</small>
-                <h2 style={{ fontWeight: "800" }}>313</h2>
+                <h2 style={{ fontWeight: "800" }}>{orders?.food_count || 0}</h2>
               </div>
             </div>
           </div>

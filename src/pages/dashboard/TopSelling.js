@@ -1,14 +1,14 @@
 import React from "react";
 import DashboardItemCard from "../../components/DashboardItemCard";
+import orderBy from "lodash/orderBy";
 
-export default function TopSelling() {
+export default function TopSelling({ mostSoldItems }) {
   return (
     <div
       className="card m-3 p-2"
       style={{ width: "100%", background: "white" }}
     >
       <div className="card-body">
-
         <div className="d-flex flex-row justify-content-between">
           <button
             className="btn"
@@ -38,13 +38,16 @@ export default function TopSelling() {
         </div>
 
         <div className="mt-2">
-            <DashboardItemCard/>
-            <DashboardItemCard/>
-            <DashboardItemCard/>
-            <DashboardItemCard/>
+          {mostSoldItems.length > 0 ? (
+            <>
+              {mostSoldItems.map((x) => (
+                <DashboardItemCard item={x} key={x.id} />
+              ))}
+            </>
+          ) : (
+            <p>No items are sold</p>
+          )}
         </div>
-
-
       </div>
     </div>
   );

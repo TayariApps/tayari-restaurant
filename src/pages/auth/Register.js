@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import bg from "../../assets/images/smily.jpg";
-import axios from 'axios'
-import { toast } from 'react-toastify';
+import bg from "../../assets/images/registerimage.jpg";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function Register() {
   const inputStyle = {
@@ -23,7 +23,7 @@ export default function Register() {
     password: "",
   });
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const handleFnameChange = (e) => {
     e.persist();
@@ -65,33 +65,34 @@ export default function Register() {
     });
   };
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setLoading(true);
     console.log(values);
 
     const data = {
       name: `${values.fname} ${values.lname}`,
       email: values.email,
       phone: values.phone,
-      password: values.password
-    }
+      password: values.password,
+    };
 
-    axios.post(`${process.env.REACT_APP_API_URL}/registerOwner`, data)
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/registerOwner`, data)
       .then((response) => {
-        console.log('registered');
-        localStorage.setItem('user', JSON.stringify(response.data.user));
-        localStorage.setItem('token',response.data.token)
-        setLoading(false)
-        navigate('/onboarding')
+        console.log("registered");
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+        localStorage.setItem("token", response.data.token);
+        setLoading(false);
+        navigate("/onboarding");
       })
-      .catch(err => {
-        setLoading(false)
-        toast.error('An error has occured')
-      })
-  };  
+      .catch((err) => {
+        setLoading(false);
+        toast.error("You have entered incorrect credentials");
+      });
+  };
 
   return (
     <div className="container-fluid">
@@ -157,7 +158,7 @@ export default function Register() {
 
             <div className="form-group mb-4">
               <input
-              onChange={handlePasswordChange}
+                onChange={handlePasswordChange}
                 type="password"
                 className="form-control"
                 style={inputStyle}
@@ -174,7 +175,9 @@ export default function Register() {
                 className="btn text-white"
                 style={buttonStyle}
               >
-                Create your free Tayari Account
+                {loading
+                  ? "Creating your account..."
+                  : "Create your free Tayari Account"}
               </button>
             </div>
           </form>

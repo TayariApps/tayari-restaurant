@@ -15,11 +15,11 @@ export default function Home() {
   return (
     <div className="container-fluid">
       <NavigationBar />
-      <div className="row">
-        <div className="col-md-4">
-          {orderDisplay ? <PlaceOrder /> : <DefaultOrder />}
+      <div className="row mt-5">
+        <div className="col-md-1">
+          {/* {orderDisplay ? <PlaceOrder /> : <DefaultOrder />} */}
 
-          {orderDisplay ? (
+          {/* {orderDisplay ? (
             <div className="mt-4 d-flex flex-row justify-content-around">
               <button className="btn btn-danger px-3" onClick={placeOrder}>
                 Cancel
@@ -43,10 +43,10 @@ export default function Home() {
                 Order Status
               </button>
             </div>
-          )}
+          )} */}
         </div>
 
-        <div className="col-md-8">
+        <div className="col-md-11">
           
             <FoodTypes/>
 

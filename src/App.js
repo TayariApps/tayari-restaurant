@@ -19,6 +19,9 @@ import Places from './pages/Places';
 import Support from './pages/Support';
 import Settings from './pages/Settings';
 import Tables from './pages/Tables';
+import MenuTypes from './pages/MenuTypes';
+import Authentication from './pages/Authentication';
+import Drinks from './pages/Drinks';
 
 function App() {
   return (
@@ -41,6 +44,9 @@ function App() {
         <Route path='/support' element={<Support/>} />
         <Route path='/settings' element={<Settings/>} />
         <Route path='/tables' element={<Tables/>} />
+        <Route path='/types' element={<MenuTypes/> } />
+        <Route path="/authentication" element={<Authentication/>} />
+        <Route path='/drinks' element={<Drinks/>} />
       </Routes>
       <ToastContainer />
     </div>

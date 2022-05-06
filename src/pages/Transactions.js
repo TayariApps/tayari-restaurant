@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NavigationBar from "../components/NavigationBar";
 import {
   DatatableWrapper,
@@ -8,40 +8,101 @@ import {
   TableBody,
   TableHeader,
 } from "react-bs-datatable";
-import { Col, Row, Table } from "react-bootstrap";
+import { Badge, Col, Row, Table } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
-import TABLE_BODY from "../data.json";
+import axios from "axios";
 import TransactionDrawer from "../components/TransactionDrawer";
+import { BsEye, BsEyeFill } from "react-icons/bs";
+import { FaPen, FaTrashAlt } from "react-icons/fa";
 
 export default function Transactions() {
   const STORY_HEADERS = [
     {
-      prop: "name",
-      title: "Name",
+      prop: "id",
+      title: "Order Number",
       isFilterable: true,
       isSortable: true,
     },
     {
-      prop: "username",
-      title: "Username",
+      prop: "name",
+      title: "Name",
+      isSortable: true,
+      cell: (row) => row.customer.name,
+    },
+    {
+      prop: "cost",
+      title: "Amount",
       isSortable: true,
     },
     {
-      prop: "location",
-      title: "Location",
+      prop: "food_count",
+      title: "Items",
       isSortable: true,
     },
     {
-      prop: "date",
-      title: "Last Update",
+      prop: "payment_method",
+      title: "Method of Payment",
       isSortable: true,
+      cell: (row) => row.payment_method == 1 ?  <Badge pill bg="primary">
+            Cash
+          </Badge> :  <Badge pill bg="dark">
+           Mobile
+          </Badge>
     },
     {
-      prop: "score",
-      title: "Score",
+      prop: "type",
+      title: "Type",
       isSortable: true,
+      cell: (row) =>
+        row.type == 1 ? "Pre-order" : row.type == 2 ? "Dine-in" : "Reservation",
+    },
+    {
+      prop: "payment_status",
+      title: "Payment Status",
+      isSortable: true,
+      cell: (row) =>
+        row.payment_status ? (
+          <Badge pill bg="success">
+            Paid
+          </Badge>
+        ) : (
+          <Badge pill bg="danger">
+            Not Paid
+          </Badge>
+        ),
+    },
+    {
+      prop: "actions",
+      title: "Actions",
+      cell: (row) => (
+        <>
+          <TransactionDrawer order={row} />
+          {/* <FaPen color="black" className="me-4" />
+          <FaTrashAlt color="red" /> */}
+        </>
+      ),
     },
   ];
+
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    axios.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer ${localStorage.getItem("token")}`;
+
+    axios
+      .get(
+        `${process.env.REACT_APP_API_URL}/order/place/${localStorage.getItem(
+          "place"
+        )}`
+      )
+      .then((res) => {
+        console.log(res.data);
+        setOrders(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <>
@@ -66,7 +127,7 @@ export default function Transactions() {
         <div className="container">
           <div className="mt-3">
             <DatatableWrapper
-              body={TABLE_BODY}
+              body={orders}
               headers={STORY_HEADERS}
               paginationOptionsProps={{
                 initialState: {
@@ -81,7 +142,7 @@ export default function Transactions() {
                   lg={4}
                   className="d-flex flex-col justify-content-end align-items-end"
                 >
-                  <Filter classes={{clearButton: 'btn-danger'}} />
+                  <Filter classes={{ clearButton: "btn-danger" }} />
                 </Col>
                 <Col
                   xs={12}
@@ -97,7 +158,7 @@ export default function Transactions() {
                   lg={4}
                   className="d-flex flex-col justify-content-end align-items-end"
                 >
-                  <Pagination classes={{ button: 'btn-danger' }}  />
+                  <Pagination classes={{ button: "btn-danger" }} />
                 </Col>
               </Row>
               <Table>

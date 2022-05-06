@@ -2,6 +2,7 @@
   "name": "tayari-restaurant-dashboard",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://restaurants.tayari.co.tz",
   "dependencies": {
     "@faker-js/faker": "^6.2.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
@@ -14,6 +15,7 @@
     "bootstrap": "^5.1.3",
     "chart.js": "^3.7.1",
     "dotenv": "^16.0.0",
+    "file-saver": "^2.0.5",
     "lodash": "^4.17.21",
     "moment": "^2.29.3",
     "react": "^18.0.0",

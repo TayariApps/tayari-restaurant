@@ -24,19 +24,23 @@ export default function AddFoodItem() {
     type: "",
     price: "",
     time: "",
-    ingredients:""
+    ingredients: "",
   });
 
   const [types, setTypes] = useState([]);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     axios.defaults.headers.common[
       "Authorization"
     ] = `Bearer ${localStorage.getItem("token")}`;
     axios
-      .get(`${process.env.REACT_APP_API_URL}/type`)
-      .then((res) => setTypes(res.data))
+      .get(
+        `${process.env.REACT_APP_API_URL}/type/place/${localStorage.getItem(
+          "place"
+        )}`
+      )
+      .then((res) => setTypes(res.data.types))
       .catch((err) => console.log(err));
   }, []);
 
@@ -103,13 +107,13 @@ export default function AddFoodItem() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(values);
-    setLoading(true)
+    setLoading(true);
 
     const formData = new FormData();
     formData.append("menu_name", values.name);
     formData.append("description", values.description);
     formData.append("size", values.size);
-    formData.append("banner", selectedImage, selectedImage.name,);
+    formData.append("banner", selectedImage, selectedImage.name);
     formData.append("price", values.price);
     formData.append("time_takes_to_make", values.time);
     formData.append("place_id", localStorage.getItem("place"));
@@ -123,14 +127,15 @@ export default function AddFoodItem() {
     axios
       .post(`${process.env.REACT_APP_API_URL}/menu/store`, formData)
       .then(() => {
-        setLoading(false)
-        setSelectedImage(null)
-        document.getElementById('food-item-form').reset()
+        setLoading(false);
+        setSelectedImage(null);
+        document.getElementById("food-item-form").reset();
+        navigate('/fooditems')
         toast.success("Food item added");
       })
       .catch((err) => {
-        setLoading(false)
-        toast.error("An error occurred")
+        setLoading(false);
+        toast.error("An error occurred");
       });
   };
 
@@ -242,6 +247,7 @@ export default function AddFoodItem() {
                         style={inputStyle}
                         className="form-control"
                       >
+                        <option value="">Choose Food type</option>
                         {types.map((type) => (
                           <option key={type.id} value={type.id}>
                             {type.name}
@@ -249,6 +255,16 @@ export default function AddFoodItem() {
                         ))}
                       </select>
                     </div>
+                    
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-4">
+                <div className="card" style={{ width: "100%", border: "none" }}>
+                  <div className="card-body">
+                    <h4>Add Add-ons(optional)</h4>
+                    <div className="row">
+
                     <div className="form-group mb-3">
                       <label>Item ingredients</label>
                       <textarea
@@ -269,15 +285,9 @@ export default function AddFoodItem() {
                         rows="3"
                       ></textarea>
                     </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="card" style={{ width: "100%", border: "none" }}>
-                  <div className="card-body">
-                    <h4>Add Add-ons(optional)</h4>
-                    <div className="row">
-                      <div className="col-md-6 mb-3">
+
+
+                      {/* <div className="col-md-6 mb-3">
                         <label>Add-Ons</label>
                         <input
                           className="form-control"
@@ -287,7 +297,9 @@ export default function AddFoodItem() {
                       <div className="col-md-6">
                         <label>Price (in Tsh)</label>
                         <input className="form-control" placeholder="1500" />
-                      </div>
+                      </div> */}
+
+
                     </div>
                   </div>
                 </div>
@@ -305,7 +317,7 @@ export default function AddFoodItem() {
                       className="btn btn-danger"
                       style={{ padding: "20px 10px", fontWeight: "600" }}
                     >
-                      {loading ? 'Uploading...' : 'Upload Items'}
+                      {loading ? "Uploading..." : "Upload Items"}
                     </button>
                   </div>
                 </div>

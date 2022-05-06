@@ -12,11 +12,25 @@ export default function RestaurantOnboarding() {
   const prevPage = () => setPage((prev) => --prev);
   const navigate = useNavigate();
   const [countries, setCountries] = useState([]);
+  const [cuisines, setCuisines] = useState([]);
 
   useEffect(() => {
+
+    document.body.style.backgroundColor = '#f7f7f7'
+
+    axios.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer ${localStorage.getItem("token")}`;
+
     axios
       .get(`${process.env.REACT_APP_API_URL}/countries`)
-      .then((res) => setCountries(res.data))
+      .then((res) => {
+        setCountries(res.data);
+
+        axios
+          .get(`${process.env.REACT_APP_API_URL}/cuisine`)
+          .then((response) => setCuisines(response.data));
+      })
       .catch((err) => console.error("cant get countries"));
   }, []);
 
@@ -35,7 +49,7 @@ export default function RestaurantOnboarding() {
     formData.append("latitude", getWizardState().latitude);
     formData.append("longitude", getWizardState().longitude);
     formData.append("display_name", getWizardState().display_name);
-    formData.append("cuisine_id", 1);
+    formData.append("cuisine_id", getWizardState().cuisine);
     formData.append("description", getWizardState().description);
     formData.append(
       "banner",
@@ -49,9 +63,9 @@ export default function RestaurantOnboarding() {
     ] = `Bearer ${localStorage.getItem("token")}`;
 
     axios
-      .post(`${process.env.REACT_APP_API_URL}/place/store`,formData)
+      .post(`${process.env.REACT_APP_API_URL}/place/store`, formData)
       .then((res) => {
-        localStorage.setItem('place', res.data)
+        // localStorage.setItem('place', res.data)
         navigate("/places");
       })
       .catch((err) => {
@@ -60,10 +74,7 @@ export default function RestaurantOnboarding() {
   };
 
   return (
-    <div
-      className="container-fluid"
-      style={{ background: "#f7f7f7", height: "100vh" }}
-    >
+    <div className="container-fluid">
       <div className="container" style={{ paddingTop: "5rem" }}>
         <h3 style={{ fontWeight: "700", color: "#214071" }}>
           Restaurant Registration
@@ -74,6 +85,7 @@ export default function RestaurantOnboarding() {
             <WizardFormFirstPage
               {...wizard}
               countries={countries}
+              cuisines={cuisines}
               onSubmit={nextPage}
             />
           )}

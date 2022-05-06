@@ -27,7 +27,13 @@ export default function WizardFormFirstPage(props) {
           />
         </div>
         <div className="col-md-6 mb-3">
-          <Input className="form-control" style={inputStyle} type="text" name="phone_number" placeholder="Restaurant Phone"/>
+          <Input
+            className="form-control"
+            style={inputStyle}
+            type="text"
+            name="phone_number"
+            placeholder="Restaurant Phone"
+          />
         </div>
         <div className="col-md-6 mb-3">
           <Input
@@ -83,7 +89,17 @@ export default function WizardFormFirstPage(props) {
             placeholder="Policy URL"
           />
         </div>
-        <div className="col-md-12 mb-3">
+        <div className="col-md-6 mb-3">
+        <Select className="form-control" style={inputStyle} name="cuisine">
+            <option value="">Select your cuisines</option>
+            {props.cuisines.map((c) => (
+              <option value={c.id} key={c.id}>
+                {c.name}
+              </option>
+            ))}
+          </Select>
+        </div>
+        <div className="col-md-6 mb-3">
           <Select className="form-control" style={inputStyle} name="country">
             <option value="">Select your country</option>
             {props.countries.map((c) => (

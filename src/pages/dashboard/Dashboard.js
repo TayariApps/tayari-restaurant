@@ -7,10 +7,17 @@ import DashboardDoughnutChart from "./DashboardDoughnutChart";
 import DashboardProgressBars from "./DashboardProgressBars";
 import TopSelling from "./TopSelling";
 import axios from "axios";
+import OnboardingCheck from "./OnboardingCheck";
 
 export default function Dashboard() {
   const [orders, setOrders] = useState([]);
-  const [menuItemsCount, setMenuItemsCount] = useState(0)
+  const [menuItemsCount, setMenuItemsCount] = useState(0);
+  const [sales, setSales] = useState([]);
+  const [mostSoldItems, setMostSoldItems] = useState([]);
+  const [countables, setCountables] = useState({
+    typesCount: 0,
+    tablesCount: 0,
+  });
 
   useEffect(() => {
     axios.defaults.headers.common[
@@ -18,14 +25,20 @@ export default function Dashboard() {
     ] = `Bearer ${localStorage.getItem("token")}`;
     axios
       .get(
-        `${process.env.REACT_APP_API_URL}/place/restaurantData/${localStorage.getItem(
-          "place"
-        )}`
+        `${
+          process.env.REACT_APP_API_URL
+        }/place/restaurantData/${localStorage.getItem("place")}`
       )
       .then((res) => {
         console.log(res.data);
-        setOrders(res.data.orders)
-        setMenuItemsCount(res.data.menuItemsCount)
+        setOrders(res.data.orders);
+        setMenuItemsCount(res.data.menuItemsCount);
+        setSales(res.data.orders.filter((x) => x.payment_status == true));
+        setMostSoldItems(res.data.mostSold);
+        setCountables({
+          tablesCount: res.data.tablesCount,
+          typesCount: res.data.typesCount,
+        });
       });
   }, []);
 
@@ -50,18 +63,31 @@ export default function Dashboard() {
           <h4 style={{ fontWeight: "700" }}>Dashboard</h4>
         </div>
         <div className="container">
+          {(countables.typesCount == 0 ||
+            countables.tablesCount == 0 ||
+            menuItemsCount == 0) && (
+            <OnboardingCheck
+              typesCount={countables.typesCount}
+              menuItemsCount={menuItemsCount}
+              tablesCount={countables.tablesCount}
+            />
+          )}
           <div className="row pt-3">
-            <div className="col-md-12">
+            {/* <div className="col-md-12">
               <DashboardBarChart />
+            </div> */}
+
+            <div className="col-md-6">
+              <DashboardCards
+                orders={orders}
+                sales={sales}
+                menuCount={menuItemsCount}
+              />
+              <TopSelling mostSoldItems={mostSoldItems} />
             </div>
 
             <div className="col-md-6">
-              <DashboardCards orders={orders} menuCount={menuItemsCount} />
-              <TopSelling />
-            </div>
-
-            <div className="col-md-6">
-              <DashboardDoughnutChart />
+              {/* <DashboardDoughnutChart /> */}
               <DashboardProgressBars orders={orders} />
             </div>
           </div>

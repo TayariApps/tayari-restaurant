@@ -7,10 +7,6 @@ import { toast } from "react-toastify";
 export default function Support() {
   useEffect(() => {
     document.body.style.background = "#f7f7f7";
-
-    return () => {
-      document.body.style.background = "white";
-    };
   }, []);
 
   const [loading, setLoading] = useState(false);

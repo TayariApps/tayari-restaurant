@@ -25,24 +25,22 @@ export default function FoodItems() {
       prop: "time_takes_to_make",
       title: "Time",
       isSortable: true,
-      isFilterable: true,
     },
     {
       prop: "price",
       title: "Price",
       isSortable: true,
-      isFilterable: true,
     },
     {
       prop: "id",
       title: "Actions",
       cell: (row) => (
         <>
-          <FaPen
+          {/* <FaPen
             color="black"
             onClick={() => openDeleteModal(row)}
             className="me-4"
-          />
+          /> */}
           <FaTrashAlt color="red" onClick={() => openDeleteModal(row)} />
         </>
       ),

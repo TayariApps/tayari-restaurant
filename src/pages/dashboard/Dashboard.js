@@ -14,6 +14,7 @@ export default function Dashboard() {
   const [menuItemsCount, setMenuItemsCount] = useState(0);
   const [sales, setSales] = useState([]);
   const [mostSoldItems, setMostSoldItems] = useState([]);
+  const [types,setTypes] = useState([])
   const [countables, setCountables] = useState({
     typesCount: 0,
     tablesCount: 0,
@@ -35,6 +36,7 @@ export default function Dashboard() {
         setMenuItemsCount(res.data.menuItemsCount);
         setSales(res.data.orders.filter((x) => x.payment_status == true));
         setMostSoldItems(res.data.mostSold);
+        setTypes(res.data.types)
         setCountables({
           tablesCount: res.data.tablesCount,
           typesCount: res.data.typesCount,
@@ -73,9 +75,9 @@ export default function Dashboard() {
             />
           )}
           <div className="row pt-3">
-            {/* <div className="col-md-12">
-              <DashboardBarChart />
-            </div> */}
+            <div className="col-md-12">
+              {/* <DashboardBarChart /> */}
+            </div>
 
             <div className="col-md-6">
               <DashboardCards
@@ -87,7 +89,7 @@ export default function Dashboard() {
             </div>
 
             <div className="col-md-6">
-              {/* <DashboardDoughnutChart /> */}
+              {/* <DashboardDoughnutChart types={types} /> */}
               <DashboardProgressBars orders={orders} />
             </div>
           </div>

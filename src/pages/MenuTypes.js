@@ -9,9 +9,9 @@ import {
   TableHeader,
 } from "react-bs-datatable";
 import { Col, Row, Table } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
 import AddMenuTypeDrawer from "../components/AddMenuTypeDrawer";
+import EditFoodType from "../components/EditFoodType";
 
 export default function MenuTypes() {
   const STORY_HEADERS = [
@@ -24,9 +24,17 @@ export default function MenuTypes() {
     {
       prop: "count",
       title: "Item Count",
-      isFilterable: true,
       isSortable: true,
       cell: (row) => row.menus.length,
+    },
+    {
+      prop: "id",
+      title: "Actions",
+      cell: (row) => (
+        <>
+          <EditFoodType type={row} />
+        </>
+      ),
     },
   ];
 

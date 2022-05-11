@@ -86,7 +86,7 @@ export default function Register() {
         localStorage.setItem("user", JSON.stringify(response.data.user));
         localStorage.setItem("token", response.data.token);
         setLoading(false);
-        navigate("/onboarding");
+        navigate("/restaurant/register");
       })
       .catch((err) => {
         setLoading(false);
@@ -102,7 +102,8 @@ export default function Register() {
           style={{
             backgroundImage: `url(${bg})`,
             boxShadow: "inset 0 0 0 2000px rgba(0, 0, 0, 0.3)",
-            backgroundPosition: "50% center",
+            backgroundPosition: "30% center",
+            backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
             fontWeight: "700",
           }}

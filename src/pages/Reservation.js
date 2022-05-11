@@ -19,26 +19,22 @@ export default function Reservation() {
     {
       prop: "date",
       title: "Date",
-      isSortable: true,
       cell: (row) => moment(row.time).format("MMMM Do YYYY"),
     },
     {
       prop: "time",
       title: "Time",
-      isSortable: true,
       cell: (row) => moment(row.time).format("h:mm a"),
     },
     {
       prop: "name",
       title: "Customer",
-      isSortable: true,
       cell: (row) => (row.user_id == null ? row.customer_name : row.user.name),
     },
     {
       prop: "note",
       title: "Note",
       isSortable: true,
-      isFilterable: true,
     },
   ];
 

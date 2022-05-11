@@ -13,7 +13,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import axios from 'axios'
 import moment from 'moment'
 import AddTableDrawer from "../components/AddTableDrawer";
-import { FaDownload, FaPen } from "react-icons/fa";
+import { FaPen } from "react-icons/fa";
 import DownloadQRCode from "../components/DownloadQRCode";
 
 export default function Tables() {
@@ -21,7 +21,6 @@ export default function Tables() {
     {
       prop: "table_name",
       title: "Name",
-      isFilterable: true,
       isSortable: true,
     },
     {
@@ -33,7 +32,6 @@ export default function Tables() {
     {
       prop: "qr_code",
       title: "Actions",
-      isSortable: true,
       cell: (row) => <>
         <DownloadQRCode image={row.qr_code} />
         <FaPen />

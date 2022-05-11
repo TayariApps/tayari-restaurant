@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import Order from "./Order";
-import moment from "moment";
 
 export default function OrderModal({ order }) {
   const [show, setShow] = useState(false);
@@ -10,22 +9,26 @@ export default function OrderModal({ order }) {
   const handleShow = () => setShow(true);
 
   const headerController = (order) => {
-    if (order.payment_status) {
-      return "Complete";
-    } else if (moment().isAfter(order.completed_time)) {
+    if (order.status == 1) {
+      return "New Order";
+    } else if (order.status == 2) {
+      return "Processing";
+    } else if (order.status == 3) {
       return "Ready";
     } else {
-      return "New order";
+      return "Paid";
     }
   };
 
   const colorController = (order) => {
-    if (order.payment_status) {
-      return `bg-warning`;
-    } else if (moment().isAfter(order.completed_time)) {
-      return "bg-success";
-    } else {
+    if (order.status == 1) {
       return "bg-danger";
+    } else if (order.status == 2) {
+      return "bg-danger";
+    } else if (order.status == 3) {
+      return "bg-warning";
+    } else {
+      return "bg-success";
     }
   };
 

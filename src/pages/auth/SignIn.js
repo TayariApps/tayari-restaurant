@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import bg from "../../assets/images/smily.jpg";
 import logo from "../../assets/images/logo2.png";
 import { Link, useNavigate } from "react-router-dom";
-import axios from 'axios'
-import { toast } from 'react-toastify';
+import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function SignIn() {
   const inputStyle = {
@@ -16,9 +16,9 @@ export default function SignIn() {
   };
 
   const [values, setValues] = useState({
-      email: "",
-      password: ""
-  })
+    email: "",
+    password: "",
+  });
 
   const handleEmailChange = (e) => {
     e.persist();
@@ -36,21 +36,22 @@ export default function SignIn() {
     });
   };
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     console.log(values);
 
-    axios.post(`${process.env.REACT_APP_API_URL}/loginOwner`, values)
-      .then((res) =>{
-        console.log('registered');
-        localStorage.setItem('user', JSON.stringify(res.data.user));
-        localStorage.setItem('token',res.data.token)
-        navigate('/places')
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/loginOwner`, values)
+      .then((res) => {
+        console.log("registered");
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+        localStorage.setItem("token", res.data.token);
+        navigate("/places");
       })
-      .catch(err => toast.error('An error has occured'))
-  }
+      .catch((err) => toast.error("An error has occured"));
+  };
 
   return (
     <div className="container-fluid">
@@ -65,12 +66,12 @@ export default function SignIn() {
             fontWeight: "700",
           }}
         >
-          <div style={{ paddingBottom:'5rem' }}>
-              <img src={logo} style={{ maxWidth: "20rem" }} alt="logo" />
-              <div style={{ marginTop:'-6rem' }}>
+          <div style={{ paddingBottom: "5rem" }}>
+            <img src={logo} style={{ maxWidth: "20rem" }} alt="logo" />
+            <div style={{ marginTop: "-6rem" }}>
               <h4>One - stop for all restaurant's ordering</h4>
-              </div>
             </div>
+          </div>
         </div>
         <div
           className="col-md-6 p-5 text-white"
@@ -84,6 +85,7 @@ export default function SignIn() {
               <input
                 className="form-control"
                 placeholder="Email"
+                type="email"
                 style={inputStyle}
                 onChange={handleEmailChange}
               />
@@ -91,13 +93,18 @@ export default function SignIn() {
             <div className="form-group mb-4">
               <input
                 className="form-control"
+                type="password"
                 style={inputStyle}
                 onChange={handlePasswordChange}
                 placeholder="Password"
               />
             </div>
             <div className="form-group mb-2 d-grid">
-              <button type="submit" className="btn btn-danger text-white" style={buttonStyle}>
+              <button
+                type="submit"
+                className="btn btn-danger text-white"
+                style={buttonStyle}
+              >
                 Sign in
               </button>
             </div>
@@ -107,9 +114,9 @@ export default function SignIn() {
             <p>
               Forgot Password?
               <br />
-             <Link to="/register" style={{color:'white'}}>
-             Don't have an account? Go to registration
-             </Link>
+              <Link to="/register" style={{ color: "white" }}>
+                Don't have an account? Go to registration
+              </Link>
             </p>
           </div>
 
@@ -117,9 +124,13 @@ export default function SignIn() {
             <p>
               By continuing you are indicating that you accept our
               <br />
-              <span className="text-danger">
+              <a
+                href="https://tayari.co.tz/privacy"
+                style={{ textDecoration: "none", color: "red" }}
+                target="_blank"
+              >
                 Terms of service & privacy policy
-              </span>
+              </a>
             </p>
           </div>
         </div>

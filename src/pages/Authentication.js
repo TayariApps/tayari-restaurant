@@ -8,65 +8,88 @@ import {
   TableBody,
   TableHeader,
 } from "react-bs-datatable";
-import { Col, Row, Table } from "react-bootstrap";
+import { Badge, Col, Row, Table } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
-import axios from 'axios'
-import moment from 'moment'
+import axios from "axios";
+import moment from "moment";
 import EditEmployeeDrawer from "../components/EditEmployeeDrawer";
+import { FaUser } from "react-icons/fa";
 
 export default function Authentication() {
   const STORY_HEADERS = [
     {
       prop: "name",
       title: "Name",
-      isFilterable: true,
       isSortable: true,
-      cell: (row) => row.user.name
+      cell: (row) => row.user.name,
+    },
+    {
+      prop: "status",
+      title: "Status",
+      isSortable: true,
+      cell: (row) =>
+        row.status ? (
+          <Badge pill bg="success">
+            Active
+          </Badge>
+        ) : (
+          <Badge pill bg="danger">
+            Inactive
+          </Badge>
+        ),
     },
     {
       prop: "phone",
       title: "Phone number",
       isSortable: true,
-      cell: (row) => row.user.phone
+      cell: (row) => row.user.phone,
     },
     {
       prop: "email",
       title: "Email Address",
       isSortable: true,
-      cell: (row) => row.user.email
+      cell: (row) => row.user.email,
     },
     {
       prop: "created_at",
       title: "Created",
       isSortable: true,
-      cell: (row) => moment(row.created).format('DD/MM/YYYY HH:mm:ss')
+      cell: (row) => moment(row.created).format("DD/MM/YYYY HH:mm:ss"),
     },
     {
-        prop: "id",
+      prop: "id",
       title: "Actions",
       isSortable: true,
-      cell: (row) => <>
-      <EditEmployeeDrawer user={row.user} />
-      </>
-    }
+      cell: (row) => (
+        <>
+          <EditEmployeeDrawer user={row.user} />
+          <FaUser className="ms-2" onClick={() => changeStatus(row.user)} />
+        </>
+      ),
+    },
   ];
 
-  const [employees, setEmployees] = useState([])
+  const [employees, setEmployees] = useState([]);
 
-  document.body.style.backgroundColor = '#f7f7f7'
+  document.body.style.backgroundColor = "#f7f7f7";
 
   useEffect(() => {
     axios.defaults.headers.common[
       "Authorization"
     ] = `Bearer ${localStorage.getItem("token")}`;
 
-    axios.get(`${process.env.REACT_APP_API_URL}/employee/${localStorage.getItem('place')}`)
-      .then(res => {
+    axios
+      .get(
+        `${process.env.REACT_APP_API_URL}/employee/${localStorage.getItem(
+          "place"
+        )}`
+      )
+      .then((res) => {
         console.log(res.data);
-        setEmployees(res.data)
+        setEmployees(res.data);
       })
-      .catch(err => console.log(err))
-  },[])
+      .catch((err) => console.log(err));
+  }, []);
 
   const addbuttonStyle = {
     background: "red",
@@ -74,6 +97,16 @@ export default function Authentication() {
     color: "white",
     marginLeft: "2rem",
     fontWeight: "700",
+  };
+
+  const changeStatus = (user) => {
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/waiter/statusUpdate`, {
+        user_id: user.id,
+        place_id: localStorage.getItem("place"),
+      })
+      .then(() => window.location.reload())
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -93,8 +126,6 @@ export default function Authentication() {
             {" "}
           </div>
           <h4 style={{ fontWeight: "700" }}>Employees</h4>
-
-        
         </div>
         <div className="container">
           <div className="mt-3">
@@ -114,7 +145,7 @@ export default function Authentication() {
                   lg={4}
                   className="d-flex flex-col justify-content-end align-items-end"
                 >
-                  <Filter classes={{clearButton: 'btn-danger'}} />
+                  <Filter classes={{ clearButton: "btn-danger" }} />
                 </Col>
                 <Col
                   xs={12}
@@ -130,7 +161,7 @@ export default function Authentication() {
                   lg={4}
                   className="d-flex flex-col justify-content-end align-items-end"
                 >
-                  <Pagination classes={{ button: 'btn-danger' }} />
+                  <Pagination classes={{ button: "btn-danger" }} />
                 </Col>
               </Row>
               <Table>

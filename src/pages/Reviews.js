@@ -36,13 +36,11 @@ export default function Reviews() {
       prop: "content",
       title: "Reviews",
       isSortable: true,
-      isFilterable: true,
     },
     {
       prop: "date",
       title: "Reviewed On",
       isSortable: true,
-      isFilterable: true,
       cell: (row) => moment(row.date).format("MMMM Do YYYY, h:mm:ss a"),
     },
   ];

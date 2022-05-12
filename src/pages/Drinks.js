@@ -8,11 +8,10 @@ import {
   TableBody,
   TableHeader,
 } from "react-bs-datatable";
-import { Col, Row, Table } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.css";
+import { Badge, Col, Row, Table } from "react-bootstrap";
 import axios from "axios";
-import moment from "moment";
 import AddDrinkStock from "../components/AddDrinkStock";
+import EditDrinkStockDrawer from "../components/EditDrinkStockDrawer";
 
 export default function Drinks() {
   const STORY_HEADERS = [
@@ -38,9 +37,27 @@ export default function Drinks() {
       prop: "buying_price",
       title: "Buying price",
       isSortable: true,
-      cell: (row) =>row.pivot.buying_price,
+      cell: (row) => row.pivot.buying_price,
     },
-
+    {
+      prop: "id",
+      title: "Stock",
+      cell: (row) =>
+        row.pivot.quantity > 0 ? (
+          <Badge bg="success">In Stock</Badge>
+        ) : (
+          <Badge bg="danger">Out of stock</Badge>
+        ),
+    },
+    {
+      prop: "id",
+      title: "Actions",
+      cell: (row) => (
+        <>
+          <EditDrinkStockDrawer drink={row} />
+        </>
+      ),
+    },
   ];
 
   const [drinks, setDrinks] = useState([]);
@@ -64,14 +81,6 @@ export default function Drinks() {
       })
       .catch((err) => console.log(err));
   }, []);
-
-  const addbuttonStyle = {
-    background: "red",
-    padding: "0.3rem 1.8rem",
-    color: "white",
-    marginLeft: "2rem",
-    fontWeight: "700",
-  };
 
   return (
     <>

@@ -8,10 +8,12 @@ import {
   TableBody,
   TableHeader,
 } from "react-bs-datatable";
-import { Button, Col, Modal, Row, Table } from "react-bootstrap";
+import { Badge, Button, Col, Modal, Row, Table } from "react-bootstrap";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { FaTrashAlt, FaPen } from "react-icons/fa";
+import { FaEye, FaTrashAlt } from "react-icons/fa";
+import EditFoodItem from "../components/EditFoodItem";
+import ChangeFoodItemStatus from "../components/ChangeFoodItemStatus";
 
 export default function FoodItems() {
   const STORY_HEADERS = [
@@ -32,15 +34,23 @@ export default function FoodItems() {
       isSortable: true,
     },
     {
+      prop: "status",
+      title: "Availability",
+      isSortable: true,
+      cell: (row) =>
+        row.status ? (
+          <Badge bg="success">Available</Badge>
+        ) : (
+          <Badge bg="danger">Not Available</Badge>
+        ),
+    },
+    {
       prop: "id",
       title: "Actions",
       cell: (row) => (
         <>
-          {/* <FaPen
-            color="black"
-            onClick={() => openDeleteModal(row)}
-            className="me-4"
-          /> */}
+          <EditFoodItem food={row} types={types} />
+          <ChangeFoodItemStatus food={row} />
           <FaTrashAlt color="red" onClick={() => openDeleteModal(row)} />
         </>
       ),
@@ -49,10 +59,10 @@ export default function FoodItems() {
 
   const [food, setFood] = useState([]);
   const [item, setItem] = useState({});
+  const [types, setTypes] = useState({});
 
   useEffect(() => {
-
-    document.body.style.background = '#f7f7f7'
+    document.body.style.background = "#f7f7f7";
 
     axios.defaults.headers.common[
       "Authorization"
@@ -64,7 +74,22 @@ export default function FoodItems() {
           "place"
         )}`
       )
-      .then((res) => setFood(res.data))
+      .then((res) => {
+        console.log(res.data);
+        setFood(res.data);
+
+        axios
+          .get(
+            `${process.env.REACT_APP_API_URL}/type/place/${localStorage.getItem(
+              "place"
+            )}`
+          )
+          .then((res) => {
+            console.log(res.data.types);
+            setTypes(res.data.types);
+          })
+          .catch((err) => console.log(err));
+      })
       .catch((err) => console.log(err));
   }, []);
 
@@ -95,8 +120,8 @@ export default function FoodItems() {
       method: "delete",
       url: `${process.env.REACT_APP_API_URL}/menu/delete/${item.id}`,
     }).then(() => {
-      handleCloseDeleteModal()
-      window.location.reload()
+      handleCloseDeleteModal();
+      window.location.reload();
     });
   };
 

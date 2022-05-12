@@ -160,8 +160,8 @@ export default function RegisterRestaurant() {
     formData.append("policy_url", values.policy);
     formData.append("email", values.email);
     formData.append("phone_number", values.phone_number);
-    formData.append("location", values.address);
-    formData.append("latitude", values.latitude);
+    formData.append("location", 30);
+    formData.append("latitude", 30);
     formData.append("longitude", values.longitude);
     formData.append("display_name", values.display_name);
     formData.append("cuisine_id", values.cuisine);
@@ -236,7 +236,7 @@ export default function RegisterRestaurant() {
                   placeholder="Restaurant Address"
                 />
               </div>
-              <div className="col-md-6 mb-3">
+              {/* <div className="col-md-6 mb-3">
                 <input
                   className="form-control"
                   style={inputStyle}
@@ -253,7 +253,7 @@ export default function RegisterRestaurant() {
                   onChange={handleLongitudeChange}
                   placeholder="Longitude"
                 />
-              </div>
+              </div> */}
               <div className="col-md-6 mb-3">
                 <input
                   className="form-control"
@@ -269,7 +269,7 @@ export default function RegisterRestaurant() {
                   style={inputStyle}
                   type="text"
                   onChange={handlePolicyChange}
-                  placeholder="Policy URL"
+                  placeholder="Policy URL (optional)"
                 />
               </div>
               <div className="col-md-6 mb-3">
@@ -301,10 +301,9 @@ export default function RegisterRestaurant() {
                 </select>
               </div>
               <div className="col-md-12 mb-3">
-                <textarea
+                <input
                   className="form-control"
-                  style={{ background: "#f7f7f7" }}
-                  rows="4"
+                  style={inputStyle}
                   type="text"
                   onChange={handleDescriptionChange}
                   placeholder="Description"

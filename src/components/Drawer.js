@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Nav, Offcanvas } from "react-bootstrap";
 import { MdFoodBank } from "react-icons/md";
-import { FaUserFriends, FaSignOutAlt, FaBeer } from "react-icons/fa";
+import { FaUserFriends, FaSignOutAlt, FaBeer, FaHome } from "react-icons/fa";
 import { GiKnifeFork, GiTable } from "react-icons/gi";
 import {
   BsChatRightText,
@@ -75,6 +75,12 @@ export default function Drawer() {
 
   const authentication = () => {
     navigate("/authentication");
+    handleClose();
+  };
+
+  const restaurants = () => {
+    navigate("/places", { replace: true });
+    localStorage.removeItem('place')
     handleClose();
   };
 
@@ -160,6 +166,15 @@ export default function Drawer() {
                 style={linkStyle}
               >
                 <FiSettings /> &nbsp;&nbsp; Settings
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link
+                eventKey="settings"
+                onClick={restaurants}
+                style={linkStyle}
+              >
+                <FaHome /> &nbsp;&nbsp; All Restaurants
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>

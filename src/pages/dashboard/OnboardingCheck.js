@@ -16,7 +16,7 @@ export default function OnboardingCheck({
           >
             <div className="card-body text-center">
               <p>
-                Add food types so that you can be albe to add menu items
+                Add food types so that you can be able to add menu items
               </p>
               <Link to="/types" className="btn btn-danger">Add food type</Link>
             </div>

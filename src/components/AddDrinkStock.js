@@ -139,7 +139,7 @@ export default function AddDrinkStock() {
                 className="form-control"
                 onChange={handleQuantityChange}
                 style={inputStyle}
-                placeholder="Drinks currently in stock"
+                placeholder="Number of drinks currently in stock"
               />
             </div>
 

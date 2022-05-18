@@ -104,7 +104,10 @@ export default function AddDrinkStock() {
         handleClose();
         window.location.reload();
       })
-      .catch((err) => toast.error("An error occured"));
+      .catch((err) => {
+        handleClose();
+        toast.error(err.response.data);
+      });
   };
 
   return (
@@ -139,7 +142,7 @@ export default function AddDrinkStock() {
                 className="form-control"
                 onChange={handleQuantityChange}
                 style={inputStyle}
-                placeholder="Number of drinks currently in stock"
+                placeholder="Quantity of drinks in stock (optional)"
               />
             </div>
 

@@ -160,9 +160,9 @@ export default function RegisterRestaurant() {
     formData.append("policy_url", values.policy);
     formData.append("email", values.email);
     formData.append("phone_number", values.phone_number);
-    formData.append("location", 30);
+    formData.append("location", values.address);
     formData.append("latitude", 30);
-    formData.append("longitude", values.longitude);
+    formData.append("longitude", 30);
     formData.append("display_name", values.display_name);
     formData.append("cuisine_id", values.cuisine);
     formData.append("description", values.description);
@@ -181,7 +181,7 @@ export default function RegisterRestaurant() {
       })
       .catch((err) => {
         setLoading(false)
-        toast.error("Error occured");
+        toast.error(err.response.data);
       });
   };
 

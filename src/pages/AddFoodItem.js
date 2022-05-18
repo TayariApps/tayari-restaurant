@@ -135,7 +135,7 @@ export default function AddFoodItem() {
       })
       .catch((err) => {
         setLoading(false);
-        toast.error("An error occurred");
+        toast.error(err.response.data);
       });
   };
 

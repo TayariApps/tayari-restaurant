@@ -34,7 +34,7 @@ export default function Places() {
           <div className="mt-3 d-flex flex-row justify-content-between">
             <h2 style={{ fontWeight: "700" }}>Your Places</h2>
 
-            <Link className="btn btn-danger" to="/onboarding">
+            <Link className="btn btn-danger" to="/restaurant/register">
               Create new Restaurant
             </Link>
           </div>

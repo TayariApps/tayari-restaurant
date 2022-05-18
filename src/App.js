@@ -23,6 +23,8 @@ import MenuTypes from "./pages/MenuTypes";
 import Authentication from "./pages/Authentication";
 import Drinks from "./pages/Drinks";
 import RegisterRestaurant from "./pages/auth/RegisterRestaurant";
+import ForgotPassword from "./pages/auth/ForgotPassword";
+import PasswordReset from "./pages/auth/PasswordReset";
 
 function App() {
   return (
@@ -49,6 +51,8 @@ function App() {
         <Route path="/types" element={<MenuTypes />} />
         <Route path="/authentication" element={<Authentication />} />
         <Route path="/drinks" element={<Drinks />} />
+        <Route path="/forgot" element={<ForgotPassword />} />
+        <Route path="/password/reset/:tokenId" element={<PasswordReset />} />
       </Routes>
       <ToastContainer />
     </div>

@@ -12,6 +12,7 @@ import { Col, Row, Table } from "react-bootstrap";
 import axios from "axios";
 import AddMenuTypeDrawer from "../components/AddMenuTypeDrawer";
 import EditFoodType from "../components/EditFoodType";
+import DeleteFoodType from "../components/DeleteFoodType";
 
 export default function MenuTypes() {
   const STORY_HEADERS = [
@@ -33,6 +34,7 @@ export default function MenuTypes() {
       cell: (row) => (
         <>
           <EditFoodType type={row} />
+          <DeleteFoodType type={row} />
         </>
       ),
     },

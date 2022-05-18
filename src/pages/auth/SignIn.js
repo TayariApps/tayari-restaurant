@@ -112,7 +112,9 @@ export default function SignIn() {
 
           <div className="mt-5 text-center">
             <p>
-              Forgot Password?
+              <Link to="/forgot" style={{ color: "white", textDecoration: 'none' }}>
+                Forgot Password?
+              </Link>
               <br />
               <Link to="/register" style={{ color: "white" }}>
                 Don't have an account? Go to registration

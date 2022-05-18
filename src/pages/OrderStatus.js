@@ -3,9 +3,11 @@ import NavigationBar from "../components/NavigationBar";
 import axios from "axios";
 import orderBy from "lodash/orderBy";
 import OrderModal from "../components/OrderModal";
+import LoadingSpin from "react-loading-spin";
 
 export default function OrderStatus() {
   const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     document.body.style.background = "#f7f7f7";
@@ -16,6 +18,8 @@ export default function OrderStatus() {
       "Authorization"
     ] = `Bearer ${localStorage.getItem("token")}`;
 
+    setLoading(true);
+
     axios
       .get(
         `${process.env.REACT_APP_API_URL}/order/place/${localStorage.getItem(
@@ -25,6 +29,7 @@ export default function OrderStatus() {
       .then((res) => {
         console.log(res.data);
         setOrders(orderBy(res.data, ["created_at"], ["desc"]));
+        setLoading(false);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -44,7 +49,11 @@ export default function OrderStatus() {
               orders.map((o) => <OrderModal key={o.id} order={o} />)
             ) : (
               <div className="col-md-12 text-center">
-                <h3>No Orders right now</h3>
+                {loading ? (
+                  <LoadingSpin primaryColor="red" width="20px" size="200px" />
+                ) : (
+                  <h3>No Orders right now</h3>
+                )}
               </div>
             )}
           </div>

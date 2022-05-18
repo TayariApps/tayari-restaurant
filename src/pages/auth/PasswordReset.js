@@ -53,12 +53,17 @@ export default function PasswordReset() {
       return toast.error("Password should be longer than 7 characters");
     }
 
+    console.log(tokenId);
+
     axios
       .post(`${process.env.REACT_APP_API_URL}/password/reset`, {
         password: values.password,
         token: tokenId,
       })
-      .then(() => toast.success("Password has been reset"))
+      .then((res) => {
+          console.log(res.data);
+        toast.success("Password has been reset")
+      })
       .catch((err) => toast.error(err.response.data))
       .finally(() => setLoading(false));
   };

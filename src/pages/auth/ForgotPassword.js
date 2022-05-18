@@ -57,6 +57,8 @@ export default function ForgotPassword() {
           <h2 style={{ color: "#214071" }}>
             Enter your email to reset your password
           </h2>
+          <br/>
+          <p style={{ color: "#214071" }}>Check your spam as well once you submit your mail</p>
 
           <form onSubmit={handleSubmit} className="mt-5">
             <div className="form-group mb-5">

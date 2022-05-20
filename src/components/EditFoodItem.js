@@ -20,8 +20,10 @@ export default function EditFoodItem({ food, types }) {
   });
 
   useEffect(() => {
+    console.log(food);
+
     setValues({
-    id: food.id,
+      id: food.id,
       name: food.menu_name,
       price: food.price,
       time: food.time_takes_to_make,
@@ -205,7 +207,7 @@ export default function EditFoodItem({ food, types }) {
                 <textarea
                   className="form-control"
                   onChange={handleIngredientsChange}
-                  value={food.ingredients}
+                  value={values.ingredients}
                   rows="4"
                 ></textarea>
               </div>
@@ -214,7 +216,7 @@ export default function EditFoodItem({ food, types }) {
                 <textarea
                   className="form-control"
                   onChange={handleDescriptionChange}
-                  value={food.description}
+                  value={values.description}
                   rows="4"
                 ></textarea>
               </div>

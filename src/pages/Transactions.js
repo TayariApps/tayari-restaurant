@@ -14,6 +14,7 @@ import axios from "axios";
 import TransactionDrawer from "../components/TransactionDrawer";
 import { BsEye, BsEyeFill } from "react-icons/bs";
 import { FaPen, FaTrashAlt } from "react-icons/fa";
+import DeleteOrder from "../components/DeleteOrder";
 
 export default function Transactions() {
   const STORY_HEADERS = [
@@ -77,8 +78,8 @@ export default function Transactions() {
       cell: (row) => (
         <>
           <TransactionDrawer order={row} />
-          {/* <FaPen color="black" className="me-4" />
-          <FaTrashAlt color="red" /> */}
+          {/* <FaPen color="black" className="me-4" /> */}
+          <DeleteOrder order={row} />
         </>
       ),
     },

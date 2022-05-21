@@ -12,17 +12,16 @@ import { Badge, Col, Row, Table } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
 import TransactionDrawer from "../components/TransactionDrawer";
-import { BsEye, BsEyeFill } from "react-icons/bs";
-import { FaPen, FaTrashAlt } from "react-icons/fa";
 import DeleteOrder from "../components/DeleteOrder";
+import moment from 'moment'
 
 export default function Transactions() {
   const STORY_HEADERS = [
     {
-      prop: "id",
-      title: "Order Number",
-      isFilterable: true,
+      prop: "created_at",
+      title: "Created",
       isSortable: true,
+      cell: row => moment(row.created_at).format('LLL')
     },
     {
       prop: "name",
@@ -73,7 +72,7 @@ export default function Transactions() {
         ),
     },
     {
-      prop: "actions",
+      prop: "updated_at",
       title: "Actions",
       cell: (row) => (
         <>

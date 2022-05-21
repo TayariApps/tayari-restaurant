@@ -12,7 +12,7 @@ export default function DeleteOrder({ order }) {
     const handleDelete = () => {
 
         if(!order.payment_status){
-            return toast.error('You cant delete a post that has already been paid for.')
+            return toast.error('You cant delete an order that has already been paid for.')
         }
 
         axios.defaults.headers.common[

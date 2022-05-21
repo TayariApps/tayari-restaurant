@@ -6,6 +6,13 @@ import { BsListCheck } from "react-icons/bs";
 import sumBy from "lodash/sumBy";
 
 export default function DashboardCards({ orders, menuCount, sales }) {
+
+  const revenueSum = (x) => {
+    const sum = sumBy(x, "total_cost");
+    const finalSum = sum - (sum * 0.02);
+    return finalSum.toLocaleString("en-US");
+  };
+
   return (
     <div className="card m-3" style={{ width: "100%", background: "white" }}>
       <div className="card-body">
@@ -29,9 +36,7 @@ export default function DashboardCards({ orders, menuCount, sales }) {
               </div>
               <div className="text-white">
                 <small>Revenue</small>
-                <h4 style={{ fontWeight: "800" }}>
-                  {sumBy(sales, "cost").toLocaleString("en-US")} TZS
-                </h4>
+                <h4 style={{ fontWeight: "800" }}>{revenueSum(sales)} TZS</h4>
               </div>
             </div>
           </div>

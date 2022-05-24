@@ -5,10 +5,13 @@ import { toast } from "react-toastify";
 
 export default function Settings() {
   const [place, setPlace] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [cuisines, setCuisines] = useState([]);
   const [values, setValues] = useState({
     name: "",
     address: "",
     phone: "",
+    cuisine: "",
     email: "",
     location: "",
     description: "",
@@ -19,7 +22,9 @@ export default function Settings() {
     accountName: "",
     accountNumber: "",
     swiftCode: "",
-    bankName:""
+    bankName: "",
+    logo: "",
+    banner: "",
   });
 
   const handleNameChange = (e) => {
@@ -27,6 +32,14 @@ export default function Settings() {
     setValues({
       ...values,
       name: e.target.value,
+    });
+  };
+
+  const handleCuisineChange = (e) => {
+    e.persist();
+    setValues({
+      ...values,
+      cuisine: e.target.value,
     });
   };
 
@@ -144,14 +157,28 @@ export default function Settings() {
           email: res.data.email,
           location: res.data.location,
           description: res.data.description,
-          openingTime: res.data.opening_time,
-          closingTime: res.data.closing_time,
-          resevationPrice: res.data.reservation_price,
+          openingTime:
+            res.data.opening_time == null ? "" : res.data.opening_time,
+          closingTime:
+            res.data.closing_time == null ? "" : res.data.closing_time,
+          resevationPrice:
+            res.data.reservation_price == null ? 0 : res.data.reservation_price,
           displayName: res.data.display_name,
-          accountName: res.data.account_name,
-          accountNumber: res.data.account_number,
-          swiftCode: res.data.bank_swift_code,
-          bankName: res.data.bank_name
+          accountName:
+            res.data.account_name == null ? "" : res.data.account_name,
+          accountNumber:
+            res.data.account_number == null ? "" : res.data.account_number,
+          swiftCode:
+            res.data.bank_swift_code == null ? "" : res.data.bank_swift_code,
+          bankName: res.data.bank_name == null ? "" : res.data.bank_name,
+          banner: res.data.banner_url,
+          logo: res.data.logo_url,
+          cuisine: res.data.cuisine_id,
+        });
+
+        axios.get(`${process.env.REACT_APP_API_URL}/cuisine`).then((x) => {
+          console.log(x.data);
+          setCuisines(x.data);
         });
       })
       .catch((err) => console.log(err));
@@ -172,11 +199,13 @@ export default function Settings() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(values);
+    setLoading(true);
 
     const formData = new FormData();
-    formData.append('_method', 'PATCH');
+    formData.append("_method", "PATCH");
     selectedLogo && formData.append("logo", selectedLogo, selectedLogo.name);
-    selectedBanner && formData.append("banner", selectedBanner, selectedBanner.name);
+    selectedBanner &&
+      formData.append("banner", selectedBanner, selectedBanner.name);
     formData.append("location", values.location);
     formData.append("phone", values.phone);
     formData.append("email", values.email);
@@ -187,31 +216,34 @@ export default function Settings() {
     formData.append("account_name", values.accountName);
     formData.append("account_number", values.accountNumber);
     formData.append("reservation_price", values.resevationPrice);
-    formData.append("address",values.address)
-    formData.append('policy_url', place.policy_url)
-    formData.append('bank_swift_code', values.swiftCode)
-    formData.append('country_id', place.country_id)
-    formData.append('display_name', place.display_name)
-    formData.append('bank_name', values.bankName)
+    formData.append("address", values.address);
+    formData.append("policy_url", place.policy_url);
+    formData.append("bank_swift_code", values.swiftCode);
+    formData.append("country_id", place.country_id);
+    formData.append("display_name", place.display_name);
+    formData.append("bank_name", values.bankName);
+    formData.append("cuisine", values.cuisine);
 
     axios.defaults.headers.common[
       "Authorization"
     ] = `Bearer ${localStorage.getItem("token")}`;
 
-    axios(
-      {
-        url:`${process.env.REACT_APP_API_URL}/place/update/${localStorage.getItem(
-          "place"
-        )}`,
-        data: formData,
-        method: 'post'
-      }
-    )
+    axios({
+      url: `${
+        process.env.REACT_APP_API_URL
+      }/place/update/${localStorage.getItem("place")}`,
+      data: formData,
+      method: "post",
+    })
       .then(() => {
         // window.location.reload();
+        setLoading(false);
         toast.success("Data updated");
       })
-      .catch((err) => toast.error("An error occured"));
+      .catch((err) => {
+        setLoading(false);
+        toast.error(err.response.data);
+      });
   };
 
   return (
@@ -254,9 +286,9 @@ export default function Settings() {
                         />
                       ) : (
                         <img
-                          alt={place.logo_url}
+                          alt={values.logo}
                           width={"50%"}
-                          src={`${process.env.REACT_APP_SITE_URL}/images/logos/${place.logo_url}`}
+                          src={`${process.env.REACT_APP_SITE_URL}/images/logos/${values.logo}`}
                         />
                       )}
 
@@ -281,9 +313,9 @@ export default function Settings() {
                         />
                       ) : (
                         <img
-                          alt={place.logo_url}
+                          alt={values.banner}
                           width={"50%"}
-                          src={`${process.env.REACT_APP_SITE_URL}/images/banners/${place.banner_url}`}
+                          src={`${process.env.REACT_APP_SITE_URL}/images/banners/${values.banner}`}
                         />
                       )}
 
@@ -329,6 +361,22 @@ export default function Settings() {
                         style={inputStyle}
                         onChange={handleEmailChange}
                       />
+                    </div>
+
+                    <div className="form-group mb-3">
+                      <label>Restaurant cuisine</label>
+                      <select
+                        className="form-control"
+                        style={inputStyle}
+                        onChange={handleCuisineChange}
+                        value={values.cuisine}
+                      >
+                        {cuisines.map((c) => (
+                          <option key={c.id} value={c.id}>
+                            {c.name}
+                          </option>
+                        ))}
+                      </select>
                     </div>
                   </div>
                 </div>
@@ -376,10 +424,10 @@ export default function Settings() {
                         style={inputStyle}
                         type="text"
                         onChange={handleBankChange}
-                        value={values.bankName !== null ? values.bankName : ""}
+                        value={values.bankName}
                       />
                     </div>
-                    
+
                     <div className="form-group mb-3">
                       <label>Account Number</label>
                       <input
@@ -387,7 +435,7 @@ export default function Settings() {
                         style={inputStyle}
                         type="number"
                         onChange={handleAccountNumber}
-                        value={values.accountNumber !== "null" ? values.accountNumber: ""}
+                        value={values.accountNumber}
                       />
                     </div>
 
@@ -397,7 +445,7 @@ export default function Settings() {
                         className="form-control"
                         style={inputStyle}
                         onChange={handleAccountName}
-                        value={values.accountName !== "null" ? values.accountName : ""}
+                        value={values.accountName}
                       />
                     </div>
 
@@ -407,7 +455,7 @@ export default function Settings() {
                         className="form-control"
                         style={inputStyle}
                         onChange={handleBankSwiftCode}
-                        value={values.swiftCode !== "null" ? values.swiftCode : ""}
+                        value={values.swiftCode}
                       />
                     </div>
 
@@ -423,7 +471,7 @@ export default function Settings() {
                           type="time"
                           className="form-control"
                           onChange={handleOpeningTime}
-                          value={values.openingTime || ""}
+                          value={values.openingTime}
                         />
                       </div>
                       <div className="form-group">
@@ -431,7 +479,7 @@ export default function Settings() {
                         <input
                           style={inputStyle}
                           onChange={handleClosingTime}
-                          value={values.closingTime || ""}
+                          value={values.closingTime}
                           type="time"
                           className="form-control"
                         />
@@ -443,7 +491,7 @@ export default function Settings() {
                       <input
                         style={inputStyle}
                         type="number"
-                        value={values.resevationPrice || ""}
+                        value={values.resevationPrice}
                         className="form-control"
                         onChange={handleReservationPrice}
                       />

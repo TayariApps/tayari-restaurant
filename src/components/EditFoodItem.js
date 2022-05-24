@@ -7,7 +7,6 @@ export default function EditFoodItem({ food, types }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => {
-
     setValues({
       id: food.id,
       name: food.menu_name,
@@ -15,10 +14,11 @@ export default function EditFoodItem({ food, types }) {
       time: food.time_takes_to_make,
       ingredients: food.ingredients,
       type: food.type_id,
-      description: food.description
+      description: food.description,
+      foodImage: food.banner,
     });
 
-    setShow(true)
+    setShow(true);
   };
   const [selectedBanner, setSelectedBanner] = useState(null);
 
@@ -30,6 +30,7 @@ export default function EditFoodItem({ food, types }) {
     type: "",
     ingredients: "",
     description: "",
+    foodImage: "",
   });
 
   const handleNameChange = (e) => {
@@ -95,21 +96,22 @@ export default function EditFoodItem({ food, types }) {
       "Authorization"
     ] = `Bearer ${localStorage.getItem("token")}`;
 
-    const formData = new FormData()
-    formData.append("name", values.name)
-    formData.append('description', values.description)
-    formData.append('price', values.price)
-    formData.append('type', values.type)
-    formData.append('menu_id', values.id)
-    formData.append('time', values.time)
-    formData.append('ingredients', values.ingredients)
-    selectedBanner !== null && formData.append("banner", selectedBanner, selectedBanner.name)
+    const formData = new FormData();
+    formData.append("name", values.name);
+    formData.append("description", values.description);
+    formData.append("price", values.price);
+    formData.append("type", values.type);
+    formData.append("menu_id", values.id);
+    formData.append("time", values.time);
+    formData.append("ingredients", values.ingredients);
+    selectedBanner !== null &&
+      formData.append("banner", selectedBanner, selectedBanner.name);
 
     axios
       .post(`${process.env.REACT_APP_API_URL}/menu/update`, formData)
       .then(() => {
-        handleClose()
-        window.location.reload()
+        handleClose();
+        window.location.reload();
       })
       .catch((err) => console.log(err));
   };
@@ -125,32 +127,31 @@ export default function EditFoodItem({ food, types }) {
         <Modal.Body>
           <form onSubmit={handleSubmit}>
             <div className="row">
-
-                <div className="col-md-12 mb-3 text-center">
+              <div className="col-md-12 mb-3 text-center">
                 {selectedBanner ? (
-                        <img
-                          alt="img"
-                          width={"100%"}
-                          src={URL.createObjectURL(selectedBanner)}
-                        />
-                      ) : (
-                        <img
-                          alt={food.banner}
-                          width={"50%"}
-                          src={`${process.env.REACT_APP_SITE_URL}/images/food/${food.banner}`}
-                        />
-                      )}
+                  <img
+                    alt="img"
+                    width={"100%"}
+                    src={URL.createObjectURL(selectedBanner)}
+                  />
+                ) : (
+                  <img
+                    alt={values.foodImage}
+                    width={"50%"}
+                    src={`${process.env.REACT_APP_SITE_URL}/images/food/${values.foodImage}`}
+                  />
+                )}
 
-                      <input
-                        type="file"
-                        className="form-control"
-                        id="logo"
-                        onChange={(event) => {
-                          console.log(event.target.files[0]);
-                          setSelectedBanner(event.target.files[0]);
-                        }}
-                      />
-                </div>
+                <input
+                  type="file"
+                  className="form-control"
+                  id="logo"
+                  onChange={(event) => {
+                    console.log(event.target.files[0]);
+                    setSelectedBanner(event.target.files[0]);
+                  }}
+                />
+              </div>
 
               <div className="col-md-6 mb-3">
                 <label>Item name</label>

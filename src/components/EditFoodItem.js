@@ -1,12 +1,25 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import { FaPen } from "react-icons/fa";
 
 export default function EditFoodItem({ food, types }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = () => {
+
+    setValues({
+      id: food.id,
+      name: food.menu_name,
+      price: food.price,
+      time: food.time_takes_to_make,
+      ingredients: food.ingredients,
+      type: food.type_id,
+      description: food.description
+    });
+
+    setShow(true)
+  };
   const [selectedBanner, setSelectedBanner] = useState(null);
 
   const [values, setValues] = useState({
@@ -18,20 +31,6 @@ export default function EditFoodItem({ food, types }) {
     ingredients: "",
     description: "",
   });
-
-  useEffect(() => {
-    console.log(food);
-
-    setValues({
-      id: food.id,
-      name: food.menu_name,
-      price: food.price,
-      time: food.time_takes_to_make,
-      ingredients: food.ingredients,
-      type: food.type_id,
-      description: food.description
-    });
-  }, []);
 
   const handleNameChange = (e) => {
     e.persist();
@@ -96,16 +95,6 @@ export default function EditFoodItem({ food, types }) {
       "Authorization"
     ] = `Bearer ${localStorage.getItem("token")}`;
 
-    const data = {
-      name: values.name,
-      description: values.description,
-      price: values.price,
-      type: values.type,
-      menu_id: values.id,
-      time: values.time,
-      ingredients: values.ingredients
-    };
-
     const formData = new FormData()
     formData.append("name", values.name)
     formData.append('description', values.description)
@@ -129,7 +118,7 @@ export default function EditFoodItem({ food, types }) {
     <>
       <FaPen className="me-4" onClick={handleShow} />
 
-      <Modal show={show} onHide={handleClose} centered size="lg">
+      <Modal show={show} onHide={handleClose} id={food.id} centered size="lg">
         <Modal.Header closeButton>
           <Modal.Title>Edit Food Item</Modal.Title>
         </Modal.Header>

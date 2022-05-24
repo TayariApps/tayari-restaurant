@@ -1,12 +1,22 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Offcanvas } from "react-bootstrap";
 import { FaPen } from "react-icons/fa";
 
 export default function EditDrinkStockDrawer({ drink }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = () => {
+    setValues({
+      id: drink.id,
+      name: drink.name,
+      buyingPrice: drink.pivot.buying_price,
+      sellingPrice: drink.pivot.selling_price,
+      quantity: drink.pivot.quantity,
+    });
+
+    setShow(true);
+  };
   const [values, setValues] = useState({
     id: "",
     name: "",
@@ -69,16 +79,6 @@ export default function EditDrinkStockDrawer({ drink }) {
       })
       .catch((err) => console.log(err));
   };
-
-  useEffect(() => {
-    setValues({
-      id: drink.id,
-      name: drink.name,
-      buyingPrice: drink.pivot.buying_price,
-      sellingPrice: drink.pivot.selling_price,
-      quantity: drink.pivot.quantity,
-    });
-  }, []);
 
   return (
     <>

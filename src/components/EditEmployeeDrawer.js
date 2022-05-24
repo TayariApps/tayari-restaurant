@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Offcanvas } from "react-bootstrap";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -7,7 +7,15 @@ import { FaPen } from "react-icons/fa";
 export default function EditEmployeeDrawer({ user }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = () => {
+    setValues({
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+      password: "",
+    });
+    setShow(true);
+  };
 
   const [values, setValues] = useState({
     name: "",
@@ -15,15 +23,6 @@ export default function EditEmployeeDrawer({ user }) {
     phone: "",
     password: "",
   });
-
-  useEffect(() => {
-    setValues({
-      name: user.name,
-      email: user.email,
-      phone: user.phone,
-      password: "",
-    });
-  }, []);
 
   const handleNameChange = (e) => {
     e.persist();

@@ -11,7 +11,7 @@ export default function DeleteOrder({ order }) {
 
     const handleDelete = () => {
 
-        if(!order.payment_status){
+        if(order.payment_status == 1 ){
             return toast.error('You cant delete an order that has already been paid for.')
         }
 

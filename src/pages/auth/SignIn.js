@@ -6,6 +6,9 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 export default function SignIn() {
+
+  const [loading, setLoading] = useState(false)
+
   const inputStyle = {
     height: "4rem",
   };
@@ -40,6 +43,7 @@ export default function SignIn() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true)
     console.log(values);
 
     axios
@@ -48,9 +52,13 @@ export default function SignIn() {
         console.log("registered");
         localStorage.setItem("user", JSON.stringify(res.data.user));
         localStorage.setItem("token", res.data.token);
+        setLoading(false)
         navigate("/places");
       })
-      .catch((err) => toast.error("An error has occured"));
+      .catch((err) => {
+        setLoading(false)
+        toast.error("An error has occured")
+      });
   };
 
   return (
@@ -105,7 +113,7 @@ export default function SignIn() {
                 className="btn btn-danger text-white"
                 style={buttonStyle}
               >
-                Sign in
+                { loading ? 'Signing in...' : 'Sign in' }
               </button>
             </div>
           </form>

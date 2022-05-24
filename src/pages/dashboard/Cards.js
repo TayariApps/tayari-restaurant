@@ -36,7 +36,7 @@ export default function DashboardCards({ orders, menuCount, sales }) {
               </div>
               <div className="text-white">
                 <small>Revenue</small>
-                <h4 style={{ fontWeight: "800" }}>{revenueSum(sales)} TZS</h4>
+                <h4 style={{ fontWeight: "800" }}>{sumBy(sales, "total_cost").toLocaleString("en-US")} TZS</h4>
               </div>
             </div>
           </div>

@@ -11,7 +11,7 @@ import {
 import { Badge, Button, Col, Modal, Row, Table } from "react-bootstrap";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { FaEye, FaTrashAlt } from "react-icons/fa";
+import { FaTrashAlt } from "react-icons/fa";
 import EditFoodItem from "../components/EditFoodItem";
 import ChangeFoodItemStatus from "../components/ChangeFoodItemStatus";
 

@@ -11,6 +11,7 @@ import {
 import { Col, Row, Table } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import axios from 'axios'
+import moment from "moment";
 
 export default function Customers() {
   const STORY_HEADERS = [
@@ -34,6 +35,7 @@ export default function Customers() {
       prop: "created_at",
       title: "Created",
       isSortable: true,
+      cell: row => moment(row.created_at).format('LLL')
     },
   ];
 

@@ -35,9 +35,10 @@ export default function Transactions() {
       isSortable: true,
     },
     {
-      prop: "food_count",
-      title: "Items",
+      prop: "order_number",
+      title: "Order Number",
       isSortable: true,
+      isFilterable: true,
     },
     {
       prop: "payment_method",

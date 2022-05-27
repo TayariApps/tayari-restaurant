@@ -22,13 +22,12 @@ export default function OrderStatus() {
 
     axios
       .get(
-        `${process.env.REACT_APP_API_URL}/order/place/${localStorage.getItem(
+        `${process.env.REACT_APP_API_URL}/order/orderStatus/${localStorage.getItem(
           "place"
         )}`
       )
       .then((res) => {
-        console.log(res.data);
-        setOrders(orderBy(res.data, ["created_at"], ["desc"]));
+        setOrders(res.data);
         setLoading(false);
       })
       .catch((err) => console.log(err));

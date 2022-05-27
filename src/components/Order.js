@@ -1,3 +1,4 @@
+import moment from "moment";
 import React from "react";
 
 export default function Order({ order }) {
@@ -32,7 +33,8 @@ export default function Order({ order }) {
           style={{ padding: "0.6rem 0 0 0" }}
         >
           <h4 style={{ fontWeight: "600" }}>{headerController(order)}</h4>
-          <div className="d-flex flex-row justify-content-end px-3">
+          <div className="d-flex flex-row justify-content-between px-3">
+            <p>{moment(order.created_at).calendar()}</p>
             <p>{order.table.table_name}</p>
           </div>
         </div>

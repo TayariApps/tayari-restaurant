@@ -1,3 +1,4 @@
+import moment from "moment";
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import Order from "./Order";
@@ -46,8 +47,12 @@ export default function OrderModal({ order }) {
           <Modal.Title>{headerController(order)}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <p><b>Order number:</b> {order.order_number}</p>
           <p>
-            {order.customer.name} at {order.table.table_name}
+            {order.customer.name} at <b>Table number</b> {order.table.table_name}
+          </p>
+          <p>
+            <b>Time:</b> {moment(order.created_at).fromNow()}
           </p>
           {order.food.length > 0 &&
             order.food.map((x) => (
@@ -61,6 +66,9 @@ export default function OrderModal({ order }) {
                 {x.pivot.quantity} {x.name}
               </p>
             ))}
+          <p>
+            <b>Customer Phone:</b> {order.customer.phone}
+          </p>
           <p>
             <b>Cost:</b> {order.cost} TZS
           </p>

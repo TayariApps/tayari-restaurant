@@ -52,7 +52,7 @@ export default function OrderModal({ order }) {
             {order.customer.name} at <b>Table number</b> {order.table.table_name}
           </p>
           <p>
-            <b>Time:</b> {moment(order.created_at).fromNow()}
+            <b>Time:</b> {moment(order.created_at).format('LT')}
           </p>
           {order.food.length > 0 &&
             order.food.map((x) => (

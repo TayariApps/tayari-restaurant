@@ -13,6 +13,8 @@ import { Col, Row, Table } from "react-bootstrap";
 import meanBy from "lodash/meanBy";
 import axios from "axios";
 import moment from "moment";
+import EditReview from "../components/EditReview";
+import DeleteReview from "../components/DeleteReview";
 
 export default function Reviews() {
   const STORY_HEADERS = [
@@ -43,13 +45,22 @@ export default function Reviews() {
       isSortable: true,
       cell: (row) => moment(row.date).format("MMMM Do YYYY, h:mm:ss a"),
     },
+    {
+      prop: "id",
+      title: "Actions",
+      cell: (row) => (
+        <>
+          <EditReview review={row} />
+          <DeleteReview review={row} />
+        </>
+      ),
+    },
   ];
 
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-
-    document.body.style.backgroundColor = '#f7f7f7'
+    document.body.style.backgroundColor = "#f7f7f7";
 
     axios.defaults.headers.common[
       "Authorization"

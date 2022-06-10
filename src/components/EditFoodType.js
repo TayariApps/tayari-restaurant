@@ -39,6 +39,10 @@ export default function EditFoodType({ type }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    axios.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer ${localStorage.getItem("token")}`;
+
     axios
       .post(`${process.env.REACT_APP_API_URL}/type/update/${type.id}`, {
         name: name,

@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import { FaTrashAlt } from "react-icons/fa";
 import EditFoodItem from "../components/EditFoodItem";
 import ChangeFoodItemStatus from "../components/ChangeFoodItemStatus";
+import DiscountFood from "../components/DiscountFood";
 
 export default function FoodItems() {
   const STORY_HEADERS = [
@@ -45,12 +46,24 @@ export default function FoodItems() {
         ),
     },
     {
+      prop: "food_discount",
+      title: "Discount",
+      isSortable: true,
+      cell: (row) =>
+        row.food_discount > 0 ? (
+          <Badge bg="success">Discounted</Badge>
+        ) : (
+          <Badge bg="danger">Not Discounted</Badge>
+        ),
+    },
+    {
       prop: "id",
       title: "Actions",
       cell: (row) => (
         <>
           <EditFoodItem food={row} types={types} />
           <ChangeFoodItemStatus food={row} />
+          <DiscountFood menu={row} />
           <FaTrashAlt color="red" onClick={() => openDeleteModal(row)} />
         </>
       ),

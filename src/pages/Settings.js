@@ -25,6 +25,7 @@ export default function Settings() {
     bankName: "",
     logo: "",
     banner: "",
+    cashierNumber: "",
   });
 
   const handleNameChange = (e) => {
@@ -96,6 +97,14 @@ export default function Settings() {
     setValues({
       ...values,
       closingTime: e.target.value,
+    });
+  };
+
+  const handleCashierNumber = (e) => {
+    e.persist();
+    setValues({
+      ...values,
+      cashierNumber: e.target.value,
     });
   };
 
@@ -174,6 +183,8 @@ export default function Settings() {
           banner: res.data.banner_url,
           logo: res.data.logo_url,
           cuisine: res.data.cuisine_id,
+          cashierNumber:
+            res.data.cashier_number == null ? "" : res.data.cashier_number,
         });
 
         axios.get(`${process.env.REACT_APP_API_URL}/cuisine`).then((x) => {
@@ -223,6 +234,7 @@ export default function Settings() {
     formData.append("display_name", place.display_name);
     formData.append("bank_name", values.bankName);
     formData.append("cuisine", values.cuisine);
+    formData.append("cashier_number", values.cashierNumber);
 
     axios.defaults.headers.common[
       "Authorization"
@@ -393,6 +405,17 @@ export default function Settings() {
                 >
                   <div className="card-body">
                     <div className="form-group mb-3">
+                      <label>Cashier number</label>
+                      <input
+                        className="form-control"
+                        value={values.cashierNumber || ""}
+                        style={inputStyle}
+                        placeholder="2557xx...."
+                        onChange={handleCashierNumber}
+                      />
+                    </div>
+
+                    <div className="form-group mb-3">
                       <label>Restaurant Address</label>
                       <input
                         className="form-control"
@@ -474,6 +497,7 @@ export default function Settings() {
                           value={values.openingTime}
                         />
                       </div>
+
                       <div className="form-group">
                         <label>Closing Time</label>
                         <input

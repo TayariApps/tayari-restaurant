@@ -8,11 +8,12 @@ import {
   TableBody,
   TableHeader,
 } from "react-bs-datatable";
-import { Col, Row, Table } from "react-bootstrap";
+import { Badge, Col, Row, Table } from "react-bootstrap";
 import axios from "axios";
 import AddMenuTypeDrawer from "../components/AddMenuTypeDrawer";
 import EditFoodType from "../components/EditFoodType";
 import DeleteFoodType from "../components/DeleteFoodType";
+import DiscountFoodType from "../components/DiscountFoodType";
 
 export default function MenuTypes() {
   const STORY_HEADERS = [
@@ -29,11 +30,17 @@ export default function MenuTypes() {
       cell: (row) => row.menus.length,
     },
     {
+      prop: "discount",
+      title: "Discount",
+      cell: row => row.type_discount > 0 ? <Badge pill bg="success">Active</Badge> : <Badge pill bg="danger">Not active</Badge>
+    },
+    {
       prop: "id",
       title: "Actions",
       cell: (row) => (
         <>
           <EditFoodType type={row} />
+          <DiscountFoodType type={row} />
           <DeleteFoodType type={row} />
         </>
       ),
@@ -61,14 +68,6 @@ export default function MenuTypes() {
       })
       .catch((err) => console.log(err));
   }, []);
-
-  const addbuttonStyle = {
-    background: "red",
-    padding: "0.3rem 1.8rem",
-    color: "white",
-    marginLeft: "2rem",
-    fontWeight: "700",
-  };
 
   return (
     <>

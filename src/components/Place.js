@@ -16,7 +16,7 @@ export default function Place(props) {
         onClick={handleClick}
         style={{ width: "100%" }}
       >
-        <img src={`${process.env.REACT_APP_SITE_URL}/images/banners/${props.place.banner_url}`} alt={props.place.banner_url} style={{ width:'100%' }} />
+        <img src={`${process.env.REACT_APP_SITE_URL}/images/logos/${props.place.logo_url}`} alt={props.place.banner_url} style={{ width:'100%' }} />
         <div className="card-body bg-danger text-white text-center">
           <h4 style={{ fontWeight: "800" }}>{props.place.display_name}</h4>
           <div className="mt-3">

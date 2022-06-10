@@ -14,6 +14,18 @@ export default function Order({ order }) {
     }
   };
 
+  const typeController = (order) => {
+    if (order.type == 1) {
+      return "Pre-order";
+    } else if (order.type == 2) {
+      return "Dine-in";
+    } else if (order.type == 3)  {
+      return "Reservation";
+    } else{
+      return "Pre-order"
+    }
+  }
+
   const headerController = (order) => {
     if (order.status == 1) {
       return "New Order";
@@ -34,8 +46,11 @@ export default function Order({ order }) {
         >
           <h4 style={{ fontWeight: "600" }}>{headerController(order)}</h4>
           <div className="d-flex flex-row justify-content-between px-3">
-            <p>{moment(order.created_at).calendar()}</p>
+            <p>{moment(order.created_at).format('LT')}</p>
             <p>{order.table.table_name}</p>
+          </div>
+          <div className="px-3">
+            { typeController(order) }
           </div>
         </div>
         <div

@@ -26,6 +26,9 @@ export default function Settings() {
     logo: "",
     banner: "",
     cashierNumber: "",
+    paymentNumber: "",
+    paymentName: "",
+    paymentNetwork: "",
   });
 
   const handleNameChange = (e) => {
@@ -33,6 +36,30 @@ export default function Settings() {
     setValues({
       ...values,
       name: e.target.value,
+    });
+  };
+
+  const handlePaymentNetworkChange = (e) => {
+    e.persist();
+    setValues({
+      ...values,
+      paymentNetwork: e.target.value,
+    });
+  };
+
+  const handlePaymentNameChange = (e) => {
+    e.persist();
+    setValues({
+      ...values,
+      paymentName: e.target.value,
+    });
+  };
+
+  const handlePaymentNumberChange = (e) => {
+    e.persist();
+    setValues({
+      ...values,
+      paymentNumber: e.target.value,
     });
   };
 
@@ -185,6 +212,12 @@ export default function Settings() {
           cuisine: res.data.cuisine_id,
           cashierNumber:
             res.data.cashier_number == null ? "" : res.data.cashier_number,
+          paymentName:
+            res.data.payment_name == null ? "" : res.data.payment_name,
+          paymentNetwork:
+            res.data.payment_network == null ? "" : res.data.payment_network,
+          paymentNumber:
+            res.data.payment_number == null ? "" : res.data.payment_number,
         });
 
         axios.get(`${process.env.REACT_APP_API_URL}/cuisine`).then((x) => {
@@ -235,6 +268,9 @@ export default function Settings() {
     formData.append("bank_name", values.bankName);
     formData.append("cuisine", values.cuisine);
     formData.append("cashier_number", values.cashierNumber);
+    formData.append("payment_number", values.paymentNumber);
+    formData.append("payment_name", values.paymentName);
+    formData.append("payment_network", values.paymentNetwork);
 
     axios.defaults.headers.common[
       "Authorization"
@@ -390,6 +426,39 @@ export default function Settings() {
                         ))}
                       </select>
                     </div>
+
+                    <div className="form-group mb-3">
+                      <label>Payment number</label>
+                      <input
+                        className="form-control"
+                        value={values.paymentNumber || ""}
+                        style={inputStyle}
+                        placeholder="Enter number for alternative payment"
+                        onChange={handlePaymentNumberChange}
+                      />
+                    </div>
+
+                    <div className="form-group mb-3">
+                      <label>Payment network</label>
+                      <input
+                        className="form-control"
+                        value={values.paymentNetwork || ""}
+                        style={inputStyle}
+                        placeholder="Enter network for alternative payment"
+                        onChange={handlePaymentNetworkChange}
+                      />
+                    </div>
+
+                    <div className="form-group mb-3">
+                      <label>Payment name</label>
+                      <input
+                        className="form-control"
+                        value={values.paymentName || ""}
+                        style={inputStyle}
+                        placeholder="Enter name for alternative payment"
+                        onChange={handlePaymentNameChange}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -410,7 +479,7 @@ export default function Settings() {
                         className="form-control"
                         value={values.cashierNumber || ""}
                         style={inputStyle}
-                        placeholder="2557xx...."
+                        placeholder="Please enter phone number starting with 2557xx...."
                         onChange={handleCashierNumber}
                       />
                     </div>
@@ -523,7 +592,7 @@ export default function Settings() {
 
                     <div className="form-group mb-3">
                       <button className="btn" type="submit" style={buttonStyle}>
-                        Update
+                        { loading ? "Updating..." : "Update"  }
                       </button>
                     </div>
                   </div>

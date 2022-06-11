@@ -57,6 +57,12 @@ export default function FoodItems() {
         ),
     },
     {
+      prop: "discount",
+      title: "Discount %",
+      isSortable: true,
+      cell: (row) => row.food_discount
+    },
+    {
       prop: "id",
       title: "Actions",
       cell: (row) => (

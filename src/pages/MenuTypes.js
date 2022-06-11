@@ -35,6 +35,11 @@ export default function MenuTypes() {
       cell: row => row.type_discount > 0 ? <Badge pill bg="success">Active</Badge> : <Badge pill bg="danger">Not active</Badge>
     },
     {
+      prop: "type_discount",
+      title: "Discount %",
+      cell: row => row.type_discount
+    },
+    {
       prop: "id",
       title: "Actions",
       cell: (row) => (

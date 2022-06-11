@@ -44,17 +44,7 @@ export default function Reviews() {
       title: "Reviewed On",
       isSortable: true,
       cell: (row) => moment(row.date).format("MMMM Do YYYY, h:mm:ss a"),
-    },
-    {
-      prop: "id",
-      title: "Actions",
-      cell: (row) => (
-        <>
-          <EditReview review={row} />
-          <DeleteReview review={row} />
-        </>
-      ),
-    },
+    }
   ];
 
   const [reviews, setReviews] = useState([]);

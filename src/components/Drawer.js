@@ -4,6 +4,7 @@ import { MdFoodBank } from "react-icons/md";
 import { FaUserFriends, FaSignOutAlt, FaBeer, FaHome } from "react-icons/fa";
 import { GiKnifeFork, GiTable } from "react-icons/gi";
 import {
+  BsCalendarCheck,
   BsChatRightText,
   BsListCheck,
   BsShieldCheck,
@@ -60,6 +61,11 @@ export default function Drawer() {
 
   const settings = () => {
     navigate("/settings");
+    handleClose();
+  };
+
+  const schedule = () => {
+    navigate("/schedule");
     handleClose();
   };
 
@@ -159,6 +165,8 @@ export default function Drawer() {
                 <BsChatRightText /> &nbsp;&nbsp; Reviews
               </Nav.Link>
             </Nav.Item>
+
+
             <Nav.Item>
               <Nav.Link
                 eventKey="settings"
@@ -168,6 +176,17 @@ export default function Drawer() {
                 <FiSettings /> &nbsp;&nbsp; Settings
               </Nav.Link>
             </Nav.Item>
+
+            <Nav.Item>
+              <Nav.Link
+                eventKey="schedule"
+                onClick={schedule}
+                style={linkStyle}
+              >
+                <BsCalendarCheck /> &nbsp;&nbsp; Schedule
+              </Nav.Link>
+            </Nav.Item>
+
             <Nav.Item>
               <Nav.Link
                 eventKey="settings"

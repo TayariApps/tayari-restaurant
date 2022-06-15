@@ -85,8 +85,15 @@ export default function SignIn() {
           className="col-md-6 p-5 text-white"
           style={{ background: "#214071" }}
         >
-          <h2>Welcome</h2>
-          <p>Please, Sign in to continue</p>
+          <h2>Recieve and Manage orders</h2>
+          <p>
+            Tayari Restauramt Dashboard gives you the flexibility, visibility and
+            customer insights you need to connect with more customers.
+          </p>
+          <br/>
+          <h3>
+            Please sign in to continue
+          </h3>
 
           <form className="mt-5" onSubmit={handleSubmit}>
             <div className="form-group mb-4">

@@ -25,6 +25,7 @@ import Drinks from "./pages/Drinks";
 import RegisterRestaurant from "./pages/auth/RegisterRestaurant";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import PasswordReset from "./pages/auth/PasswordReset";
+import Schedule from "./pages/Schedule";
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
         <Route path="/drinks" element={<Drinks />} />
         <Route path="/forgot" element={<ForgotPassword />} />
         <Route path="/password/reset/:tokenId" element={<PasswordReset />} />
+        <Route path="/schedule" element={<Schedule/>} />
       </Routes>
       <ToastContainer />
     </div>

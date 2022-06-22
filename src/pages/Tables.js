@@ -15,6 +15,7 @@ import moment from 'moment'
 import AddTableDrawer from "../components/AddTableDrawer";
 import { FaPen } from "react-icons/fa";
 import DownloadQRCode from "../components/DownloadQRCode";
+import DeleteTable from "../components/DeleteTable";
 
 export default function Tables() {
   const STORY_HEADERS = [
@@ -34,7 +35,8 @@ export default function Tables() {
       title: "Actions",
       cell: (row) => <>
         <DownloadQRCode image={row.qr_code} />
-        <FaPen />
+        {/* <FaPen /> */}
+        <DeleteTable table={row} />
       </>
     }
   ];

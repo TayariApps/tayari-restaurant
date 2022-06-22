@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import bg from "../../assets/images/smily.jpg";
+import bg from "../../assets/images/newloginimage.jpg";
 import logo from "../../assets/images/logo2.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -69,7 +69,8 @@ export default function SignIn() {
           style={{
             backgroundImage: `url(${bg})`,
             boxShadow: "inset 0 0 0 2000px rgba(0, 0, 0, 0.3)",
-            backgroundPosition: "50% center",
+            backgroundSize: "cover",
+            backgroundPosition: "90% center",
             backgroundRepeat: "no-repeat",
             fontWeight: "700",
           }}

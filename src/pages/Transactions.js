@@ -13,7 +13,8 @@ import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
 import TransactionDrawer from "../components/TransactionDrawer";
 import DeleteOrder from "../components/DeleteOrder";
-import moment from 'moment'
+import moment from "moment";
+import { orderBy } from "lodash";
 
 export default function Transactions() {
   const STORY_HEADERS = [
@@ -21,13 +22,13 @@ export default function Transactions() {
       prop: "created_at",
       title: "Created",
       isSortable: true,
-      cell: row => moment(row.created_at).format('LLL')
+      cell: (row) => moment(row.created_at).format("LLL"),
     },
     {
       prop: "name",
       title: "Name",
       isSortable: true,
-      cell: (row) => row.customer.name,
+      cell: (row) => row.customer?.name,
     },
     {
       prop: "cost",
@@ -38,17 +39,21 @@ export default function Transactions() {
       prop: "order_number",
       title: "Order Number",
       isSortable: true,
-      isFilterable: true,
     },
     {
       prop: "payment_method",
       title: "Method of Payment",
       isSortable: true,
-      cell: (row) => row.payment_method == 1 ?  <Badge pill bg="primary">
+      cell: (row) =>
+        row.payment_method == 1 ? (
+          <Badge pill bg="primary">
             Cash
-          </Badge> :  <Badge pill bg="dark">
-           Mobile
           </Badge>
+        ) : (
+          <Badge pill bg="dark">
+            Mobile
+          </Badge>
+        ),
     },
     {
       prop: "type",
@@ -100,7 +105,7 @@ export default function Transactions() {
       )
       .then((res) => {
         console.log(res.data);
-        setOrders(res.data);
+        setOrders(orderBy(res.data, ["created_at"], ["desc"]));
       })
       .catch((err) => console.log(err));
   }, []);

@@ -3,7 +3,7 @@ import { Offcanvas } from "react-bootstrap";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-export default function AddTableDrawer() {
+export default function AddTableDrawer({ tables }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -57,7 +57,7 @@ export default function AddTableDrawer() {
       .then(() => {
         handleClose();
         window.location.reload();
-      })
+      })  
       .catch((err) => toast.error("An error occured"));
   };
 

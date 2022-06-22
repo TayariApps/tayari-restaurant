@@ -14,7 +14,8 @@ export default function BookingDrawer() {
     note: "",
     phone: "",
     person: "",
-    date: ""
+    date: "",
+    peopleCount: ""
   });
 
   const handleNameChange = (e) => {
@@ -22,6 +23,14 @@ export default function BookingDrawer() {
     setValues({
       ...values,
       name: e.target.value,
+    });
+  };
+
+  const handlePeopleCountChange = (e) => {
+    e.persist();
+    setValues({
+      ...values,
+      peopleCount: e.target.value,
     });
   };
 
@@ -78,7 +87,8 @@ export default function BookingDrawer() {
           customer_phone: values.phone,
           place_id: localStorage.getItem('place'),
           note: values.note,
-          time: values.date
+          time: values.date,
+          people_count: values.peopleCount
         }
       )
       .then(() => {
@@ -155,6 +165,7 @@ export default function BookingDrawer() {
                   onChange={handlePersonChange}
                   style={inputStyle}
                 >
+                  <option value="">Select customer if available</option>
                   {customers.map((c) => (
                     <option key={c.id} value={c.id}>
                       {c.name}
@@ -180,6 +191,18 @@ export default function BookingDrawer() {
                   placeholder="Phone number"
                   style={inputStyle}
                   onChange={handlePhoneChange}
+                />
+              </div>
+
+              <div className="col-md-6 mb-3">
+                <label>People count</label>
+                <input
+                  className="form-control"
+                  placeholder="How many are coming"
+                  style={inputStyle}
+                  type="number"
+                  min="1"
+                  onChange={handlePeopleCountChange}
                 />
               </div>
 

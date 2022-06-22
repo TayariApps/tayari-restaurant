@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import bg from "../../assets/images/registerimage.jpg";
+import bg from "../../assets/images/registerimage2.jpg";
 import axios from "axios";
 import { toast } from "react-toastify";
 

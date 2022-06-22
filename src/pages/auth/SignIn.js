@@ -88,7 +88,7 @@ export default function SignIn() {
         >
           <h2>Recieve and Manage orders</h2>
           <p>
-            Tayari Restauramt Dashboard gives you the flexibility, visibility and
+            Tayari Restaurant Dashboard gives you the flexibility, visibility and
             customer insights you need to connect with more customers.
           </p>
           <br/>

@@ -25,6 +25,7 @@ export default function AddFoodItem() {
     price: "",
     time: "",
     ingredients: "",
+    kilos: "",
   });
 
   const [types, setTypes] = useState([]);
@@ -51,6 +52,14 @@ export default function AddFoodItem() {
     setValues({
       ...values,
       name: e.target.value,
+    });
+  };
+
+  const handleKilosChange = (e) => {
+    e.persist();
+    setValues({
+      ...values,
+      kilos: e.target.value,
     });
   };
 
@@ -119,6 +128,7 @@ export default function AddFoodItem() {
     formData.append("place_id", localStorage.getItem("place"));
     formData.append("type_id", values.type);
     formData.append("ingredients", values.ingredients);
+    formData.append("kilos", values.kilos);
 
     axios.defaults.headers.common[
       "Authorization"
@@ -130,7 +140,7 @@ export default function AddFoodItem() {
         setLoading(false);
         setSelectedImage(null);
         document.getElementById("food-item-form").reset();
-        navigate('/fooditems')
+        navigate("/fooditems");
         toast.success("Food item added");
       })
       .catch((err) => {
@@ -255,7 +265,16 @@ export default function AddFoodItem() {
                         ))}
                       </select>
                     </div>
-                    
+
+                    <div className="form-group mb-3">
+                      <label>Amount in kilos (optional)</label>
+                      <input
+                        onChange={handleKilosChange}
+                        type="text"
+                        style={inputStyle}
+                        className="form-control"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -264,28 +283,26 @@ export default function AddFoodItem() {
                   <div className="card-body">
                     <h4>Add Add-ons(optional)</h4>
                     <div className="row">
-
-                    <div className="form-group mb-3">
-                      <label>Item ingredients</label>
-                      <textarea
-                        onChange={handleIngredientsChange}
-                        style={{ background: "#f7f7f7" }}
-                        className="form-control"
-                        width="100%"
-                        rows="3"
-                      ></textarea>
-                    </div>
-                    <div className="form-group mb-3">
-                      <label>Item description</label>
-                      <textarea
-                        onChange={handleDescriptionChange}
-                        style={{ background: "#f7f7f7" }}
-                        className="form-control"
-                        width="100%"
-                        rows="3"
-                      ></textarea>
-                    </div>
-
+                      <div className="form-group mb-3">
+                        <label>Item ingredients</label>
+                        <textarea
+                          onChange={handleIngredientsChange}
+                          style={{ background: "#f7f7f7" }}
+                          className="form-control"
+                          width="100%"
+                          rows="3"
+                        ></textarea>
+                      </div>
+                      <div className="form-group mb-3">
+                        <label>Item description</label>
+                        <textarea
+                          onChange={handleDescriptionChange}
+                          style={{ background: "#f7f7f7" }}
+                          className="form-control"
+                          width="100%"
+                          rows="3"
+                        ></textarea>
+                      </div>
 
                       {/* <div className="col-md-6 mb-3">
                         <label>Add-Ons</label>
@@ -298,8 +315,6 @@ export default function AddFoodItem() {
                         <label>Price (in Tsh)</label>
                         <input className="form-control" placeholder="1500" />
                       </div> */}
-
-
                     </div>
                   </div>
                 </div>

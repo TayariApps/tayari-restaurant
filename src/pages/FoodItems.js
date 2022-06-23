@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import NavigationBar from "../components/NavigationBar";
 import {
   DatatableWrapper,
@@ -15,6 +15,7 @@ import { FaTrashAlt } from "react-icons/fa";
 import EditFoodItem from "../components/EditFoodItem";
 import ChangeFoodItemStatus from "../components/ChangeFoodItemStatus";
 import DiscountFood from "../components/DiscountFood";
+import { toast } from "react-toastify";
 
 export default function FoodItems() {
   const STORY_HEADERS = [
@@ -60,16 +61,16 @@ export default function FoodItems() {
       prop: "discount",
       title: "Discount %",
       isSortable: true,
-      cell: (row) => row.food_discount
+      cell: (row) => row.food_discount * 100
     },
     {
       prop: "id",
       title: "Actions",
       cell: (row) => (
         <>
-          <EditFoodItem food={row} types={types} />
-          <ChangeFoodItemStatus food={row} />
-          <DiscountFood menu={row} />
+          <EditFoodItem food={row} types={types} loadFood={loadFood} />
+          <ChangeFoodItemStatus food={row} loadFood={loadFood} />
+          <DiscountFood menu={row} loadFood={loadFood} />
           <FaTrashAlt color="red" onClick={() => openDeleteModal(row)} />
         </>
       ),
@@ -80,36 +81,36 @@ export default function FoodItems() {
   const [item, setItem] = useState({});
   const [types, setTypes] = useState({});
 
-  useEffect(() => {
-    document.body.style.background = "#f7f7f7";
-
+  const loadFood = useCallback(async () => {
     axios.defaults.headers.common[
       "Authorization"
     ] = `Bearer ${localStorage.getItem("token")}`;
 
-    axios
-      .get(
+    try {
+      let f = await axios.get(
         `${process.env.REACT_APP_API_URL}/menu/place/${localStorage.getItem(
           "place"
         )}`
       )
-      .then((res) => {
-        console.log(res.data);
-        setFood(res.data);
+        
+      let t = await axios
+      .get(
+        `${process.env.REACT_APP_API_URL}/type/place/${localStorage.getItem(
+          "place"
+        )}`
+      )
 
-        axios
-          .get(
-            `${process.env.REACT_APP_API_URL}/type/place/${localStorage.getItem(
-              "place"
-            )}`
-          )
-          .then((res) => {
-            console.log(res.data.types);
-            setTypes(res.data.types);
-          })
-          .catch((err) => console.log(err));
-      })
-      .catch((err) => console.log(err));
+      setFood(f.data);
+      setTypes(t.data.types);
+       
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
+  useEffect(() => {
+    document.body.style.background = "#f7f7f7";
+    loadFood()
   }, []);
 
   const addbuttonStyle = {
@@ -121,7 +122,6 @@ export default function FoodItems() {
   };
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-
   const handleCloseDeleteModal = () => setShowDeleteModal(false);
   const handleShowDeleteModal = () => setShowDeleteModal(true);
 
@@ -139,9 +139,13 @@ export default function FoodItems() {
       method: "delete",
       url: `${process.env.REACT_APP_API_URL}/menu/delete/${item.id}`,
     }).then(() => {
-      handleCloseDeleteModal();
-      window.location.reload();
-    });
+      handleCloseDeleteModal()
+      loadFood()
+      toast.success('Item deleted')
+    }).catch(err => {
+      handleCloseDeleteModal()
+      toast.error(err.response.data)
+    })
   };
 
   return (

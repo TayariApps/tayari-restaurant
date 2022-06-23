@@ -5,8 +5,9 @@ import { FaPrint } from "react-icons/fa";
 import moment from "moment";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
-export default function TransactionDrawer({ order }) {
+export default function TransactionDrawer({ order, loadTransactions }) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -25,9 +26,13 @@ export default function TransactionDrawer({ order }) {
       )
       .then(() => {
         handleClose();
-        navigate(0)
+        loadTransactions()
+        toast.success('Payment confirmed')
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err)
+        toast.error('Could not confirm payment')
+      });
   };
 
   return (

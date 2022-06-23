@@ -4,7 +4,7 @@ import { Button, Modal } from 'react-bootstrap'
 import { FaTrashAlt } from 'react-icons/fa'
 import { toast } from "react-toastify"
 
-export default function DeleteOrder({ order }) {
+export default function DeleteOrder({ order, loadTransactions }) {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const handleCloseDeleteModal = () => setShowDeleteModal(false);
     const handleShowDeleteModal = () => setShowDeleteModal(true);
@@ -24,7 +24,8 @@ export default function DeleteOrder({ order }) {
             url: `${process.env.REACT_APP_API_URL}/order/delete/${order.id}`,
           }).then(() => {
             handleCloseDeleteModal();
-            window.location.reload();
+            loadTransactions()
+            toast.success('Order deleted')
           }).catch(err => {
               handleCloseDeleteModal()
               console.log(err);

@@ -4,7 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { FaPen } from "react-icons/fa";
 
-export default function EditEmployeeDrawer({ user }) {
+export default function EditEmployeeDrawer({ user, loadUsers }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => {
@@ -102,7 +102,8 @@ export default function EditEmployeeDrawer({ user }) {
     })
       .then(() => {
         handleClose();
-        window.location.reload();
+        loadUsers()
+        toast.success('Employee updated')
       })
       .catch((err) => toast.error("An error occured"));
   };

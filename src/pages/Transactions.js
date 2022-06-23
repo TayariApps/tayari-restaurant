@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import NavigationBar from "../components/NavigationBar";
 import {
   DatatableWrapper,
@@ -82,9 +82,9 @@ export default function Transactions() {
       title: "Actions",
       cell: (row) => (
         <>
-          <TransactionDrawer order={row} />
+          <TransactionDrawer order={row} loadTransactions={loadTransactions} />
           {/* <FaPen color="black" className="me-4" /> */}
-          <DeleteOrder order={row} />
+          <DeleteOrder order={row} loadTransactions={loadTransactions} />
         </>
       ),
     },
@@ -92,22 +92,25 @@ export default function Transactions() {
 
   const [orders, setOrders] = useState([]);
 
-  useEffect(() => {
+  const loadTransactions = useCallback(async () => {
     axios.defaults.headers.common[
       "Authorization"
     ] = `Bearer ${localStorage.getItem("token")}`;
 
-    axios
-      .get(
+    try {
+      let t = await axios.get(
         `${process.env.REACT_APP_API_URL}/order/place/${localStorage.getItem(
           "place"
         )}`
       )
-      .then((res) => {
-        console.log(res.data);
-        setOrders(orderBy(res.data, ["created_at"], ["desc"]));
-      })
-      .catch((err) => console.log(err));
+      setOrders(t.data);
+    } catch (error) {
+      console.error(error);
+    }
+  })
+
+  useEffect(() => {
+    loadTransactions()
   }, []);
 
   return (

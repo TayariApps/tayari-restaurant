@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import NavigationBar from "../../components/NavigationBar";
 import DashboardCards from "./Cards";
@@ -22,29 +22,36 @@ export default function Dashboard() {
     tablesCount: 0,
   });
 
-  useEffect(() => {
+  const loadData = useCallback(async () => {
     axios.defaults.headers.common[
       "Authorization"
     ] = `Bearer ${localStorage.getItem("token")}`;
-    axios
-      .get(
+
+    try {
+      let res = await axios.get(
         `${
           process.env.REACT_APP_API_URL
         }/place/restaurantData/${localStorage.getItem("place")}`
-      )
-      .then((res) => {
-        console.log(res.data);
-        setOrders(res.data.orders);
-        setMenuItemsCount(res.data.menuItemsCount);
-        setSales(res.data.orders.filter((x) => x.payment_status == true));
-        setMostSoldItems(res.data.mostSold);
-        setTypes(res.data.types);
-        setPlace(res.data.place);
-        setCountables({
-          tablesCount: res.data.tablesCount,
-          typesCount: res.data.typesCount,
-        });
+      );
+
+      console.log(res.data);
+      setOrders(res.data.orders);
+      setMenuItemsCount(res.data.menuItemsCount);
+      setSales(res.data.orders.filter((x) => x.payment_status == true));
+      setMostSoldItems(res.data.mostSold);
+      setTypes(res.data.types);
+      setPlace(res.data.place);
+      setCountables({
+        tablesCount: res.data.tablesCount,
+        typesCount: res.data.typesCount,
       });
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
+  useEffect(() => {
+    loadData();
   }, []);
 
   return (
@@ -87,7 +94,7 @@ export default function Dashboard() {
                 menuCount={menuItemsCount}
               />
 
-              <DiscountPlace place={place} />
+              <DiscountPlace place={place} loadData={loadData} />
 
               <TopSelling mostSoldItems={mostSoldItems} />
             </div>

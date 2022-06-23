@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import NavigationBar from "../components/NavigationBar";
 import axios from "axios";
 import {
@@ -39,26 +39,26 @@ export default function Reservation() {
   ];
 
   const [reservation, setReservation] = useState([]);
-
-  useEffect(() => {
-
-    document.body.style.backgroundColor = '#f7f7f7'
-
+  const loadReservations = useCallback(async () => {
     axios.defaults.headers.common[
       "Authorization"
     ] = `Bearer ${localStorage.getItem("token")}`;
 
-    axios
-      .get(
+    try {
+      let t = await axios.get(
         `${
           process.env.REACT_APP_API_URL
         }/reservation/place/${localStorage.getItem("place")}`
       )
-      .then((res) => {
-        console.log(res.data);
-        setReservation(res.data);
-      })
-      .catch((err) => console.log(err));
+      setReservation(t.data);
+    } catch (error) {
+      console.error(error);
+    }
+  })
+
+  useEffect(() => {
+    document.body.style.backgroundColor = '#f7f7f7'
+    loadReservations()
   }, []);
 
   return (
@@ -78,7 +78,7 @@ export default function Reservation() {
             {" "}
           </div>
           <h4 style={{ fontWeight: "700" }}>Reservation</h4>
-          <BookingDrawer />
+          <BookingDrawer loadReservations={loadReservations} />
         </div>
         <div className="container">
           <div className="mt-3">

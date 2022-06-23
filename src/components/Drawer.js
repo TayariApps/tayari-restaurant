@@ -1,15 +1,7 @@
 import React, { useState } from "react";
 import { Nav, Offcanvas } from "react-bootstrap";
-import { MdFoodBank } from "react-icons/md";
-import { FaUserFriends, FaSignOutAlt, FaBeer, FaHome } from "react-icons/fa";
-import { GiKnifeFork, GiTable } from "react-icons/gi";
-import {
-  BsCalendarCheck,
-  BsChatRightText,
-  BsListCheck,
-  BsShieldCheck,
-} from "react-icons/bs";
-import { FiSettings } from "react-icons/fi";
+import { GiTable } from "react-icons/gi";
+import { BsShieldCheck } from "react-icons/bs";
 import { IoMailOutline, IoDocumentTextOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -25,7 +17,6 @@ export default function Drawer() {
   const linkStyle = {
     textDecoration: "none",
     color: "black",
-    paddingBottom: "1.5rem",
     fontSize: "20px",
   };
 
@@ -86,7 +77,7 @@ export default function Drawer() {
 
   const restaurants = () => {
     navigate("/places", { replace: true });
-    localStorage.removeItem('place')
+    localStorage.removeItem("place");
     handleClose();
   };
 
@@ -109,7 +100,19 @@ export default function Drawer() {
 
   return (
     <>
-      <MdFoodBank size="40px" onClick={handleShow} color="red" />
+      <div
+        style={{
+          padding: "5px 15px 0 15px",
+          borderRadius: "10px",
+          background: "red",
+        }}
+      >
+        <i
+          class="fi fi-ss-hat-chef"
+          style={{ fontSize: "35px", color: "white" }}
+          onClick={handleShow}
+        ></i>
+      </div>
 
       <Offcanvas show={show} onHide={handleClose} placement="end">
         <Offcanvas.Header closeButton>
@@ -123,30 +126,40 @@ export default function Drawer() {
                 eventKey="customers"
                 style={linkStyle}
               >
-                <FaUserFriends /> &nbsp;&nbsp; Customers
+                <div className="d-flex flex-row justify-content-start">
+                  <i class="fi fi-rr-users me-4"></i> <p>Customers</p>
+                </div>
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
               <Nav.Link onClick={items} eventKey="items" style={linkStyle}>
-                <GiKnifeFork /> &nbsp;&nbsp; Food Items
+                <div className="d-flex flex-row justify-content-start">
+                  <i class="fi fi-sr-restaurant me-4"></i> <p>Food Items</p>
+                </div>
               </Nav.Link>
             </Nav.Item>
 
             <Nav.Item>
               <Nav.Link onClick={types} eventKey="items" style={linkStyle}>
-                <BsListCheck /> &nbsp;&nbsp; Food Types
+                <div className="d-flex flex-row justify-content-start">
+                  <i class="fi fi-rr-list-check me-4"></i> <p>Food Types</p>
+                </div>
               </Nav.Link>
             </Nav.Item>
 
             <Nav.Item>
               <Nav.Link onClick={table} eventKey="items" style={linkStyle}>
-                <GiTable /> &nbsp;&nbsp; Tables
+                <div className="d-flex flex-row justify-content-start">
+                  <GiTable className="me-4" /> <p>Tables</p>
+                </div>
               </Nav.Link>
             </Nav.Item>
 
             <Nav.Item>
               <Nav.Link onClick={drinks} eventKey="items" style={linkStyle}>
-                <FaBeer /> &nbsp;&nbsp; Drinks
+                <div className="d-flex flex-row justify-content-start">
+                  <i class="fi fi-rr-mug-hot me-4"></i> <p>Drinks</p>
+                </div>
               </Nav.Link>
             </Nav.Item>
 
@@ -156,16 +169,19 @@ export default function Drawer() {
                 eventKey="items"
                 style={linkStyle}
               >
-                <BsShieldCheck /> &nbsp;&nbsp; Authentication
+                <div className="d-flex flex-row justify-content-start">
+                  <BsShieldCheck className="me-4" /> <p>Authentication</p>
+                </div>
               </Nav.Link>
             </Nav.Item>
 
             <Nav.Item>
               <Nav.Link onClick={review} eventKey="reviews" style={linkStyle}>
-                <BsChatRightText /> &nbsp;&nbsp; Reviews
+                <div className="d-flex flex-row justify-content-start">
+                  <i class="fi fi-rr-comment-alt me-4"></i> <p>Reviews</p>
+                </div>
               </Nav.Link>
             </Nav.Item>
-
 
             <Nav.Item>
               <Nav.Link
@@ -173,7 +189,9 @@ export default function Drawer() {
                 onClick={settings}
                 style={linkStyle}
               >
-                <FiSettings /> &nbsp;&nbsp; Settings
+                <div className="d-flex flex-row justify-content-start">
+                  <i class="fi fi-rr-settings me-4"></i> <p>Settings</p>
+                </div>
               </Nav.Link>
             </Nav.Item>
 
@@ -183,7 +201,9 @@ export default function Drawer() {
                 onClick={schedule}
                 style={linkStyle}
               >
-                <BsCalendarCheck /> &nbsp;&nbsp; Schedule
+                <div className="d-flex flex-row justify-content-start">
+                  <i class="fi fi-rr-calendar-check me-4"></i> <p>Schedule</p>
+                </div>
               </Nav.Link>
             </Nav.Item>
 
@@ -193,22 +213,31 @@ export default function Drawer() {
                 onClick={restaurants}
                 style={linkStyle}
               >
-                <FaHome /> &nbsp;&nbsp; All Restaurants
+                <div className="d-flex flex-row justify-content-start">
+                  <i class="fi fi-rr-home-location me-4"></i> <p>Restaurants</p>
+                </div>
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
               <Nav.Link eventKey="support" onClick={support} style={linkStyle}>
-                <IoMailOutline /> &nbsp;&nbsp; Support
+                <div className="d-flex flex-row justify-content-start">
+                  <IoMailOutline className="me-4" /> <p>Support</p>
+                </div>
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
               <Nav.Link onClick={terms} eventKey="terms" style={linkStyle}>
-                <IoDocumentTextOutline /> &nbsp;&nbsp; Terms & Conditions
+                <div className="d-flex flex-row justify-content-start">
+                  <IoDocumentTextOutline className="me-4" />{" "}
+                  <p>Terms & Conditions</p>
+                </div>
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
               <Nav.Link onClick={logout} eventKey="logout" style={linkStyle}>
-                <FaSignOutAlt /> &nbsp;&nbsp; Logout
+                <div className="d-flex flex-row justify-content-start">
+                  <i class="fi fi-rr-sign-out-alt me-4"></i> <p>Logout</p>
+                </div>
               </Nav.Link>
             </Nav.Item>
           </Nav>

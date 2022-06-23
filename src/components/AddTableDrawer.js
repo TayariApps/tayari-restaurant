@@ -3,7 +3,7 @@ import { Offcanvas } from "react-bootstrap";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-export default function AddTableDrawer({ tables }) {
+export default function AddTableDrawer({ loadTables }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -43,7 +43,6 @@ export default function AddTableDrawer({ tables }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(name);
 
     axios.defaults.headers.common[
       "Authorization"
@@ -56,8 +55,8 @@ export default function AddTableDrawer({ tables }) {
       })
       .then(() => {
         handleClose();
-        window.location.reload();
-      })  
+        loadTables();
+      })
       .catch((err) => toast.error("An error occured"));
   };
 

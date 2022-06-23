@@ -2,8 +2,9 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import { FaPen } from "react-icons/fa";
+import { toast } from "react-toastify";
 
-export default function EditFoodItem({ food, types }) {
+export default function EditFoodItem({ food, types, loadFood }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => {
@@ -111,9 +112,13 @@ export default function EditFoodItem({ food, types }) {
       .post(`${process.env.REACT_APP_API_URL}/menu/update`, formData)
       .then(() => {
         handleClose();
-        window.location.reload();
+        loadFood();
+        toast.success("Food item edited");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        toast.error("Failed to update food item");
+      });
   };
 
   return (

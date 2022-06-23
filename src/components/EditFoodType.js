@@ -2,14 +2,15 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Offcanvas } from "react-bootstrap";
 import { FaPen } from "react-icons/fa";
+import { toast } from "react-toastify";
 
-export default function EditFoodType({ type }) {
+export default function EditFoodType({ type, loadTypes }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => {
     setName(type.name);
     setShow(true);
-  }
+  };
 
   const [name, setName] = useState("");
 
@@ -47,8 +48,15 @@ export default function EditFoodType({ type }) {
       .post(`${process.env.REACT_APP_API_URL}/type/update/${type.id}`, {
         name: name,
       })
-      .then(() => window.location.reload())
-      .catch((err) => console.log(err));
+      .then(() => {
+        toast.success("Food type updated");
+        handleClose();
+        loadTypes();
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Food type could not be updated");
+      });
   };
 
   return (

@@ -3,7 +3,7 @@ import { Offcanvas } from "react-bootstrap";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-export default function BookingDrawer() {
+export default function BookingDrawer({ loadReservations }) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -15,7 +15,7 @@ export default function BookingDrawer() {
     phone: "",
     person: "",
     date: "",
-    peopleCount: ""
+    peopleCount: "",
   });
 
   const handleNameChange = (e) => {
@@ -68,10 +68,10 @@ export default function BookingDrawer() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-   console.log(values);
+    console.log(values);
 
-    if(values.person == '' && values.name == '' ){
-      return toast.error('Please enter name or choose a customer')
+    if (values.person == "" && values.name == "") {
+      return toast.error("Please enter name or choose a customer");
     }
 
     axios.defaults.headers.common[
@@ -79,21 +79,19 @@ export default function BookingDrawer() {
     ] = `Bearer ${localStorage.getItem("token")}`;
 
     axios
-      .post(
-        `${process.env.REACT_APP_API_URL}/reservation/restaurantStore`,
-        {
-          person: values.person,
-          customer_name: values.name,
-          customer_phone: values.phone,
-          place_id: localStorage.getItem('place'),
-          note: values.note,
-          time: values.date,
-          people_count: values.peopleCount
-        }
-      )
+      .post(`${process.env.REACT_APP_API_URL}/reservation/restaurantStore`, {
+        person: values.person,
+        customer_name: values.name,
+        customer_phone: values.phone,
+        place_id: localStorage.getItem("place"),
+        note: values.note,
+        time: values.date,
+        people_count: values.peopleCount,
+      })
       .then(() => {
         handleClose();
-        window.location.reload();
+        loadReservations();
+        toast.success("Reservation added");
       })
       .catch((err) => toast.error("An error occured"));
   };
@@ -194,11 +192,11 @@ export default function BookingDrawer() {
                 />
               </div>
 
-              <div className="col-md-6 mb-3">
+              <div className="col-md-12 mb-3">
                 <label>People count</label>
                 <input
                   className="form-control"
-                  placeholder="How many are coming"
+                  placeholder="How many people are coming"
                   style={inputStyle}
                   type="number"
                   min="1"

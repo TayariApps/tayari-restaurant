@@ -2,8 +2,9 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Offcanvas } from "react-bootstrap";
 import { FaPen } from "react-icons/fa";
+import { toast } from "react-toastify";
 
-export default function EditDrinkStockDrawer({ drink }) {
+export default function EditDrinkStockDrawer({ drink, loadDrinks }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => {
@@ -72,12 +73,16 @@ export default function EditDrinkStockDrawer({ drink }) {
     ] = `Bearer ${localStorage.getItem("token")}`;
 
     axios
-      .post(`${process.env.REACT_APP_API_URL}/drink/update/stock`, data)
+      .post(`${process.env.REACT_APP_API_URL}/drink/update/stock/new`, data)
       .then(() => {
         handleClose();
-        window.location.reload();
+        loadDrinks();
+        toast.success("Stock updated");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        toast.error("Stock could not be updated");
+      });
   };
 
   return (

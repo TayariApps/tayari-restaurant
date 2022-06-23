@@ -4,7 +4,7 @@ import { Button, Modal } from "react-bootstrap";
 import { FaTrashAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
 
-export default function DeleteFoodType({type}) {
+export default function DeleteFoodType({type, loadTypes}) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const handleCloseDeleteModal = () => setShowDeleteModal(false);
@@ -20,7 +20,8 @@ export default function DeleteFoodType({type}) {
       url: `${process.env.REACT_APP_API_URL}/type/delete/${type.id}`,
     }).then(() => {
       handleCloseDeleteModal();
-      window.location.reload();
+      loadTypes()
+      toast.success('Food type deleted')
     }).catch(err => {
         handleCloseDeleteModal()
         console.log(err);

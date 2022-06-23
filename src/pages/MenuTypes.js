@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import NavigationBar from "../components/NavigationBar";
 import {
   DatatableWrapper,
@@ -44,9 +44,9 @@ export default function MenuTypes() {
       title: "Actions",
       cell: (row) => (
         <>
-          <EditFoodType type={row} />
-          <DiscountFoodType type={row} />
-          <DeleteFoodType type={row} />
+          <EditFoodType type={row} loadTypes={loadTypes} />
+          <DiscountFoodType type={row} loadTypes={loadTypes} />
+          <DeleteFoodType type={row} loadTypes={loadTypes} />
         </>
       ),
     },
@@ -54,24 +54,26 @@ export default function MenuTypes() {
 
   const [types, setTypes] = useState([]);
 
-  useEffect(() => {
-    document.body.style.backgroundColor = "#f7f7f7";
-
+  const loadTypes = useCallback(async () => {
     axios.defaults.headers.common[
       "Authorization"
     ] = `Bearer ${localStorage.getItem("token")}`;
 
-    axios
-      .get(
+    try {
+      let t = await axios.get(
         `${process.env.REACT_APP_API_URL}/type/place/${localStorage.getItem(
           "place"
         )}`
       )
-      .then((res) => {
-        console.log(res.data.types);
-        setTypes(res.data.types);
-      })
-      .catch((err) => console.log(err));
+      setTypes(t.data.types);
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
+  useEffect(() => {
+    document.body.style.backgroundColor = "#f7f7f7";
+    loadTypes()
   }, []);
 
   return (

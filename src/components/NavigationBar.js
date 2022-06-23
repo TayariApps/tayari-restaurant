@@ -1,6 +1,5 @@
 import React from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
-import { FaHome, FaChartLine, FaUserAlt, FaThLarge } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import logo from "../assets/images/tayarilogo2.png";
 import Drawer from "./Drawer";
@@ -21,16 +20,36 @@ export default function NavigationBar() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mx-auto">
             <Nav.Link as={Link} to="/home" style={navStyle}>
-              <FaHome size={iconSize} color="#bcbdbe" /> &nbsp; POS
+             <div className="d-flex flex-row justify-content-between">
+             <i class="fi fi-sr-home" style={{ fontSize: "30px" }}></i>{" "}
+              <p style={{ margin:"9px 5px 0 10px" }}>
+                POS
+              </p>
+             </div>
             </Nav.Link>
             <Nav.Link as={Link} to="/transactions" style={navStyle}>
-              <FaChartLine size={iconSize} /> &nbsp; Transactions
+            <div className="d-flex flex-row justify-content-between">
+             <i class="fi fi-rr-chart-line-up" style={{ fontSize: "30px" }}></i>{" "}
+              <p style={{ margin:"9px 5px 0 10px" }}>
+                Transactions
+              </p>
+             </div>
             </Nav.Link>
             <Nav.Link as={Link} to="/reservation" style={navStyle}>
-              <FaUserAlt size={iconSize} /> &nbsp; Reservation
+            <div className="d-flex flex-row justify-content-between">
+             <i class="fi fi-sr-user" style={{ fontSize: "30px" }}></i>{" "}
+              <p style={{ margin:"9px 5px 0 10px" }}>
+                Reservations
+              </p>
+             </div>
             </Nav.Link>
             <Nav.Link as={Link} to="/orderstatus" style={navStyle}>
-              <FaThLarge size={iconSize} /> &nbsp; Order Status
+            <div className="d-flex flex-row justify-content-between">
+             <i class="fi fi-sr-apps" style={{ fontSize: "30px" }}></i>{" "}
+              <p style={{ margin:"9px 5px 0 10px" }}>
+                Order Status
+              </p>
+             </div>
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>

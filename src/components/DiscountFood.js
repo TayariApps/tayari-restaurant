@@ -1,15 +1,14 @@
-import axios from 'axios';
-import { values } from 'lodash';
-import React, { useState } from 'react'
-import { Button, Modal } from 'react-bootstrap';
-import { BsPercent } from 'react-icons/bs';
-import { toast } from 'react-toastify';
+import axios from "axios";
+import React, { useState } from "react";
+import { Button, Modal } from "react-bootstrap";
+import { BsPercent } from "react-icons/bs";
+import { toast } from "react-toastify";
 
-export default function DiscountFood({menu}) {
-    const [show, setShow] = useState(false);
+export default function DiscountFood({ menu, loadFood }) {
+  const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => {
-    setDiscount(menu.food_discount*100);
+    setDiscount(menu.food_discount * 100);
     setShow(true);
   };
 
@@ -35,20 +34,20 @@ export default function DiscountFood({menu}) {
         discount: discount,
       })
       .then((res) => {
-        toast.success(res.data)
-        setLoading(false)
-        handleClose()
-        window.location.reload()
+        setLoading(false);
+        handleClose();
+        loadFood();
+        toast.success(res.data);
       })
       .catch((err) => {
-        setLoading(false)
-        toast.error(err.response.data)
-      })
+        setLoading(false);
+        toast.error(err.response.data);
+      });
   };
 
   return (
     <>
-     <BsPercent onClick={handleShow} className="me-3" />
+      <BsPercent onClick={handleShow} className="me-3" />
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -63,12 +62,13 @@ export default function DiscountFood({menu}) {
                 value={discount}
                 className="form-control"
                 type="number"
-                min="0" max="100"
+                min="0"
+                max="100"
               />
               <small>Enter 0 if no discount</small>
             </div>
             <div className="form-group mb-3">
-              <Button variant="warning" type='submit'>
+              <Button variant="warning" type="submit">
                 {loading ? "Updating..." : "Update discount"}
               </Button>
             </div>

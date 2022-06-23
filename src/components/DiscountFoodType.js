@@ -4,7 +4,7 @@ import { Button, Modal } from "react-bootstrap";
 import { BsPercent } from "react-icons/bs";
 import { toast } from "react-toastify";
 
-export default function DiscountFoodType({ type }) {
+export default function DiscountFoodType({ type, loadTypes }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => {
@@ -36,8 +36,8 @@ export default function DiscountFoodType({ type }) {
       .then((res) => {
         toast.success(res.data)
         setLoading(false)
+        loadTypes()
         handleClose()
-        window.location.reload()
       })
       .catch((err) => {
         setLoading(false)

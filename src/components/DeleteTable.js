@@ -5,7 +5,7 @@ import { Button, Modal } from "react-bootstrap";
 import { FaTrashAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
 
-export default function DeleteTable({ table }) {
+export default function DeleteTable({ table, loadTables }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -25,7 +25,8 @@ export default function DeleteTable({ table }) {
       .then(() => {
         setLoading(false);
         handleClose();
-        window.location.reload();
+        loadTables()
+        toast.success('Table deleted')
       })
       .catch((err) => {
         setLoading(false);

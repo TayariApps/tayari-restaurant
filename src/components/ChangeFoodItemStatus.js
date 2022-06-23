@@ -2,8 +2,9 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
+import { toast } from "react-toastify";
 
-export default function ChangeFoodItemStatus({ food }) {
+export default function ChangeFoodItemStatus({ food, loadFood }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -18,9 +19,13 @@ export default function ChangeFoodItemStatus({ food }) {
       .then((res) => {
         handleClose();
         console.log(res);
-        window.location.reload();
+        loadFood()
+        toast.success('Item status updated')
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        handleClose()
+        toast.error('Could not update status')
+      });
   };
 
   return (

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Badge, Button, Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
 
-export default function DiscountPlace({ place }) {
+export default function DiscountPlace({ place, loadData }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => {
@@ -33,10 +33,10 @@ export default function DiscountPlace({ place }) {
         discount: discount,
       })
       .then((res) => {
-        toast.success(res.data);
+        toast.success("Discount status updated");
         setLoading(false);
         handleClose();
-        window.location.reload();
+        loadData();
       })
       .catch((err) => {
         setLoading(false);
@@ -53,8 +53,14 @@ export default function DiscountPlace({ place }) {
               Handle discount
             </Button>
 
-            <Badge pill className="px-3 py-2" bg={place.place_discount > 0 ? "success" : "primary"}>
-              {place.place_discount > 0 ? "Discount Active" : "Discount Inactive"}
+            <Badge
+              pill
+              className="px-3 py-2"
+              bg={place.place_discount > 0 ? "success" : "primary"}
+            >
+              {place.place_discount > 0
+                ? "Discount Active"
+                : "Discount Inactive"}
             </Badge>
           </div>
         </div>

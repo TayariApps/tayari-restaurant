@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import NavigationBar from "../components/NavigationBar";
 import {
   DatatableWrapper,
@@ -54,7 +54,7 @@ export default function Drinks() {
       title: "Actions",
       cell: (row) => (
         <>
-          <EditDrinkStockDrawer drink={row} />
+          <EditDrinkStockDrawer drink={row} loadDrinks={loadDrinks} />
         </>
       ),
     },
@@ -62,24 +62,26 @@ export default function Drinks() {
 
   const [drinks, setDrinks] = useState([]);
 
-  document.body.style.backgroundColor = "#f7f7f7";
-
-  useEffect(() => {
+  const loadDrinks = useCallback(async () => {
     axios.defaults.headers.common[
       "Authorization"
     ] = `Bearer ${localStorage.getItem("token")}`;
 
-    axios
-      .get(
+    try {
+      let t = await axios.get(
         `${process.env.REACT_APP_API_URL}/drink/place/${localStorage.getItem(
           "place"
         )}`
       )
-      .then((res) => {
-        console.log(res.data);
-        setDrinks(res.data);
-      })
-      .catch((err) => console.log(err));
+      setDrinks(t.data);
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
+  useEffect(() => {
+    document.body.style.backgroundColor = "#f7f7f7";
+    loadDrinks()
   }, []);
 
   return (

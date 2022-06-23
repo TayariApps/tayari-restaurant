@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import NavigationBar from "../components/NavigationBar";
 import {
   DatatableWrapper,
@@ -14,6 +14,7 @@ import axios from "axios";
 import moment from "moment";
 import EditEmployeeDrawer from "../components/EditEmployeeDrawer";
 import { FaUser } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 export default function Authentication() {
   const STORY_HEADERS = [
@@ -62,7 +63,7 @@ export default function Authentication() {
       isSortable: true,
       cell: (row) => (
         <>
-          <EditEmployeeDrawer user={row.user} />
+          <EditEmployeeDrawer user={row.user} loadUsers={loadUsers} />
           <FaUser className="ms-2" onClick={() => changeStatus(row.user)} />
         </>
       ),
@@ -70,25 +71,26 @@ export default function Authentication() {
   ];
 
   const [employees, setEmployees] = useState([]);
-
-  document.body.style.backgroundColor = "#f7f7f7";
-
-  useEffect(() => {
+  const loadUsers = useCallback(async () => {
     axios.defaults.headers.common[
       "Authorization"
     ] = `Bearer ${localStorage.getItem("token")}`;
 
-    axios
-      .get(
+    try {
+      let t = await axios.get(
         `${process.env.REACT_APP_API_URL}/employee/${localStorage.getItem(
           "place"
         )}`
       )
-      .then((res) => {
-        console.log(res.data);
-        setEmployees(res.data);
-      })
-      .catch((err) => console.log(err));
+      setEmployees(t.data);
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
+  useEffect(() => {
+    document.body.style.backgroundColor = "#f7f7f7";
+    loadUsers()
   }, []);
 
   const addbuttonStyle = {
@@ -105,8 +107,14 @@ export default function Authentication() {
         user_id: user.id,
         place_id: localStorage.getItem("place"),
       })
-      .then(() => window.location.reload())
-      .catch((err) => console.log(err));
+      .then(() => {
+        loadUsers()
+        toast.success('Status updated')
+      })
+      .catch((err) => {
+        console.log(err)
+        toast.error('Status could not be updated')
+      });
   };
 
   return (

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import NavigationBar from "../components/NavigationBar";
 import {
   DatatableWrapper,
@@ -10,10 +10,9 @@ import {
 } from "react-bs-datatable";
 import { Col, Row, Table } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
-import axios from 'axios'
-import moment from 'moment'
+import axios from "axios";
+import moment from "moment";
 import AddTableDrawer from "../components/AddTableDrawer";
-import { FaPen } from "react-icons/fa";
 import DownloadQRCode from "../components/DownloadQRCode";
 import DeleteTable from "../components/DeleteTable";
 
@@ -28,44 +27,43 @@ export default function Tables() {
       prop: "created_at",
       title: "Created On",
       isSortable: true,
-      cell: (row) => moment(row.created_at).format("MMMM Do YYYY")
+      cell: (row) => moment(row.created_at).format("MMMM Do YYYY"),
     },
     {
       prop: "qr_code",
       title: "Actions",
-      cell: (row) => <>
-        <DownloadQRCode image={row.qr_code} />
-        {/* <FaPen /> */}
-        <DeleteTable table={row} />
-      </>
-    }
+      cell: (row) => (
+        <>
+          <DownloadQRCode image={row.qr_code} />
+          {/* <FaPen /> */}
+          <DeleteTable table={row} loadTables={loadTables} />
+        </>
+      ),
+    },
   ];
 
-  const [tables, setTables] = useState([])
-
-  useEffect(() => {
-
-    document.body.style.backgroundColor = '#f7f7f7'
-
+  const [tables, setTables] = useState([]);
+  const loadTables = useCallback(async () => {
     axios.defaults.headers.common[
       "Authorization"
     ] = `Bearer ${localStorage.getItem("token")}`;
 
-    axios.get(`${process.env.REACT_APP_API_URL}/table/places/${localStorage.getItem('place')}`)
-      .then(res => {
-        console.log(res.data);
-        setTables(res.data)
-      })
-      .catch(err => console.log(err))
-  },[])
+    try {
+      let t = await axios.get(
+        `${process.env.REACT_APP_API_URL}/table/places/${localStorage.getItem(
+          "place"
+        )}`
+      );
+      setTables(t.data);
+    } catch (error) {
+      console.error(error);
+    }
+  });
 
-  const addbuttonStyle = {
-    background: "red",
-    padding: "0.3rem 1.8rem",
-    color: "white",
-    marginLeft: "2rem",
-    fontWeight: "700",
-  };
+  useEffect(() => {
+    document.body.style.backgroundColor = "#f7f7f7";
+    loadTables();
+  }, []);
 
   return (
     <>
@@ -85,7 +83,7 @@ export default function Tables() {
           </div>
           <h4 style={{ fontWeight: "700" }}>Tables</h4>
 
-         <AddTableDrawer/>
+          <AddTableDrawer loadTables={loadTables} />
         </div>
         <div className="container">
           <div className="mt-3">
@@ -105,7 +103,7 @@ export default function Tables() {
                   lg={4}
                   className="d-flex flex-col justify-content-end align-items-end"
                 >
-                  <Filter classes={{clearButton: 'btn-danger'}} />
+                  <Filter classes={{ clearButton: "btn-danger" }} />
                 </Col>
                 <Col
                   xs={12}
@@ -121,7 +119,7 @@ export default function Tables() {
                   lg={4}
                   className="d-flex flex-col justify-content-end align-items-end"
                 >
-                  <Pagination classes={{ button: 'btn-danger' }} />
+                  <Pagination classes={{ button: "btn-danger" }} />
                 </Col>
               </Row>
               <Table>

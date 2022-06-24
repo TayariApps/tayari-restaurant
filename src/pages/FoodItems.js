@@ -16,6 +16,7 @@ import EditFoodItem from "../components/EditFoodItem";
 import ChangeFoodItemStatus from "../components/ChangeFoodItemStatus";
 import DiscountFood from "../components/DiscountFood";
 import { toast } from "react-toastify";
+import { Bars } from "react-loader-spinner";
 
 export default function FoodItems() {
   const STORY_HEADERS = [
@@ -61,7 +62,7 @@ export default function FoodItems() {
       prop: "discount",
       title: "Discount %",
       isSortable: true,
-      cell: (row) => row.food_discount * 100
+      cell: (row) => row.food_discount * 100,
     },
     {
       prop: "id",
@@ -80,6 +81,7 @@ export default function FoodItems() {
   const [food, setFood] = useState([]);
   const [item, setItem] = useState({});
   const [types, setTypes] = useState({});
+  const [loading, setLoading] = useState(true);
 
   const loadFood = useCallback(async () => {
     axios.defaults.headers.common[
@@ -91,18 +93,17 @@ export default function FoodItems() {
         `${process.env.REACT_APP_API_URL}/menu/place/${localStorage.getItem(
           "place"
         )}`
-      )
-        
-      let t = await axios
-      .get(
+      );
+
+      let t = await axios.get(
         `${process.env.REACT_APP_API_URL}/type/place/${localStorage.getItem(
           "place"
         )}`
-      )
+      );
 
       setFood(f.data);
       setTypes(t.data.types);
-       
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -110,7 +111,7 @@ export default function FoodItems() {
 
   useEffect(() => {
     document.body.style.background = "#f7f7f7";
-    loadFood()
+    loadFood();
   }, []);
 
   const addbuttonStyle = {
@@ -138,14 +139,16 @@ export default function FoodItems() {
     axios({
       method: "delete",
       url: `${process.env.REACT_APP_API_URL}/menu/delete/${item.id}`,
-    }).then(() => {
-      handleCloseDeleteModal()
-      loadFood()
-      toast.success('Item deleted')
-    }).catch(err => {
-      handleCloseDeleteModal()
-      toast.error(err.response.data)
     })
+      .then(() => {
+        handleCloseDeleteModal();
+        loadFood();
+        toast.success("Item deleted");
+      })
+      .catch((err) => {
+        handleCloseDeleteModal();
+        toast.error(err.response.data);
+      });
   };
 
   return (
@@ -172,46 +175,55 @@ export default function FoodItems() {
         </div>
         <div className="container">
           <div className="mt-3">
-            <DatatableWrapper
-              body={food}
-              headers={STORY_HEADERS}
-              paginationOptionsProps={{
-                initialState: {
-                  rowsPerPage: 10,
-                  options: [5, 10, 15, 20],
-                },
-              }}
-            >
-              <Row className="mb-4 p-2">
-                <Col
-                  xs={12}
-                  lg={4}
-                  className="d-flex flex-col justify-content-end align-items-end"
-                >
-                  <Filter classes={{ clearButton: "btn-danger" }} />
-                </Col>
-                <Col
-                  xs={12}
-                  sm={6}
-                  lg={4}
-                  className="d-flex flex-col justify-content-lg-center align-items-center justify-content-sm-start mb-2 mb-sm-0"
-                >
-                  <PaginationOptions alwaysShowPagination="true" />
-                </Col>
-                <Col
-                  xs={12}
-                  sm={6}
-                  lg={4}
-                  className="d-flex flex-col justify-content-end align-items-end"
-                >
-                  <Pagination classes={{ button: "btn-danger" }} />
-                </Col>
-              </Row>
-              <Table>
-                <TableHeader />
-                <TableBody />
-              </Table>
-            </DatatableWrapper>
+            {loading ? (
+              <Bars
+                heigth="100"
+                width="1400"
+                color="red"
+                ariaLabel="loading-indicator"
+              />
+            ) : (
+              <DatatableWrapper
+                body={food}
+                headers={STORY_HEADERS}
+                paginationOptionsProps={{
+                  initialState: {
+                    rowsPerPage: 10,
+                    options: [5, 10, 15, 20],
+                  },
+                }}
+              >
+                <Row className="mb-4 p-2">
+                  <Col
+                    xs={12}
+                    lg={4}
+                    className="d-flex flex-col justify-content-end align-items-end"
+                  >
+                    <Filter classes={{ clearButton: "btn-danger" }} />
+                  </Col>
+                  <Col
+                    xs={12}
+                    sm={6}
+                    lg={4}
+                    className="d-flex flex-col justify-content-lg-center align-items-center justify-content-sm-start mb-2 mb-sm-0"
+                  >
+                    <PaginationOptions alwaysShowPagination="true" />
+                  </Col>
+                  <Col
+                    xs={12}
+                    sm={6}
+                    lg={4}
+                    className="d-flex flex-col justify-content-end align-items-end"
+                  >
+                    <Pagination classes={{ button: "btn-danger" }} />
+                  </Col>
+                </Row>
+                <Table>
+                  <TableHeader />
+                  <TableBody />
+                </Table>
+              </DatatableWrapper>
+            )}
           </div>
         </div>
       </div>

@@ -14,7 +14,7 @@ import axios from "axios";
 import TransactionDrawer from "../components/TransactionDrawer";
 import DeleteOrder from "../components/DeleteOrder";
 import moment from "moment";
-import { orderBy } from "lodash";
+import { Bars } from "react-loader-spinner";
 
 export default function Transactions() {
   const STORY_HEADERS = [
@@ -91,6 +91,7 @@ export default function Transactions() {
   ];
 
   const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const loadTransactions = useCallback(async () => {
     axios.defaults.headers.common[
@@ -102,15 +103,16 @@ export default function Transactions() {
         `${process.env.REACT_APP_API_URL}/order/place/${localStorage.getItem(
           "place"
         )}`
-      )
+      );
       setOrders(t.data);
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }
-  })
+  });
 
   useEffect(() => {
-    loadTransactions()
+    loadTransactions();
   }, []);
 
   return (
@@ -135,46 +137,55 @@ export default function Transactions() {
         </div>
         <div className="container">
           <div className="mt-3">
-            <DatatableWrapper
-              body={orders}
-              headers={STORY_HEADERS}
-              paginationOptionsProps={{
-                initialState: {
-                  rowsPerPage: 10,
-                  options: [5, 10, 15, 20],
-                },
-              }}
-            >
-              <Row className="mb-4 p-2">
-                <Col
-                  xs={12}
-                  lg={4}
-                  className="d-flex flex-col justify-content-end align-items-end"
-                >
-                  <Filter classes={{ clearButton: "btn-danger" }} />
-                </Col>
-                <Col
-                  xs={12}
-                  sm={6}
-                  lg={4}
-                  className="d-flex flex-col justify-content-lg-center align-items-center justify-content-sm-start mb-2 mb-sm-0"
-                >
-                  <PaginationOptions />
-                </Col>
-                <Col
-                  xs={12}
-                  sm={6}
-                  lg={4}
-                  className="d-flex flex-col justify-content-end align-items-end"
-                >
-                  <Pagination classes={{ button: "btn-danger" }} />
-                </Col>
-              </Row>
-              <Table>
-                <TableHeader />
-                <TableBody />
-              </Table>
-            </DatatableWrapper>
+            {loading ? (
+              <Bars
+                heigth="100"
+                width="1400"
+                color="red"
+                ariaLabel="loading-indicator"
+              />
+            ) : (
+              <DatatableWrapper
+                body={orders}
+                headers={STORY_HEADERS}
+                paginationOptionsProps={{
+                  initialState: {
+                    rowsPerPage: 10,
+                    options: [5, 10, 15, 20],
+                  },
+                }}
+              >
+                <Row className="mb-4 p-2">
+                  <Col
+                    xs={12}
+                    lg={4}
+                    className="d-flex flex-col justify-content-end align-items-end"
+                  >
+                    <Filter classes={{ clearButton: "btn-danger" }} />
+                  </Col>
+                  <Col
+                    xs={12}
+                    sm={6}
+                    lg={4}
+                    className="d-flex flex-col justify-content-lg-center align-items-center justify-content-sm-start mb-2 mb-sm-0"
+                  >
+                    <PaginationOptions />
+                  </Col>
+                  <Col
+                    xs={12}
+                    sm={6}
+                    lg={4}
+                    className="d-flex flex-col justify-content-end align-items-end"
+                  >
+                    <Pagination classes={{ button: "btn-danger" }} />
+                  </Col>
+                </Row>
+                <Table>
+                  <TableHeader />
+                  <TableBody />
+                </Table>
+              </DatatableWrapper>
+            )}
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@ import { Offcanvas } from "react-bootstrap";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-export default function AddDrinkStock() {
+export default function AddDrinkStock({ loadDrinks }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -102,7 +102,8 @@ export default function AddDrinkStock() {
       })
       .then(() => {
         handleClose();
-        window.location.reload();
+        loadDrinks()
+        toast.success('Drink stock updated')
       })
       .catch((err) => {
         handleClose();

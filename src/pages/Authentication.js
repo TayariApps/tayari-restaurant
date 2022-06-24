@@ -15,6 +15,7 @@ import moment from "moment";
 import EditEmployeeDrawer from "../components/EditEmployeeDrawer";
 import { FaUser } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { Bars } from "react-loader-spinner";
 
 export default function Authentication() {
   const STORY_HEADERS = [
@@ -71,6 +72,7 @@ export default function Authentication() {
   ];
 
   const [employees, setEmployees] = useState([]);
+  const [loading, setLoading] = useState(true);
   const loadUsers = useCallback(async () => {
     axios.defaults.headers.common[
       "Authorization"
@@ -83,6 +85,7 @@ export default function Authentication() {
         )}`
       )
       setEmployees(t.data);
+      setLoading(false)
     } catch (error) {
       console.error(error);
     }
@@ -137,7 +140,13 @@ export default function Authentication() {
         </div>
         <div className="container">
           <div className="mt-3">
-            <DatatableWrapper
+            {
+              loading ? <Bars
+              heigth="100"
+              width="1400"
+              color="red"
+              ariaLabel="loading-indicator"
+            /> : <DatatableWrapper
               body={employees}
               headers={STORY_HEADERS}
               paginationOptionsProps={{
@@ -177,6 +186,7 @@ export default function Authentication() {
                 <TableBody />
               </Table>
             </DatatableWrapper>
+            }
           </div>
         </div>
       </div>

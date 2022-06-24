@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import NavigationBar from "../components/NavigationBar";
 import axios from "axios";
-import orderBy from "lodash/orderBy";
+import { Bars } from "react-loader-spinner";
 import OrderModal from "../components/OrderModal";
-import LoadingSpin from "react-loading-spin";
 
 export default function OrderStatus() {
   const [orders, setOrders] = useState([]);
@@ -22,9 +21,9 @@ export default function OrderStatus() {
 
     axios
       .get(
-        `${process.env.REACT_APP_API_URL}/order/orderStatus/${localStorage.getItem(
-          "place"
-        )}`
+        `${
+          process.env.REACT_APP_API_URL
+        }/order/orderStatus/${localStorage.getItem("place")}`
       )
       .then((res) => {
         setOrders(res.data);
@@ -49,7 +48,12 @@ export default function OrderStatus() {
             ) : (
               <div className="col-md-12 text-center">
                 {loading ? (
-                  <LoadingSpin primaryColor="red" width="20px" size="200px" />
+                  <Bars
+                    heigth="100"
+                    width="1400"
+                    color="red"
+                    ariaLabel="loading-indicator"
+                  />
                 ) : (
                   <h3>No Orders right now</h3>
                 )}

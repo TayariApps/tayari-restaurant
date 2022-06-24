@@ -3,7 +3,7 @@ import axios from "axios";
 import { Tab, Tabs } from "react-bootstrap";
 import FoodCard from "./FoodCard";
 import "../App.css";
-import LoadingSpin from "react-loading-spin";
+import { Bars } from "react-loader-spinner";
 
 export default function FoodTypes() {
   const [types, setTypes] = useState([]);
@@ -64,7 +64,12 @@ export default function FoodTypes() {
           </div>
         )
       ) : (
-        <LoadingSpin primaryColor="red" width="20px" size="200px" />
+        <Bars
+          heigth="100"
+          width="1400"
+          color="red"
+          ariaLabel="loading-indicator"
+        />
       )}
     </>
   );

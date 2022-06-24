@@ -13,8 +13,7 @@ import { Col, Row, Table } from "react-bootstrap";
 import meanBy from "lodash/meanBy";
 import axios from "axios";
 import moment from "moment";
-import EditReview from "../components/EditReview";
-import DeleteReview from "../components/DeleteReview";
+import { Bars } from "react-loader-spinner";
 
 export default function Reviews() {
   const STORY_HEADERS = [
@@ -44,10 +43,11 @@ export default function Reviews() {
       title: "Reviewed On",
       isSortable: true,
       cell: (row) => moment(row.date).format("MMMM Do YYYY, h:mm:ss a"),
-    }
+    },
   ];
 
   const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     document.body.style.backgroundColor = "#f7f7f7";
@@ -62,8 +62,8 @@ export default function Reviews() {
         )}`
       )
       .then((res) => {
-        console.log(res.data);
         setReviews(res.data);
+        setLoading(false);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -93,46 +93,55 @@ export default function Reviews() {
         </div>
         <div className="container">
           <div className="mt-3">
-            <DatatableWrapper
-              body={reviews}
-              headers={STORY_HEADERS}
-              paginationOptionsProps={{
-                initialState: {
-                  rowsPerPage: 10,
-                  options: [5, 10, 15, 20],
-                },
-              }}
-            >
-              <Row className="mb-4 p-2">
-                <Col
-                  xs={12}
-                  lg={4}
-                  className="d-flex flex-col justify-content-end align-items-end"
-                >
-                  <Filter classes={{ clearButton: "btn-danger" }} />
-                </Col>
-                <Col
-                  xs={12}
-                  sm={6}
-                  lg={4}
-                  className="d-flex flex-col justify-content-lg-center align-items-center justify-content-sm-start mb-2 mb-sm-0"
-                >
-                  <PaginationOptions alwaysShowPagination="true" />
-                </Col>
-                <Col
-                  xs={12}
-                  sm={6}
-                  lg={4}
-                  className="d-flex flex-col justify-content-end align-items-end"
-                >
-                  <Pagination classes={{ button: "btn-danger" }} />
-                </Col>
-              </Row>
-              <Table>
-                <TableHeader />
-                <TableBody />
-              </Table>
-            </DatatableWrapper>
+            {loading ? (
+              <Bars
+                heigth="100"
+                width="1400"
+                color="red"
+                ariaLabel="loading-indicator"
+              />
+            ) : (
+              <DatatableWrapper
+                body={reviews}
+                headers={STORY_HEADERS}
+                paginationOptionsProps={{
+                  initialState: {
+                    rowsPerPage: 10,
+                    options: [5, 10, 15, 20],
+                  },
+                }}
+              >
+                <Row className="mb-4 p-2">
+                  <Col
+                    xs={12}
+                    lg={4}
+                    className="d-flex flex-col justify-content-end align-items-end"
+                  >
+                    <Filter classes={{ clearButton: "btn-danger" }} />
+                  </Col>
+                  <Col
+                    xs={12}
+                    sm={6}
+                    lg={4}
+                    className="d-flex flex-col justify-content-lg-center align-items-center justify-content-sm-start mb-2 mb-sm-0"
+                  >
+                    <PaginationOptions alwaysShowPagination="true" />
+                  </Col>
+                  <Col
+                    xs={12}
+                    sm={6}
+                    lg={4}
+                    className="d-flex flex-col justify-content-end align-items-end"
+                  >
+                    <Pagination classes={{ button: "btn-danger" }} />
+                  </Col>
+                </Row>
+                <Table>
+                  <TableHeader />
+                  <TableBody />
+                </Table>
+              </DatatableWrapper>
+            )}
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@ import { Offcanvas } from "react-bootstrap";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-export default function AddMenuTypeDrawer() {
+export default function AddMenuTypeDrawer({ loadTypes }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -56,7 +56,8 @@ export default function AddMenuTypeDrawer() {
       })
       .then(() => {
         handleClose();
-        window.location.reload();
+        loadTypes()
+        toast.success('Menu Type added')
       })
       .catch((err) => toast.error("An error occured"));
   };

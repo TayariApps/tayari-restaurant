@@ -14,6 +14,7 @@ import AddMenuTypeDrawer from "../components/AddMenuTypeDrawer";
 import EditFoodType from "../components/EditFoodType";
 import DeleteFoodType from "../components/DeleteFoodType";
 import DiscountFoodType from "../components/DiscountFoodType";
+import { Bars } from "react-loader-spinner";
 
 export default function MenuTypes() {
   const STORY_HEADERS = [
@@ -32,12 +33,21 @@ export default function MenuTypes() {
     {
       prop: "discount",
       title: "Discount",
-      cell: row => row.type_discount > 0 ? <Badge pill bg="success">Active</Badge> : <Badge pill bg="danger">Not active</Badge>
+      cell: (row) =>
+        row.type_discount > 0 ? (
+          <Badge pill bg="success">
+            Active
+          </Badge>
+        ) : (
+          <Badge pill bg="danger">
+            Not active
+          </Badge>
+        ),
     },
     {
       prop: "type_discount",
       title: "Discount %",
-      cell: row => row.type_discount
+      cell: (row) => row.type_discount,
     },
     {
       prop: "id",
@@ -53,6 +63,7 @@ export default function MenuTypes() {
   ];
 
   const [types, setTypes] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const loadTypes = useCallback(async () => {
     axios.defaults.headers.common[
@@ -64,8 +75,9 @@ export default function MenuTypes() {
         `${process.env.REACT_APP_API_URL}/type/place/${localStorage.getItem(
           "place"
         )}`
-      )
+      );
       setTypes(t.data.types);
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -73,7 +85,7 @@ export default function MenuTypes() {
 
   useEffect(() => {
     document.body.style.backgroundColor = "#f7f7f7";
-    loadTypes()
+    loadTypes();
   }, []);
 
   return (
@@ -89,50 +101,59 @@ export default function MenuTypes() {
           </div>
           <h4 style={{ fontWeight: "700" }}>Food Types</h4>
 
-          <AddMenuTypeDrawer />
+          <AddMenuTypeDrawer loadTypes={loadTypes} />
         </div>
         <div className="container">
           <div className="mt-3">
-            <DatatableWrapper
-              body={types}
-              headers={STORY_HEADERS}
-              paginationOptionsProps={{
-                initialState: {
-                  rowsPerPage: 10,
-                  options: [5, 10, 15, 20],
-                },
-              }}
-            >
-              <Row className="mb-4 p-2">
-                <Col
-                  xs={12}
-                  lg={4}
-                  className="d-flex flex-col justify-content-end align-items-end"
-                >
-                  <Filter classes={{ clearButton: "btn-danger" }} />
-                </Col>
-                <Col
-                  xs={12}
-                  sm={6}
-                  lg={4}
-                  className="d-flex flex-col justify-content-lg-center align-items-center justify-content-sm-start mb-2 mb-sm-0"
-                >
-                  <PaginationOptions alwaysShowPagination="true" />
-                </Col>
-                <Col
-                  xs={12}
-                  sm={6}
-                  lg={4}
-                  className="d-flex flex-col justify-content-end align-items-end"
-                >
-                  <Pagination classes={{ button: "btn-danger" }} />
-                </Col>
-              </Row>
-              <Table>
-                <TableHeader />
-                <TableBody />
-              </Table>
-            </DatatableWrapper>
+            {loading ? (
+              <Bars
+                heigth="100"
+                width="1400"
+                color="red"
+                ariaLabel="loading-indicator"
+              />
+            ) : (
+              <DatatableWrapper
+                body={types}
+                headers={STORY_HEADERS}
+                paginationOptionsProps={{
+                  initialState: {
+                    rowsPerPage: 10,
+                    options: [5, 10, 15, 20],
+                  },
+                }}
+              >
+                <Row className="mb-4 p-2">
+                  <Col
+                    xs={12}
+                    lg={4}
+                    className="d-flex flex-col justify-content-end align-items-end"
+                  >
+                    <Filter classes={{ clearButton: "btn-danger" }} />
+                  </Col>
+                  <Col
+                    xs={12}
+                    sm={6}
+                    lg={4}
+                    className="d-flex flex-col justify-content-lg-center align-items-center justify-content-sm-start mb-2 mb-sm-0"
+                  >
+                    <PaginationOptions alwaysShowPagination="true" />
+                  </Col>
+                  <Col
+                    xs={12}
+                    sm={6}
+                    lg={4}
+                    className="d-flex flex-col justify-content-end align-items-end"
+                  >
+                    <Pagination classes={{ button: "btn-danger" }} />
+                  </Col>
+                </Row>
+                <Table>
+                  <TableHeader />
+                  <TableBody />
+                </Table>
+              </DatatableWrapper>
+            )}
           </div>
         </div>
       </div>

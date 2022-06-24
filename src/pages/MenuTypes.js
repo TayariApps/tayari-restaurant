@@ -15,6 +15,7 @@ import EditFoodType from "../components/EditFoodType";
 import DeleteFoodType from "../components/DeleteFoodType";
 import DiscountFoodType from "../components/DiscountFoodType";
 import { Bars } from "react-loader-spinner";
+import ChangeFoodtTypeStatus from "../components/ChangeFoodtTypeStatus";
 
 export default function MenuTypes() {
   const STORY_HEADERS = [
@@ -29,6 +30,17 @@ export default function MenuTypes() {
       title: "Item Count",
       isSortable: true,
       cell: (row) => row.menus.length,
+    },
+    {
+      prop: "status",
+      title: "Availability",
+      isSortable: true,
+      cell: (row) =>
+        row.status ? (
+          <Badge bg="success">Available</Badge>
+        ) : (
+          <Badge bg="danger">Not Available</Badge>
+        ),
     },
     {
       prop: "discount",
@@ -55,6 +67,7 @@ export default function MenuTypes() {
       cell: (row) => (
         <>
           <EditFoodType type={row} loadTypes={loadTypes} />
+          <ChangeFoodtTypeStatus type={row} loadTypes={loadTypes} />
           <DiscountFoodType type={row} loadTypes={loadTypes} />
           <DeleteFoodType type={row} loadTypes={loadTypes} />
         </>

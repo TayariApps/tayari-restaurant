@@ -47,12 +47,16 @@ export default function OrderModal({ order }) {
           <Modal.Title>{headerController(order)}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p><b>Order number:</b> {order.order_number}</p>
           <p>
-            {order.customer.name} at <b>Table number</b> {order.table.table_name}
+            <b>Order number:</b> {order.order_number}
           </p>
           <p>
-            <b>Time:</b> {moment(order.created_at).format('LT')}
+            {order.type == 4
+              ? `${order.customer.name} with delivery order`
+              : `${order.customer.name} at Table ${order.table?.table_name}`}
+          </p>
+          <p>
+            <b>Time:</b> {moment(order.created_at).format("LT")}
           </p>
           {order.food.length > 0 &&
             order.food.map((x) => (

@@ -21,7 +21,6 @@ export default function Transactions() {
     {
       prop: "created_at",
       title: "Created",
-      isSortable: true,
       cell: (row) => moment(row.created_at).format("LLL"),
     },
     {
@@ -60,7 +59,13 @@ export default function Transactions() {
       title: "Type",
       isSortable: true,
       cell: (row) =>
-        row.type == 1 ? "Pre-order" : row.type == 2 ? "Dine-in" : "Reservation",
+        row.type == 1
+          ? "Pre-order"
+          : row.type == 2
+          ? "Dine-in"
+          : row.type == 3
+          ? "Reservation"
+          : "Delivery",
     },
     {
       prop: "payment_status",

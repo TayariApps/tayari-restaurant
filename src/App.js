@@ -26,12 +26,14 @@ import RegisterRestaurant from "./pages/auth/RegisterRestaurant";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import PasswordReset from "./pages/auth/PasswordReset";
 import Schedule from "./pages/Schedule";
+import Splash from "./pages/Splash";
 
 function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<SignIn />} />
+        <Route path="/login" element={<SignIn />} />
+        <Route path="/" element={<Splash />} />
         <Route path="/register" element={<Register />} />
         <Route path="/home" element={<Home />} />
         <Route path="/reviews" element={<Reviews />} />

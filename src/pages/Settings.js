@@ -29,6 +29,7 @@ export default function Settings() {
     paymentNumber: "",
     paymentName: "",
     paymentNetwork: "",
+    delivery: false
   });
 
   const handleNameChange = (e) => {
@@ -159,6 +160,14 @@ export default function Settings() {
     });
   };
 
+  const handleDeliveryChange = (e) => {
+    e.persist();
+    setValues({
+      ...values,
+      delivery: !values.delivery,
+    });
+  };
+
   const handleReservationPrice = (e) => {
     e.persist();
     setValues({
@@ -191,6 +200,7 @@ export default function Settings() {
           address: res.data.address,
           phone: res.data.phone_number,
           email: res.data.email,
+          delivery: res.data.delivery == 0 ? false : true,
           location: res.data.location,
           description: res.data.description,
           openingTime:
@@ -271,6 +281,7 @@ export default function Settings() {
     formData.append("payment_number", values.paymentNumber);
     formData.append("payment_name", values.paymentName);
     formData.append("payment_network", values.paymentNetwork);
+    formData.append('delivery', values.delivery)
 
     axios.defaults.headers.common[
       "Authorization"
@@ -473,6 +484,19 @@ export default function Settings() {
                   }}
                 >
                   <div className="card-body">
+
+                  <div className="form-check form-switch mb-4">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value={values.delivery}
+                          onChange={handleDeliveryChange}
+                          checked={values.delivery}
+                        />
+                        <label className="form-check-label">Can deliver</label>
+                      </div>
+
+
                     <div className="form-group mb-3">
                       <label>Cashier number</label>
                       <input

@@ -184,7 +184,7 @@ export default function Register() {
           </form>
 
           <div className="mt-4 text-center">
-            <Link to="/" style={{ color: "#214071" }}>
+            <Link to="/login" style={{ color: "#214071" }}>
               Have an account? Sign in
             </Link>
           </div>

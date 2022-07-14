@@ -59,7 +59,7 @@ export default function MenuTypes() {
     {
       prop: "type_discount",
       title: "Discount %",
-      cell: (row) => row.type_discount,
+      cell: (row) => row.type_discount * 100,
     },
     {
       prop: "id",

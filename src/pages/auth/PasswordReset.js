@@ -93,7 +93,7 @@ export default function PasswordReset() {
               <input
                 onChange={handlePasswordChange}
                 className="form-control"
-                type="password"
+                type="text"
                 style={inputStyle}
                 placeholder="Enter new password"
               />
@@ -103,7 +103,7 @@ export default function PasswordReset() {
               <input
                 onChange={handlePasswordConfirmChange}
                 className="form-control"
-                type="password"
+                type="text"
                 style={inputStyle}
                 placeholder="Confirm new password"
               />

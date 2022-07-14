@@ -160,7 +160,7 @@ export default function Register() {
             <div className="form-group mb-4">
               <input
                 onChange={handlePasswordChange}
-                type="password"
+                type="text"
                 className="form-control"
                 style={inputStyle}
                 placeholder="Password"

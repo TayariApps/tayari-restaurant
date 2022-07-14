@@ -23,6 +23,8 @@ export default function RegisterRestaurant() {
     cuisine: "",
     country: "",
     description: "",
+    phone1: "",
+    phone2: ""
   });
 
   const textStyle = {
@@ -50,6 +52,22 @@ export default function RegisterRestaurant() {
     setValues({
       ...values,
       phone_number: e.target.value,
+    });
+  };
+
+  const handlePhone1Change = (e) => {
+    e.persist();
+    setValues({
+      ...values,
+      phone1: e.target.value,
+    });
+  };
+
+  const handlePhone2Change = (e) => {
+    e.persist();
+    setValues({
+      ...values,
+      phone2: e.target.value,
     });
   };
 
@@ -153,6 +171,16 @@ export default function RegisterRestaurant() {
     console.log(values);
     setLoading(true)
 
+    if(values.phone1.length > 0 && values.phone1.length !== 12){
+      setLoading(false)
+      return toast.error('Payment phone value should be 12 characters')
+    }
+
+    if(values.phone2.length > 0 && values.phone2.length !== 12){
+      setLoading(false)
+      return toast.error('Payment phone value should be 12 characters')
+    }
+
     const formData = new FormData();
     formData.append("name", values.name);
     formData.append("country_id", values.country);
@@ -168,6 +196,8 @@ export default function RegisterRestaurant() {
     formData.append("description", values.description);
     formData.append("banner", selectedBanner, selectedBanner.name);
     formData.append("logo", selectedLogo, selectedLogo.name);
+    formData.append("phone1", values.phone1);
+    formData.append("phone2", values.phone2);
 
     axios.defaults.headers.common[
       "Authorization"
@@ -286,6 +316,7 @@ export default function RegisterRestaurant() {
                   ))}
                 </select>
               </div>
+
               <div className="col-md-6 mb-3">
                 <select
                   className="form-control"
@@ -300,6 +331,28 @@ export default function RegisterRestaurant() {
                   ))}
                 </select>
               </div>
+              
+
+              <div className="col-md-6 mb-3">
+                <input
+                  className="form-control"
+                  style={inputStyle}
+                  type="text"
+                  onChange={handlePhone1Change}
+                  placeholder="Optional payment phone (Format of 25578XXX..)"
+                />
+              </div>
+
+              <div className="col-md-6 mb-3">
+                <input
+                  className="form-control"
+                  style={inputStyle}
+                  type="text"
+                  onChange={handlePhone2Change}
+                  placeholder="Optional payment phone (Format of 25578XXX..)"
+                />
+              </div>
+  
               <div className="col-md-12 mb-3">
                 <input
                   className="form-control"

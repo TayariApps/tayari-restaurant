@@ -15,6 +15,7 @@ import TransactionDrawer from "../components/TransactionDrawer";
 import DeleteOrder from "../components/DeleteOrder";
 import moment from "moment";
 import { Bars } from "react-loader-spinner";
+import "../index.css"
 
 export default function Transactions() {
   const STORY_HEADERS = [

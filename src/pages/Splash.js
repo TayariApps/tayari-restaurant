@@ -8,14 +8,18 @@ export default function Splash() {
 
   useEffect(() => {
     setTimeout(() => {
-      const loggedInUser = localStorage.getItem("token");
 
-      if (loggedInUser) {
-        const place = localStorage.getItem("place");
-        place ? navigate("/dashboard") : navigate("/places");
-      } else {
-        navigate("/login");
-      }
+      // const loggedInUser = localStorage.getItem("token");
+
+      // if (loggedInUser) {
+      //   const place = localStorage.getItem("place");
+      //   place ? navigate("/dashboard") : navigate("/places");
+      // } else {
+      //   navigate("/login");
+      // }
+
+      navigate('/login')
+
     }, 2000);
   });
 

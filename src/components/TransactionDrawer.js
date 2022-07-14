@@ -4,7 +4,6 @@ import { BsEyeFill } from "react-icons/bs";
 import { FaPrint } from "react-icons/fa";
 import moment from "moment";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function TransactionDrawer({ order, loadTransactions }) {
@@ -12,8 +11,6 @@ export default function TransactionDrawer({ order, loadTransactions }) {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
-  const navigate = useNavigate()
 
   const confirmPayment = (order) => {
     axios.defaults.headers.common[
@@ -44,7 +41,7 @@ export default function TransactionDrawer({ order, loadTransactions }) {
           <div className="d-flex flex-row justify-content-between">
             <div>
               <p style={{ fontWeight: "600" }}>
-                {order.customer.name} <br />
+                {order.customer?.name} <br />
                 <span style={{ fontWeight: "400", fontSize: "10pt" }}>
                   Order #{order.id} |{" "}
                   {moment(order.created_at).format("MMMM Do YYYY h:mm a")}

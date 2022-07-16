@@ -24,11 +24,9 @@ export default function FoodTypes() {
         )}`
       )
       .then((res) => {
-        console.log(res.data);
         setTypes(res.data.types);
         setFood(res.data.food);
         setLoading(false);
-        console.log(loading);
       })
       .catch((err) => {
         setLoading(false);

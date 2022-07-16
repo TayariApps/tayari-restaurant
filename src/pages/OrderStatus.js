@@ -44,7 +44,9 @@ export default function OrderStatus() {
         <div className="container">
           <div className="row">
             {orders?.length > 0 ? (
-              orders.map((o) => <OrderModal key={o.id} order={o} />)
+              orders.map((o) => <div key={o.id} className="col-md-3">
+                <OrderModal order={o} />
+              </div>)
             ) : (
               <div className="col-md-12 text-center">
                 {loading ? (

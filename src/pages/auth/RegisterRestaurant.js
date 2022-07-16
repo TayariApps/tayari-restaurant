@@ -10,7 +10,7 @@ export default function RegisterRestaurant() {
   const [cuisines, setCuisines] = useState([]);
   const [selectedLogo, setSelectedLogo] = useState(null);
   const [selectedBanner, setSelectedBanner] = useState(null);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [values, setValues] = useState({
     name: "",
     phone_number: "",
@@ -24,7 +24,7 @@ export default function RegisterRestaurant() {
     country: "",
     description: "",
     phone1: "",
-    phone2: ""
+    phone2: "",
   });
 
   const textStyle = {
@@ -169,16 +169,26 @@ export default function RegisterRestaurant() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(values);
-    setLoading(true)
+    setLoading(true);
 
-    if(values.phone1.length > 0 && values.phone1.length !== 12){
-      setLoading(false)
-      return toast.error('Payment phone value should be 12 characters')
+    if (values.phone1.length > 0 && values.phone1.length !== 12) {
+      setLoading(false);
+      return toast.error("Payment phone value should be 12 characters");
     }
 
-    if(values.phone2.length > 0 && values.phone2.length !== 12){
-      setLoading(false)
-      return toast.error('Payment phone value should be 12 characters')
+    if (values.phone2.length > 0 && values.phone2.length !== 12) {
+      setLoading(false);
+      return toast.error("Payment phone value should be 12 characters");
+    }
+
+    if (selectedBanner == null) {
+      setLoading(false);
+      return toast.error("Add Restaurant banner");
+    }
+
+    if (selectedLogo == null) {
+      setLoading(false);
+      return toast.error("Add Restaurant logo");
     }
 
     const formData = new FormData();
@@ -206,11 +216,11 @@ export default function RegisterRestaurant() {
     axios
       .post(`${process.env.REACT_APP_API_URL}/place/store`, formData)
       .then((res) => {
-        setLoading(false)
+        setLoading(false);
         navigate("/places");
       })
       .catch((err) => {
-        setLoading(false)
+        setLoading(false);
         toast.error(err.response.data);
       });
   };
@@ -222,7 +232,7 @@ export default function RegisterRestaurant() {
 
   return (
     <div className="container-fluid">
-      <div className="container " style={{ padding: "2rem 0" }}>
+      <div className="container" style={{ padding: "2rem 0" }}>
         <h3 style={{ fontWeight: "700", color: "#214071" }}>
           Restaurant Registration
         </h3>
@@ -331,7 +341,6 @@ export default function RegisterRestaurant() {
                   ))}
                 </select>
               </div>
-              
 
               <div className="col-md-6 mb-3">
                 <input
@@ -339,7 +348,7 @@ export default function RegisterRestaurant() {
                   style={inputStyle}
                   type="text"
                   onChange={handlePhone1Change}
-                  placeholder="Optional payment phone (Format of 25578XXX..)"
+                  placeholder="Optional order phone (Format of 25578XXX..)"
                 />
               </div>
 
@@ -349,10 +358,10 @@ export default function RegisterRestaurant() {
                   style={inputStyle}
                   type="text"
                   onChange={handlePhone2Change}
-                  placeholder="Optional payment phone (Format of 25578XXX..)"
+                  placeholder="Optional order phone (Format of 25578XXX..)"
                 />
               </div>
-  
+
               <div className="col-md-12 mb-3">
                 <input
                   className="form-control"
@@ -408,9 +417,17 @@ export default function RegisterRestaurant() {
               </div>
 
               <div className="mt-3 text-center">
-                <button type="submit" style={submitBtnStyle}>
-                  { loading ? 'Submitting' : 'Submit' }
-                </button>
+                {loading ? (
+                  <div className="d-flex justify-content-center">
+                    <div className="spinner-border text-danger" role="status">
+                      <span className="visually-hidden">Loading...</span>
+                    </div>
+                  </div>
+                ) : (
+                  <button type="submit" style={submitBtnStyle}>
+                    Submit
+                  </button>
+                )}
               </div>
             </div>
           </form>

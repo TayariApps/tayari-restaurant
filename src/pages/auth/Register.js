@@ -72,6 +72,10 @@ export default function Register() {
     setLoading(true);
     console.log(values);
 
+    if(values.phone.length !== 12){
+      return toast.error('Phone should be of format of 2557...')
+    }
+
     const data = {
       name: `${values.fname} ${values.lname}`,
       email: values.email,
@@ -153,7 +157,7 @@ export default function Register() {
                 onChange={handlePhoneChange}
                 className="form-control"
                 style={inputStyle}
-                placeholder="Phone number"
+                placeholder="Phone number with format of 25578..."
               />
             </div>
 

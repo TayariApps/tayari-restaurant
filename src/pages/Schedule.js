@@ -1,4 +1,5 @@
 import axios from "axios";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import NavigationBar from "../components/NavigationBar";
@@ -130,28 +131,34 @@ export default function Schedule() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true)
+    setLoading(true);
 
     axios.defaults.headers.common[
       "Authorization"
     ] = `Bearer ${localStorage.getItem("token")}`;
 
-    axios.post(`${process.env.REACT_APP_API_URL}/schedule/update`, {
-      place: localStorage.getItem("place"),
-      monday: values.monday,
-      tuesday: values.tuesday,
-      wednesday: values.wednesday,
-      thursday: values.thursday,
-      friday: values.friday,
-      saturday: values.saturday,
-      sunday: values.sunday,
-    }).then((res) => {
-      setLoading(false)
-      toast.success(res.data)
-    }).catch(err => {
-      setLoading(false)
-      toast.error(err.response.data)
-    })
+    const singleday = moment().format("dddd");
+
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/schedule/update`, {
+        place: localStorage.getItem("place"),
+        monday: values.monday,
+        tuesday: values.tuesday,
+        wednesday: values.wednesday,
+        thursday: values.thursday,
+        friday: values.friday,
+        saturday: values.saturday,
+        sunday: values.sunday,
+        day: singleday
+      })
+      .then((res) => {
+        setLoading(false);
+        toast.success(res.data);
+      })
+      .catch((err) => {
+        setLoading(false);
+        toast.error(err.response.data);
+      });
   };
 
   return (
@@ -188,9 +195,10 @@ export default function Schedule() {
                 <div className="card-body">
                   <div className="row">
                     <div className="col-md-12 mb-3">
-                    <p>
-                      Switch on or off the days when your restaurant/place is going to be open or closed.
-                    </p>
+                      <p>
+                        Switch on or off the days when your restaurant/place is
+                        going to be open or closed.
+                      </p>
                     </div>
                     <div className="col-md-6 mb-4">
                       {/* Start of column */}

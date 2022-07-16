@@ -66,7 +66,7 @@ export default function MenuTypes() {
       title: "Actions",
       cell: (row) => (
         <>
-          <EditFoodType type={row} loadTypes={loadTypes} />
+          <EditFoodType type={row} loadTypes={loadTypes} drinkTypes={drinkTypes} />
           <ChangeFoodtTypeStatus type={row} loadTypes={loadTypes} />
           <DiscountFoodType type={row} loadTypes={loadTypes} />
           <DeleteFoodType type={row} loadTypes={loadTypes} />
@@ -77,6 +77,29 @@ export default function MenuTypes() {
 
   const [types, setTypes] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [drinkTypes, setDrinkTypes] = useState([]);
+
+  const loadDrinkTypes = useCallback(async () => {
+    axios.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer ${localStorage.getItem("token")}`;
+
+    try {
+      let t = await axios
+        .get(
+          `${
+            process.env.REACT_APP_API_URL
+          }/place/drinkstock/${localStorage.getItem("place")}`
+        )
+        .then((r) => {
+          setDrinkTypes(r.data);
+          console.log(r.data);
+          setLoading(false);
+        });
+    } catch (error) {
+      console.error(error);
+    }
+  });
 
   const loadTypes = useCallback(async () => {
     axios.defaults.headers.common[
@@ -90,7 +113,6 @@ export default function MenuTypes() {
         )}`
       );
       setTypes(t.data.types);
-      setLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -99,6 +121,7 @@ export default function MenuTypes() {
   useEffect(() => {
     document.body.style.backgroundColor = "#f7f7f7";
     loadTypes();
+    loadDrinkTypes();
   }, []);
 
   return (
@@ -114,7 +137,7 @@ export default function MenuTypes() {
           </div>
           <h4 style={{ fontWeight: "700" }}>Food Types</h4>
 
-          <AddMenuTypeDrawer loadTypes={loadTypes} />
+          <AddMenuTypeDrawer loadTypes={loadTypes} drinkTypes={drinkTypes} />
         </div>
         <div className="container">
           <div className="mt-3">

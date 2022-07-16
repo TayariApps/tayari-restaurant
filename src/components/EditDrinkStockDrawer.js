@@ -99,7 +99,7 @@ export default function EditDrinkStockDrawer({ drink, loadDrinks }) {
               <label>Drink name</label>
               <input value={values.name} className="form-control" disabled />
             </div>
-            <div className="form-group mb-3">
+            {/* <div className="form-group mb-3">
               <label>Quantity</label>
               <input
                 value={values.quantity}
@@ -107,8 +107,8 @@ export default function EditDrinkStockDrawer({ drink, loadDrinks }) {
                 onChange={handleQuantityChange}
                 className="form-control"
               />
-            </div>
-            <div className="form-group mb-3">
+            </div> */}
+            {/* <div className="form-group mb-3">
               <label>Buying Price</label>
               <input
                 value={values.buyingPrice}
@@ -116,7 +116,7 @@ export default function EditDrinkStockDrawer({ drink, loadDrinks }) {
                 onChange={handleBuyingPriceChange}
                 className="form-control"
               />
-            </div>
+            </div> */}
             <div className="form-group mb-5">
               <label>Selling Price</label>
               <input

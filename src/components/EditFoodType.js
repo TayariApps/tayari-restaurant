@@ -4,19 +4,49 @@ import { Offcanvas } from "react-bootstrap";
 import { FaPen } from "react-icons/fa";
 import { toast } from "react-toastify";
 
-export default function EditFoodType({ type, loadTypes }) {
+export default function EditFoodType({ type, loadTypes, drinkTypes }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => {
-    setName(type.name);
+    setValues({
+      name: type.name,
+      addonActive: type.addon == 0 ? false : true,
+      type: type.drink_type_id == null ? "" : type.drink_type_id
+    });
+    console.log(values.addonActive);
     setShow(true);
   };
 
-  const [name, setName] = useState("");
+  const [values, setValues] = useState({
+    name: "",
+    addonActive: false,
+    type: "",
+  });
 
   const handleNameChange = (e) => {
     e.persist();
-    setName(e.target.value);
+    setValues({
+      ...values,
+      name: e.target.value,
+    });
+  };
+
+  const handleAddOnChange = (e) => {
+    e.persist();
+
+    console.log(values.addonActive);
+    setValues({
+      ...values,
+      addonActive: !values.addonActive,
+    });
+  };
+
+  const handleDrinkType = (e) => {
+    e.persist();
+    setValues({
+      ...values,
+      type: e.target.value
+    });
   };
 
   const inputStyle = {
@@ -46,7 +76,9 @@ export default function EditFoodType({ type, loadTypes }) {
 
     axios
       .post(`${process.env.REACT_APP_API_URL}/type/update/${type.id}`, {
-        name: name,
+        name: values.name,
+        addon: values.addonActive,
+        drink_type_id: values.type
       })
       .then(() => {
         toast.success("Food type updated");
@@ -55,7 +87,7 @@ export default function EditFoodType({ type, loadTypes }) {
       })
       .catch((err) => {
         console.log(err);
-        toast.error("Food type could not be updated");
+        toast.error(err.response.data);
       });
   };
 
@@ -72,12 +104,39 @@ export default function EditFoodType({ type, loadTypes }) {
             <div className="form-group mb-3">
               <input
                 className="form-control"
-                value={name}
+                value={values.name}
                 onChange={handleNameChange}
                 style={inputStyle}
                 placeholder="Food type name"
               />
             </div>
+
+            <div className="form-check form-switch mb-3">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                value={values.addonActive}
+                onChange={handleAddOnChange}
+                checked={values.addonActive}
+              />
+              <label className="form-check-label">Has Add On</label>
+            </div>
+
+            <div className="form-group mb-4">
+                <select
+                  className="form-control"
+                  style={inputStyle}
+                  onChange={handleDrinkType}
+                  value={values.type}
+                >
+                  <option value="">Add on (optional)</option>
+                  {drinkTypes.map((t) => (
+                    <option key={t.id} value={t.id}>
+                      {t.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
             <div className="d-flex flex-row justify-content-between mt-3">
               <button

@@ -3,16 +3,41 @@ import { Offcanvas } from "react-bootstrap";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-export default function AddMenuTypeDrawer({ loadTypes }) {
+export default function AddMenuTypeDrawer({ loadTypes, drinkTypes }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const [name, setName] = useState("");
+  const [values, setValues] = useState({
+    name: "",
+    addonActive: false,
+    type: "",
+  });
 
   const handleNameChange = (e) => {
     e.persist();
-    setName(e.target.value);
+    setValues({
+      ...values,
+      name: e.target.value,
+    });
+  };
+
+  const handleAddOnChange = (e) => {
+    e.persist();
+
+    console.log(values.addonActive);
+    setValues({
+      ...values,
+      addonActive: !values.addonActive,
+    });
+  };
+
+  const handleDrinkType = (e) => {
+    e.persist();
+    setValues({
+      ...values,
+      type: e.target.value
+    });
   };
 
   const addbuttonStyle = {
@@ -43,7 +68,6 @@ export default function AddMenuTypeDrawer({ loadTypes }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(name);
 
     axios.defaults.headers.common[
         "Authorization"
@@ -51,15 +75,17 @@ export default function AddMenuTypeDrawer({ loadTypes }) {
 
     axios
       .post(`${process.env.REACT_APP_API_URL}/type/store`, {
-        name: name,
+        name: values.name,
         place_id: localStorage.getItem("place"),
+        addon: values.addonActive,
+        drink_type_id: values.type
       })
       .then(() => {
         handleClose();
         loadTypes()
         toast.success('Menu Type added')
       })
-      .catch((err) => toast.error("An error occured"));
+      .catch((err) => toast.error(err.response.data));
   };
 
   return (
@@ -74,7 +100,7 @@ export default function AddMenuTypeDrawer({ loadTypes }) {
         </Offcanvas.Header>
         <Offcanvas.Body>
           <form onSubmit={handleSubmit} id="table-form">
-            <div className="form-group mb-5">
+            <div className="form-group mb-3">
               <input
                 className="form-control"
                 onChange={handleNameChange}
@@ -82,6 +108,33 @@ export default function AddMenuTypeDrawer({ loadTypes }) {
                 placeholder="Food type name"
               />
             </div>
+
+            <div className="form-check form-switch mb-3">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                value={values.addonActive}
+                onChange={handleAddOnChange}
+                checked={values.addonActive}
+              />
+              <label className="form-check-label">Has Add On</label>
+            </div>
+
+            <div className="form-group mb-4">
+                <select
+                  className="form-control"
+                  style={inputStyle}
+                  onChange={handleDrinkType}
+                  value={values.type}
+                >
+                  <option value="">Add on (optional)</option>
+                  {drinkTypes.map((t) => (
+                    <option key={t.id} value={t.id}>
+                      {t.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
             <div className="d-flex flex-row justify-content-between mt-3">
               <button

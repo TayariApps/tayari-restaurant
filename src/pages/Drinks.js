@@ -23,32 +23,10 @@ export default function Drinks() {
       isSortable: true,
     },
     {
-      prop: "quantity",
-      title: "Quantity",
-      isSortable: true,
-      cell: (row) => row.pivot.quantity,
-    },
-    {
       prop: "selling_price",
       title: "Selling Price",
       isSortable: true,
       cell: (row) => row.pivot.selling_price,
-    },
-    {
-      prop: "buying_price",
-      title: "Buying price",
-      isSortable: true,
-      cell: (row) => row.pivot.buying_price,
-    },
-    {
-      prop: "id",
-      title: "Stock",
-      cell: (row) =>
-        row.pivot.quantity > 0 ? (
-          <Badge bg="success">In Stock</Badge>
-        ) : (
-          <Badge bg="danger">Out of stock</Badge>
-        ),
     },
     {
       prop: "id",

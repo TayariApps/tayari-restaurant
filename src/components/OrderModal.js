@@ -35,7 +35,7 @@ export default function OrderModal({ order }) {
 
   return (
     <>
-      <div className="col-md-3" onClick={handleShow}>
+      <div onClick={handleShow}>
         <Order order={order} />
       </div>
 
@@ -61,7 +61,7 @@ export default function OrderModal({ order }) {
           {order.food.length > 0 &&
             order.food.map((x) => (
               <p>
-                {x.pivot.quantity} {x.menu_name}
+                {x.pivot.quantity} x {x.menu_name}
               </p>
             ))}
           {order.drinks.length > 0 &&

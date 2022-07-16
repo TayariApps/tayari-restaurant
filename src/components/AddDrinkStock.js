@@ -95,9 +95,9 @@ export default function AddDrinkStock({ loadDrinks }) {
     axios
       .post(`${process.env.REACT_APP_API_URL}/drink/createStock`, {
         drink_id: values.drink,
-        quantity: values.quantity,
+        // quantity: values.quantity,
         selling_price: values.selling_price,
-        buying_price: values.buying_price,
+        // buying_price: values.buying_price,
         place_id: localStorage.getItem("place"),
       })
       .then(() => {
@@ -138,23 +138,23 @@ export default function AddDrinkStock({ loadDrinks }) {
               </select>
             </div>
 
-            <div className="form-group mb-3">
+            {/* <div className="form-group mb-3">
               <input
                 className="form-control"
                 onChange={handleQuantityChange}
                 style={inputStyle}
                 placeholder="Quantity of drinks in stock (optional)"
               />
-            </div>
+            </div> */}
 
-            <div className="form-group mb-3">
+            {/* <div className="form-group mb-3">
               <input
                 className="form-control"
                 onChange={handleBuyingPriceChange}
                 style={inputStyle}
                 placeholder="Enter buying price"
               />
-            </div>
+            </div> */}
 
             <div className="form-group mb-5">
               <input

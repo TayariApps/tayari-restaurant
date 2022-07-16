@@ -10,25 +10,28 @@ export default function TransactionDrawer({ order, loadTransactions }) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = () => {
+    console.log(order);
+    setShow(true);
+  };
 
   const confirmPayment = (order) => {
     axios.defaults.headers.common[
       "Authorization"
     ] = `Bearer ${localStorage.getItem("token")}`;
-    
+
     axios
       .get(
         `${process.env.REACT_APP_API_URL}/order/restaurantConfirmPayment/${order.id}`
       )
       .then(() => {
         handleClose();
-        loadTransactions()
-        toast.success('Payment confirmed')
+        loadTransactions();
+        toast.success("Payment confirmed");
       })
       .catch((err) => {
-        console.log(err)
-        toast.error('Could not confirm payment')
+        console.log(err);
+        toast.error("Could not confirm payment");
       });
   };
 
@@ -49,9 +52,9 @@ export default function TransactionDrawer({ order, loadTransactions }) {
               </p>
             </div>
             <div>
-              <button className="btn btn-danger">
+              {/* <button className="btn btn-danger">
                 <FaPrint /> Print
-              </button>
+              </button> */}
             </div>
           </div>
 
@@ -69,7 +72,14 @@ export default function TransactionDrawer({ order, loadTransactions }) {
                   <tr key={f.id}>
                     <td>{f.menu_name}</td>
                     <td>{f.pivot.quantity}</td>
-                    <td>Tzs {f.price}</td>
+                    <td>TZS {f.pivot.cost}</td>
+                  </tr>
+                ))}
+                {order.drinks.map((d) => (
+                  <tr key={d.id}>
+                    <td>{d.name}</td>
+                    <td>{d.pivot.quantity}</td>
+                    <td>TZS {d.pivot.price}</td>
                   </tr>
                 ))}
               </tbody>
@@ -87,7 +97,7 @@ export default function TransactionDrawer({ order, loadTransactions }) {
                     <small>Tzs {order.cost}</small>
                   </td>
                 </tr>
-                <tr>
+                {/* <tr>
                   <td></td>
                   <td>
                     <small>Service fee</small>
@@ -95,14 +105,16 @@ export default function TransactionDrawer({ order, loadTransactions }) {
                   <td>
                     <small>Tzs 0.00</small>
                   </td>
-                </tr>
+                </tr> */}
                 <tr>
                   <td></td>
                   <td>
                     <small>Total Paid in CASH</small>
                   </td>
                   <td>
-                    <small>Tzs {order.cost}</small>
+                    <small>
+                      <b>Tzs {order.cost}</b>
+                    </small>
                   </td>
                 </tr>
               </tbody>

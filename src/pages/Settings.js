@@ -29,6 +29,7 @@ export default function Settings() {
     paymentNumber: "",
     paymentName: "",
     paymentNetwork: "",
+    phone1: "",
     delivery: false
   });
 
@@ -136,6 +137,22 @@ export default function Settings() {
     });
   };
 
+  const handlePhone1Number = (e) => {
+    e.persist();
+    setValues({
+      ...values,
+      phone1: e.target.value,
+    });
+  };
+
+  // const handlePhone2Number = (e) => {
+  //   e.persist();
+  //   setValues({
+  //     ...values,
+  //     phone2: e.target.value,
+  //   });
+  // };
+
   const handleAccountName = (e) => {
     e.persist();
     setValues({
@@ -228,6 +245,11 @@ export default function Settings() {
             res.data.payment_network == null ? "" : res.data.payment_network,
           paymentNumber:
             res.data.payment_number == null ? "" : res.data.payment_number,
+          phone1: res.data.phones.length > 0 ? res.data.phones.find(e => e.place_id == localStorage.getItem(
+            "place"
+          )).phone == null ? "" : res.data.phones.find(e => e.place_id == localStorage.getItem(
+            "place"
+          )).phone : ""
         });
 
         axios.get(`${process.env.REACT_APP_API_URL}/cuisine`).then((x) => {
@@ -282,6 +304,7 @@ export default function Settings() {
     formData.append("payment_name", values.paymentName);
     formData.append("payment_network", values.paymentNetwork);
     formData.append('delivery', values.delivery)
+    formData.append('phone1', values.phone1)
 
     axios.defaults.headers.common[
       "Authorization"
@@ -505,6 +528,17 @@ export default function Settings() {
                         style={inputStyle}
                         placeholder="Please enter phone number starting with 2557xx...."
                         onChange={handleCashierNumber}
+                      />
+                    </div>
+
+                    <div className="form-group mb-3">
+                      <label>Optional Order phone</label>
+                      <input
+                        className="form-control"
+                        value={values.phone1 || ""}
+                        style={inputStyle}
+                        placeholder="Please enter phone number starting with 2557xx...."
+                        onChange={handlePhone1Number}
                       />
                     </div>
 

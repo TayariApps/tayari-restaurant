@@ -7,7 +7,10 @@ export default function OrderModal({ order }) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = () => {
+    console.log(order);
+    setShow(true);
+  };
 
   const headerController = (order) => {
     if (order.status == 1) {
@@ -61,7 +64,8 @@ export default function OrderModal({ order }) {
           {order.food.length > 0 &&
             order.food.map((x) => (
               <p>
-                {x.pivot.quantity} x {x.menu_name}
+                {x.pivot.quantity} x {x.menu_name}{" "}
+                {x.pivot.details == "" ? "" : `with extras: ${x.pivot.details}`}
               </p>
             ))}
           {order.drinks.length > 0 &&

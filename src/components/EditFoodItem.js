@@ -17,8 +17,8 @@ export default function EditFoodItem({ food, types, loadFood }) {
       type: food.type_id,
       description: food.description,
       foodImage: food.banner,
+      kilos: food.kilos
     });
-
     setShow(true);
   };
   const [selectedBanner, setSelectedBanner] = useState(null);
@@ -31,6 +31,7 @@ export default function EditFoodItem({ food, types, loadFood }) {
     type: "",
     ingredients: "",
     description: "",
+    kilos: "",
     foodImage: "",
   });
 
@@ -39,6 +40,14 @@ export default function EditFoodItem({ food, types, loadFood }) {
     setValues({
       ...values,
       name: e.target.value,
+    });
+  };
+
+  const handleKilosChange = (e) => {
+    e.persist();
+    setValues({
+      ...values,
+      kilos: e.target.value,
     });
   };
 
@@ -104,6 +113,8 @@ export default function EditFoodItem({ food, types, loadFood }) {
     formData.append("type", values.type);
     formData.append("menu_id", values.id);
     formData.append("time", values.time);
+    formData.append("time", values.time);
+    formData.append("kilos", values.kilos);
     formData.append("ingredients", values.ingredients);
     selectedBanner !== null &&
       formData.append("banner", selectedBanner, selectedBanner.name);
@@ -182,6 +193,7 @@ export default function EditFoodItem({ food, types, loadFood }) {
                   value={values.time}
                 />
               </div>
+
               <div className="col-md-6 mb-3">
                 <label>Food type</label>
                 <select
@@ -197,6 +209,17 @@ export default function EditFoodItem({ food, types, loadFood }) {
                     ))}
                 </select>
               </div>
+
+              <div className="col-md-6 mb-3">
+                <label>Kilos</label>
+                <input
+                  className="form-control"
+                  onChange={handleKilosChange}
+                  value={values.kilos || ""}
+                />
+              </div>
+              
+
               <div className="col-md-12 mb-3">
                 <label>Item ingredients</label>
                 <textarea

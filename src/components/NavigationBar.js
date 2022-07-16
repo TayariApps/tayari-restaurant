@@ -21,7 +21,7 @@ export default function NavigationBar() {
           <Nav className="mx-auto">
             <Nav.Link as={Link} to="/home" style={navStyle}>
              <div className="d-flex flex-row justify-content-between">
-             <i class="fi fi-sr-home" style={{ fontSize: "30px" }}></i>{" "}
+             <i className="fi fi-sr-home" style={{ fontSize: "30px" }}></i>{" "}
               <p style={{ margin:"9px 5px 0 10px" }}>
                 POS
               </p>
@@ -29,7 +29,7 @@ export default function NavigationBar() {
             </Nav.Link>
             <Nav.Link as={Link} to="/transactions" style={navStyle}>
             <div className="d-flex flex-row justify-content-between">
-             <i class="fi fi-rr-chart-line-up" style={{ fontSize: "30px" }}></i>{" "}
+             <i className="fi fi-rr-chart-line-up" style={{ fontSize: "30px" }}></i>{" "}
               <p style={{ margin:"9px 5px 0 10px" }}>
                 Transactions
               </p>
@@ -37,7 +37,7 @@ export default function NavigationBar() {
             </Nav.Link>
             <Nav.Link as={Link} to="/reservation" style={navStyle}>
             <div className="d-flex flex-row justify-content-between">
-             <i class="fi fi-sr-user" style={{ fontSize: "30px" }}></i>{" "}
+             <i className="fi fi-sr-user" style={{ fontSize: "30px" }}></i>{" "}
               <p style={{ margin:"9px 5px 0 10px" }}>
                 Reservations
               </p>
@@ -45,7 +45,7 @@ export default function NavigationBar() {
             </Nav.Link>
             <Nav.Link as={Link} to="/orderstatus" style={navStyle}>
             <div className="d-flex flex-row justify-content-between">
-             <i class="fi fi-sr-apps" style={{ fontSize: "30px" }}></i>{" "}
+             <i className="fi fi-sr-apps" style={{ fontSize: "30px" }}></i>{" "}
               <p style={{ margin:"9px 5px 0 10px" }}>
                 Order Status
               </p>

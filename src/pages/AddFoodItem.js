@@ -250,6 +250,16 @@ export default function AddFoodItem() {
                         ))}
                       </select>
                     </div>
+                   
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-4">
+                <div className="card" style={{ width: "100%", border: "none" }}>
+                  <div className="card-body">
+                    {/* <h4>Add Add-ons(optional)</h4> */}
+                    <div className="row">
+
                     <div className="form-group mb-3">
                       <label>Select food type</label>
                       <select
@@ -275,14 +285,7 @@ export default function AddFoodItem() {
                         className="form-control"
                       />
                     </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="card" style={{ width: "100%", border: "none" }}>
-                  <div className="card-body">
-                    <h4>Add Add-ons(optional)</h4>
-                    <div className="row">
+
                       <div className="form-group mb-3">
                         <label>Item ingredients</label>
                         <textarea

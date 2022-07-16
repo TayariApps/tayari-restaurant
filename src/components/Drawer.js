@@ -108,7 +108,7 @@ export default function Drawer() {
         }}
       >
         <i
-          class="fi fi-ss-hat-chef"
+          className="fi fi-ss-hat-chef"
           style={{ fontSize: "35px", color: "white" }}
           onClick={handleShow}
         ></i>
@@ -127,14 +127,14 @@ export default function Drawer() {
                 style={linkStyle}
               >
                 <div className="d-flex flex-row justify-content-start">
-                  <i class="fi fi-rr-users me-4"></i> <p>Customers</p>
+                  <i className="fi fi-rr-users me-4"></i> <p>Customers</p>
                 </div>
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
               <Nav.Link onClick={items} eventKey="items" style={linkStyle}>
                 <div className="d-flex flex-row justify-content-start">
-                  <i class="fi fi-sr-restaurant me-4"></i> <p>Food Items</p>
+                  <i className="fi fi-sr-restaurant me-4"></i> <p>Food Items</p>
                 </div>
               </Nav.Link>
             </Nav.Item>
@@ -142,7 +142,7 @@ export default function Drawer() {
             <Nav.Item>
               <Nav.Link onClick={types} eventKey="items" style={linkStyle}>
                 <div className="d-flex flex-row justify-content-start">
-                  <i class="fi fi-rr-list-check me-4"></i> <p>Food Types</p>
+                  <i className="fi fi-rr-list-check me-4"></i> <p>Food Types</p>
                 </div>
               </Nav.Link>
             </Nav.Item>
@@ -158,7 +158,7 @@ export default function Drawer() {
             <Nav.Item>
               <Nav.Link onClick={drinks} eventKey="items" style={linkStyle}>
                 <div className="d-flex flex-row justify-content-start">
-                  <i class="fi fi-rr-mug-hot me-4"></i> <p>Drinks</p>
+                  <i className="fi fi-rr-mug-hot me-4"></i> <p>Drinks</p>
                 </div>
               </Nav.Link>
             </Nav.Item>
@@ -178,7 +178,7 @@ export default function Drawer() {
             <Nav.Item>
               <Nav.Link onClick={review} eventKey="reviews" style={linkStyle}>
                 <div className="d-flex flex-row justify-content-start">
-                  <i class="fi fi-rr-comment-alt me-4"></i> <p>Reviews</p>
+                  <i className="fi fi-rr-comment-alt me-4"></i> <p>Reviews</p>
                 </div>
               </Nav.Link>
             </Nav.Item>
@@ -190,7 +190,7 @@ export default function Drawer() {
                 style={linkStyle}
               >
                 <div className="d-flex flex-row justify-content-start">
-                  <i class="fi fi-rr-settings me-4"></i> <p>Settings</p>
+                  <i className="fi fi-rr-settings me-4"></i> <p>Settings</p>
                 </div>
               </Nav.Link>
             </Nav.Item>
@@ -202,7 +202,7 @@ export default function Drawer() {
                 style={linkStyle}
               >
                 <div className="d-flex flex-row justify-content-start">
-                  <i class="fi fi-rr-calendar-check me-4"></i> <p>Schedule</p>
+                  <i className="fi fi-rr-calendar-check me-4"></i> <p>Schedule</p>
                 </div>
               </Nav.Link>
             </Nav.Item>
@@ -214,7 +214,7 @@ export default function Drawer() {
                 style={linkStyle}
               >
                 <div className="d-flex flex-row justify-content-start">
-                  <i class="fi fi-rr-home-location me-4"></i> <p>Restaurants</p>
+                  <i className="fi fi-rr-home-location me-4"></i> <p>Restaurants</p>
                 </div>
               </Nav.Link>
             </Nav.Item>
@@ -236,7 +236,7 @@ export default function Drawer() {
             <Nav.Item>
               <Nav.Link onClick={logout} eventKey="logout" style={linkStyle}>
                 <div className="d-flex flex-row justify-content-start">
-                  <i class="fi fi-rr-sign-out-alt me-4"></i> <p>Logout</p>
+                  <i className="fi fi-rr-sign-out-alt me-4"></i> <p>Logout</p>
                 </div>
               </Nav.Link>
             </Nav.Item>

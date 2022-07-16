@@ -44,12 +44,10 @@ export default function SignIn() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true)
-    console.log(values);
 
     axios
       .post(`${process.env.REACT_APP_API_URL}/loginOwner`, values)
       .then((res) => {
-        console.log("registered");
         localStorage.setItem("user", JSON.stringify(res.data.user));
         localStorage.setItem("token", res.data.token);
         setLoading(false)

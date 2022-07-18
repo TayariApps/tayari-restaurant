@@ -30,8 +30,11 @@ export default function AddFoodItem() {
 
   const [types, setTypes] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [loaderText, setLoaderText] = useState("Loading...");
 
   useEffect(() => {
+    setInitialLoading(true);
     axios.defaults.headers.common[
       "Authorization"
     ] = `Bearer ${localStorage.getItem("token")}`;
@@ -41,8 +44,18 @@ export default function AddFoodItem() {
           "place"
         )}`
       )
-      .then((res) => setTypes(res.data.types))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        setTypes(res.data.types);
+        if (res.data.types.length > 0) {
+          setInitialLoading(false);
+        } else {
+          setLoaderText("Add a food type first");
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+        setLoaderText("An error occured. Failed to load food types.");
+      });
   }, []);
 
   const sizes = ["Choose size", "Large", "Medium", "Small"];
@@ -161,153 +174,163 @@ export default function AddFoodItem() {
         }}
       >
         <div className="container">
-          <form onSubmit={handleSubmit} id="food-item-form">
-            <div className="row">
-              <div className="col-md-3">
-                <div
-                  onClick={goBack}
-                  className="d-flex flex-row justify-content-start"
-                >
-                  <IoIosArrowRoundBack color="#214071" size="40" />
-                  <h5 className="ms-2 mt-2" style={{ fontWeight: "700" }}>
-                    Back
-                  </h5>
-                </div>
-
-                {selectedImage ? (
-                  <img
-                    alt="img"
-                    width={"250px"}
-                    className="mb-3"
-                    src={URL.createObjectURL(selectedImage)}
-                  />
-                ) : (
+          {initialLoading ? (
+            <div className="text-center mt-3">
+              <h3>{loaderText}</h3>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} id="food-item-form">
+              <div className="row">
+                <div className="col-md-3">
                   <div
-                    className="my-3 card bg-danger text-white"
-                    style={{ width: "100%" }}
+                    onClick={goBack}
+                    className="d-flex flex-row justify-content-start"
                   >
-                    <div className="card-body text-center">
-                      <BsImage size="50" />
-
-                      <p className="mt-3" style={{ fontWeight: "600" }}>
-                        Upload image
-                      </p>
-                    </div>
+                    <IoIosArrowRoundBack color="#214071" size="40" />
+                    <h5 className="ms-2 mt-2" style={{ fontWeight: "700" }}>
+                      Back
+                    </h5>
                   </div>
-                )}
-                <input
-                  type="file"
-                  onChange={(event) => {
-                    console.log(event.target.files[0]);
-                    setSelectedImage(event.target.files[0]);
-                  }}
-                  className="form-control"
-                />
-              </div>
-              <div className="col-md-5">
-                <div
-                  className="card"
-                  style={{ width: "100%", background: "white", border: "none" }}
-                >
-                  <div className="card-body">
-                    <h4>Upload an item</h4>
-                    <div className="form-group mb-3">
-                      <label>Item name</label>
-                      <input
-                        onChange={handleNameChange}
-                        style={inputStyle}
-                        className="form-control"
-                      />
+
+                  {selectedImage ? (
+                    <img
+                      alt="img"
+                      width={"250px"}
+                      className="mb-3"
+                      src={URL.createObjectURL(selectedImage)}
+                    />
+                  ) : (
+                    <div
+                      className="my-3 card bg-danger text-white"
+                      style={{ width: "100%" }}
+                    >
+                      <div className="card-body text-center">
+                        <BsImage size="50" />
+
+                        <p className="mt-3" style={{ fontWeight: "600" }}>
+                          Upload image
+                        </p>
+                      </div>
                     </div>
-                    <div className="form-group mb-3">
-                      <label>Item price (in TZS)</label>
-                      <input
-                        onChange={handlePriceChange}
-                        style={inputStyle}
-                        className="form-control"
-                      />
+                  )}
+                  <input
+                    type="file"
+                    onChange={(event) => {
+                      console.log(event.target.files[0]);
+                      setSelectedImage(event.target.files[0]);
+                    }}
+                    className="form-control"
+                  />
+                </div>
+                <div className="col-md-5">
+                  <div
+                    className="card"
+                    style={{
+                      width: "100%",
+                      background: "white",
+                      border: "none",
+                    }}
+                  >
+                    <div className="card-body">
+                      <h4>Upload an item</h4>
+                      <div className="form-group mb-3">
+                        <label>Item name</label>
+                        <input
+                          onChange={handleNameChange}
+                          style={inputStyle}
+                          className="form-control"
+                        />
+                      </div>
+                      <div className="form-group mb-3">
+                        <label>Item price (in TZS)</label>
+                        <input
+                          onChange={handlePriceChange}
+                          style={inputStyle}
+                          className="form-control"
+                        />
+                      </div>
+                      <div className="form-group mb-3">
+                        <label>Cooking time (in minutes)</label>
+                        <input
+                          onChange={handleTimeChange}
+                          type="number"
+                          style={inputStyle}
+                          className="form-control"
+                        />
+                      </div>
+                      <div className="form-group mb-3">
+                        <label>Item size</label>
+                        <select
+                          onChange={handleSizeChange}
+                          style={inputStyle}
+                          className="form-control"
+                        >
+                          {sizes.map((s) => (
+                            <option key={s} value={s}>
+                              {s}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
                     </div>
-                    <div className="form-group mb-3">
-                      <label>Cooking time (in minutes)</label>
-                      <input
-                        onChange={handleTimeChange}
-                        type="number"
-                        style={inputStyle}
-                        className="form-control"
-                      />
-                    </div>
-                    <div className="form-group mb-3">
-                      <label>Item size</label>
-                      <select
-                        onChange={handleSizeChange}
-                        style={inputStyle}
-                        className="form-control"
-                      >
-                        {sizes.map((s) => (
-                          <option key={s} value={s}>
-                            {s}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                   
                   </div>
                 </div>
-              </div>
-              <div className="col-md-4">
-                <div className="card" style={{ width: "100%", border: "none" }}>
-                  <div className="card-body">
-                    {/* <h4>Add Add-ons(optional)</h4> */}
-                    <div className="row">
+                <div className="col-md-4">
+                  <div
+                    className="card"
+                    style={{ width: "100%", border: "none" }}
+                  >
+                    <div className="card-body">
+                      {/* <h4>Add Add-ons(optional)</h4> */}
+                      <div className="row">
+                        <div className="form-group mb-3">
+                          <label>Select food type</label>
+                          <select
+                            onChange={handleTypeChange}
+                            style={inputStyle}
+                            className="form-control"
+                          >
+                            <option value="">Choose Food type</option>
+                            {types.map((type) => (
+                              <option key={type.id} value={type.id}>
+                                {type.name}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
 
-                    <div className="form-group mb-3">
-                      <label>Select food type</label>
-                      <select
-                        onChange={handleTypeChange}
-                        style={inputStyle}
-                        className="form-control"
-                      >
-                        <option value="">Choose Food type</option>
-                        {types.map((type) => (
-                          <option key={type.id} value={type.id}>
-                            {type.name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
+                        <div className="form-group mb-3">
+                          <label>Amount in kilos (optional)</label>
+                          <input
+                            onChange={handleKilosChange}
+                            type="text"
+                            style={inputStyle}
+                            className="form-control"
+                          />
+                        </div>
 
-                    <div className="form-group mb-3">
-                      <label>Amount in kilos (optional)</label>
-                      <input
-                        onChange={handleKilosChange}
-                        type="text"
-                        style={inputStyle}
-                        className="form-control"
-                      />
-                    </div>
+                        <div className="form-group mb-3">
+                          <label>Item ingredients</label>
+                          <textarea
+                            onChange={handleIngredientsChange}
+                            style={{ background: "#f7f7f7" }}
+                            className="form-control"
+                            width="100%"
+                            rows="3"
+                          ></textarea>
+                        </div>
+                        <div className="form-group mb-3">
+                          <label>Item description</label>
+                          <textarea
+                            onChange={handleDescriptionChange}
+                            style={{ background: "#f7f7f7" }}
+                            className="form-control"
+                            width="100%"
+                            rows="3"
+                          ></textarea>
+                        </div>
 
-                      <div className="form-group mb-3">
-                        <label>Item ingredients</label>
-                        <textarea
-                          onChange={handleIngredientsChange}
-                          style={{ background: "#f7f7f7" }}
-                          className="form-control"
-                          width="100%"
-                          rows="3"
-                        ></textarea>
-                      </div>
-                      <div className="form-group mb-3">
-                        <label>Item description</label>
-                        <textarea
-                          onChange={handleDescriptionChange}
-                          style={{ background: "#f7f7f7" }}
-                          className="form-control"
-                          width="100%"
-                          rows="3"
-                        ></textarea>
-                      </div>
-
-                      {/* <div className="col-md-6 mb-3">
+                        {/* <div className="col-md-6 mb-3">
                         <label>Add-Ons</label>
                         <input
                           className="form-control"
@@ -318,30 +341,31 @@ export default function AddFoodItem() {
                         <label>Price (in Tsh)</label>
                         <input className="form-control" placeholder="1500" />
                       </div> */}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    className="card mt-3"
+                    style={{ width: "100%", border: "none" }}
+                  >
+                    {/* <div className="px-2 pt-3">
+                    <p>Item in stock</p>
+                  </div> */}
+                    <div className="d-grid">
+                      <button
+                        type="submit"
+                        className="btn btn-danger"
+                        style={{ padding: "20px 10px", fontWeight: "600" }}
+                      >
+                        {loading ? "Uploading..." : "Upload Items"}
+                      </button>
                     </div>
                   </div>
                 </div>
-
-                <div
-                  className="card mt-3"
-                  style={{ width: "100%", border: "none" }}
-                >
-                  {/* <div className="px-2 pt-3">
-                    <p>Item in stock</p>
-                  </div> */}
-                  <div className="d-grid">
-                    <button
-                      type="submit"
-                      className="btn btn-danger"
-                      style={{ padding: "20px 10px", fontWeight: "600" }}
-                    >
-                      {loading ? "Uploading..." : "Upload Items"}
-                    </button>
-                  </div>
-                </div>
               </div>
-            </div>
-          </form>
+            </form>
+          )}
         </div>
       </div>
     </>

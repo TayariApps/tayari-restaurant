@@ -55,7 +55,7 @@ export default function SignIn() {
       })
       .catch((err) => {
         setLoading(false)
-        toast.error("An error has occured")
+        toast.error(err.response.data)
       });
   };
 
@@ -84,7 +84,7 @@ export default function SignIn() {
           className="col-md-6 p-5 text-white"
           style={{ background: "#214071" }}
         >
-          <h2>Recieve and Manage orders</h2>
+          <h2>Receive and Manage orders</h2>
           <p>
             Tayari Restaurant Dashboard gives you the flexibility, visibility and
             customer insights you need to connect with more customers.

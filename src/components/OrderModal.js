@@ -65,7 +65,7 @@ export default function OrderModal({ order }) {
             order.food.map((x) => (
               <p>
                 {x.pivot.quantity} x {x.menu_name}{" "}
-                {x.pivot.details == "" ? "" : `with extras: ${x.pivot.details}`}
+                {(x.pivot.details == null) ? "" : `with extras: ${x.pivot.details}`}
               </p>
             ))}
           {order.drinks.length > 0 &&

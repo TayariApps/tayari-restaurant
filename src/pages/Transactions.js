@@ -28,7 +28,7 @@ export default function Transactions() {
       prop: "name",
       title: "Name",
       isSortable: true,
-      cell: (row) => row.customer?.name,
+      cell: (row) => row.customer?.name == null ? "POS" : row.customer?.name,
     },
     {
       prop: "cost",
@@ -45,7 +45,7 @@ export default function Transactions() {
       title: "Method of Payment",
       isSortable: true,
       cell: (row) =>
-        row.payment_method == 1 ? (
+        row.payment_method == 2 ? (
           <Badge pill bg="primary">
             Cash
           </Badge>

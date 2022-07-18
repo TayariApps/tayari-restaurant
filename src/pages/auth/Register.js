@@ -72,8 +72,8 @@ export default function Register() {
     setLoading(true);
     console.log(values);
 
-    if(values.phone.length !== 12){
-      return toast.error('Phone should be of format of 2557...')
+    if (values.phone.length !== 12) {
+      return toast.error("Phone should be of format of 2557...");
     }
 
     const data = {
@@ -100,97 +100,105 @@ export default function Register() {
 
   return (
     <div className="container-fluid">
-      <div className="row" style={{ height: "100vh" }}>
-        <div
-          className="col-md-6 text-white text-center d-flex flex-column justify-content-end"
-          style={{
-            backgroundImage: `url(${bg})`,
-            boxShadow: "inset 0 0 0 2000px rgba(0, 0, 0, 0.3)",
-            backgroundPosition: "30% center",
-            backgroundSize: "cover",
-            backgroundRepeat: "no-repeat",
-            fontWeight: "700",
-          }}
-        ></div>
-        <div
-          className="col-md-6 p-5 text-white"
-          style={{ background: "#f7f7f7" }}
-        >
-          <h2 style={{ color: "#214071" }}>Welcome</h2>
-          <p style={{ color: "#214071" }}>First things first...</p>
+      <div
+        className="row"
+        style={{
+          height: "100vh",
+          backgroundImage: `url(${bg})`,
+          boxShadow: "inset 0 0 0 2000px rgba(0, 0, 0, 0.3)",
+          backgroundPosition: "10% 40%",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          fontWeight: "700",
+        }}
+      >
+        <div className="col-md-6 text-white text-center d-flex flex-column justify-content-end"></div>
+        <div className="col-md-6">
+          <div
+            className="card mt-5 ms-4"
+            style={{ width: "30rem", borderRadius: "6px" }}
+          >
+            <div
+              className="px-5 py-4 text-white"
+              style={{ background: "#f7f7f7", borderRadius: "6px" }}
+            >
+              <h2 style={{ color: "#214071" }}>Welcome</h2>
+              <p style={{ color: "#214071" }}>First things first...</p>
 
-          <form onSubmit={handleSubmit} className="mt-5">
-            <div className="row">
-              <div className="col-md-6 mb-3">
-                <input
-                  onChange={handleFnameChange}
-                  className="form-control"
-                  style={inputStyle}
-                  type="text"
-                  placeholder="First Name"
-                />
+              <form onSubmit={handleSubmit} className="mt-5">
+                <div className="row">
+                  <div className="col-md-6 mb-3">
+                    <input
+                      onChange={handleFnameChange}
+                      className="form-control"
+                      style={inputStyle}
+                      type="text"
+                      placeholder="First Name"
+                    />
+                  </div>
+                  <div className="col-md-6 mb-3">
+                    <input
+                      onChange={handleLnameChange}
+                      className="form-control"
+                      style={inputStyle}
+                      type="text"
+                      placeholder="Last Name"
+                    />
+                  </div>
+                </div>
+
+                <div className="form-group mb-3">
+                  <input
+                    onChange={handleEmailChange}
+                    className="form-control"
+                    type="email"
+                    style={inputStyle}
+                    placeholder="Email address"
+                  />
+                </div>
+
+                <div className="form-group mb-3">
+                  <input
+                    type="text"
+                    onChange={handlePhoneChange}
+                    className="form-control"
+                    style={inputStyle}
+                    placeholder="Phone number with format of 25578..."
+                  />
+                </div>
+
+                <div className="form-group mb-4">
+                  <input
+                    onChange={handlePasswordChange}
+                    type="text"
+                    className="form-control"
+                    style={inputStyle}
+                    placeholder="Password"
+                  />
+                  <small style={{ color: "#c8c8c9" }}>
+                    Must be at least 8+ characters
+                  </small>
+                </div>
+
+                <div className="form-group mb-2 d-grid">
+                  <button
+                    type="submit"
+                    className="btn text-white"
+                    style={buttonStyle}
+                  >
+                    {loading
+                      ? "Creating your account..."
+                      : "Create your free Tayari Account"}
+                  </button>
+                </div>
+              </form>
+
+              <div className="mt-4 text-center">
+                <Link to="/login" style={{ color: "#214071" }}>
+                  Have an account? Sign in
+                </Link>
               </div>
-              <div className="col-md-6 mb-3">
-                <input
-                  onChange={handleLnameChange}
-                  className="form-control"
-                  style={inputStyle}
-                  type="text"
-                  placeholder="Last Name"
-                />
-              </div>
             </div>
-
-            <div className="form-group mb-3">
-              <input
-                onChange={handleEmailChange}
-                className="form-control"
-                type="email"
-                style={inputStyle}
-                placeholder="Email address"
-              />
-            </div>
-
-            <div className="form-group mb-3">
-              <input
-                type="text"
-                onChange={handlePhoneChange}
-                className="form-control"
-                style={inputStyle}
-                placeholder="Phone number with format of 25578..."
-              />
-            </div>
-
-            <div className="form-group mb-4">
-              <input
-                onChange={handlePasswordChange}
-                type="text"
-                className="form-control"
-                style={inputStyle}
-                placeholder="Password"
-              />
-              <small style={{ color: "#c8c8c9" }}>
-                Must be at least 8+ characters
-              </small>
-            </div>
-
-            <div className="form-group mb-2 d-grid">
-              <button
-                type="submit"
-                className="btn text-white"
-                style={buttonStyle}
-              >
-                {loading
-                  ? "Creating your account..."
-                  : "Create your free Tayari Account"}
-              </button>
-            </div>
-          </form>
-
-          <div className="mt-4 text-center">
-            <Link to="/login" style={{ color: "#214071" }}>
-              Have an account? Sign in
-            </Link>
           </div>
         </div>
       </div>

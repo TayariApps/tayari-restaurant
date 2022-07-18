@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
+import { BsToggleOff, BsToggleOn } from "react-icons/bs";
 import { toast } from "react-toastify";
 
 export default function ChangeFoodtTypeStatus({ type, loadTypes }) {
@@ -31,9 +32,9 @@ export default function ChangeFoodtTypeStatus({ type, loadTypes }) {
   return (
     <>
       {type.status ? (
-        <FaEyeSlash className="me-4" onClick={handleShow} />
+        <BsToggleOn className="me-4" onClick={handleShow} />
       ) : (
-        <FaEye className="me-4" onClick={handleShow} />
+        <BsToggleOff className="me-4" onClick={handleShow} />
       )}
 
       <Modal show={show} onHide={handleClose} centered>
